@@ -1,27 +1,23 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public Button StartButton, OptionsButton, QuitButton;
-    public PauseMenu PauseMenu;
+    public Notepad Manager;
+    public Button StartButton, QuitButton, Abandon;
 
-    private void Start()
+    public GameObject InGame, InMenu;
+
+    private void Awake()
     {
         StartButton.onClick.AddListener(StartGame);
-        OptionsButton.onClick.AddListener(Options);
         QuitButton.onClick.AddListener(QuitGame);
+        Abandon.onClick.AddListener(Manager.BackToMenu);
     }
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Game");
-    }
-
-    public void Options()
-    {
-        PauseMenu.Toggle();
+        Manager.StartGame();
     }
 
     public void QuitGame()
@@ -34,4 +30,14 @@ public class MainMenu : MonoBehaviour
 #endif
     }
 
+    public void Show(bool inGame)
+    {
+        InGame.SetActive(inGame);
+        InMenu.SetActive(!inGame);
+    }
+
+    public void SetCanPlay(bool canPlay)
+    {
+        StartButton.interactable = canPlay;
+    }
 }
