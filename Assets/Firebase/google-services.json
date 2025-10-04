@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1079684160943",
+    "project_id": "ld58-fd9c6",
+    "storage_bucket": "ld58-fd9c6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079684160943:android:f2159562a46cf2724be35a",
+        "android_client_info": {
+          "package_name": "com.HappyFriends.LD58"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgp440alCMRruE-kdSFp3zHWSm0yzIuZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
