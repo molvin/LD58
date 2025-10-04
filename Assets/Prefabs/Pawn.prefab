@@ -75,6 +75,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pawn
   Prototype: BasicPawn
+  Rarity: 0
+  Name: 
+  YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
+  BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
 --- !u!1 &3706322370241117448
 GameObject:
   m_ObjectHideFlags: 0
