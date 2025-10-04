@@ -1,102 +1,48 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Shoebox : MonoBehaviour
 {
-    // TODO: do lerping in animation instead, if needed
+    public List<Pawn> Collection = new();
+    public float PawnScale = 0.05f;
 
-    public enum State
-    {
-        None,
-        Closed,
-        Opening,
-        Open,
-        Closing
-    }
-    public State CurrentState;
+    public BoxCollider SpawnArea;
 
-    public float OpenTime, CloseTime;
-    public Transform Root, OpenPoint, ClosedPoint;
-
-    public BoxCollider OpenCollider;
-
-    private float startMoveTime;
+    private List<Pawn> spawned = new();
 
     private void Update()
     {
-        if(CurrentState == State.Closed)
+        if(Input.GetKeyDown(KeyCode.R))
         {
-            ClosedState();
-        }
-        else if (CurrentState == State.Opening)
-        {
-            OpeningState();
-        }
-        else if (CurrentState == State.Open)
-        {
-            OpenState();
-        }
-        else if (CurrentState == State.Closing)
-        {
-            ClosingState();
+            RespawnAll();
         }
     }
 
-    private bool HoveringBox()
+    public void RespawnAll()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        return OpenCollider.Raycast(ray, out RaycastHit _, 1000.0f);
-    }
-
-    private void ClosedState()
-    {
-        if(HoveringBox() && Input.GetMouseButtonDown(0))
+        foreach(Pawn pawn in spawned)
         {
-            CurrentState = State.Opening;
-            startMoveTime = Time.time;
+            Destroy(pawn.gameObject);
+        }
+        spawned = new();
+
+        foreach(Pawn prefab in Collection)
+        {
+            Pawn pawn = Instantiate(prefab, transform);
+            pawn.enabled = false;
+            pawn.transform.position = RandomPointInBounds(SpawnArea.bounds);
+            pawn.transform.rotation = Random.rotation;
+            pawn.transform.localScale = Vector3.one * PawnScale;
+            spawned.Add(pawn);
         }
     }
-
-    private void OpeningState()
+    
+    public static Vector3 RandomPointInBounds(Bounds bounds)
     {
-        bool done = LerpBox(OpenTime, ClosedPoint.position, OpenPoint.position);
-
-        if(done)
-        {
-            CurrentState = State.Open;
-        }
-    }
-
-    private void OpenState()
-    {
-        if (HoveringBox() && Input.GetMouseButtonDown(1))
-        {
-            CurrentState = State.Closing;
-            startMoveTime = Time.time;
-        }
-    }
-
-    private void ClosingState()
-    {
-        bool done = LerpBox(CloseTime, OpenPoint.position, ClosedPoint.position);
-
-        if (done)
-        {
-            CurrentState = State.Closed;
-        }
-    }
-
-    private bool LerpBox(float duration, Vector3 start, Vector3 end)
-    {
-        float t = Time.time - startMoveTime;
-        Vector3 pos = Vector3.Lerp(start, end, t / duration);
-        Root.transform.position = pos;
-
-        if (t > duration)
-        {
-            Root.transform.position = end;
-            return true;
-        }
-        return false;
+        return new Vector3(
+            Random.Range(bounds.min.x, bounds.max.x),
+            Random.Range(bounds.min.y, bounds.max.y),
+            Random.Range(bounds.min.z, bounds.max.z)
+        );
     }
 }

@@ -1,23 +1,30 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    public bool Paused { get; private set; }
+    public Slider MasterVolume;
+    public Slider SfxVolume;
+    public Slider MusicVolume;
 
-    public Button ResumeButton, MainMenuButton;
+    public AudioMixer Master;
 
-    public void Toggle()
+
+    private void Start()
     {
-        Paused = !Paused;
-        gameObject.SetActive(Paused);
+        foreach((string group, Slider slider)in new[] {("Master", MasterVolume), ("Sfx", SfxVolume), ("Music", MusicVolume)})
+        {
+            float v;
+            Master.GetFloat(group, out v);
+            slider.value = Mathf.Pow(10, v);
+            slider.onValueChanged.AddListener(x => SetVolume(x, group));
+        }
     }
 
-    private void Update()
+    private void SetVolume(float value, string group)
     {
-        if (Paused && Input.GetKeyDown(KeyCode.Escape))
-        {
-            Toggle();
-        }
+        Master.SetFloat(group, Mathf.Log10(value) * 20);
+
     }
 }
