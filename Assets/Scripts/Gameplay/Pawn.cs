@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PawnRarity
+{
+    Common,
+    Uncommon,
+    Rare,
+    Epic,
+    Shiny
+}
 
 public class Pawn : MonoBehaviour
 {
@@ -15,6 +23,10 @@ public class Pawn : MonoBehaviour
 
     [SerializeField] public string Prototype;
     private PawnPrototype prototype;
+
+    [Header("Settings")]
+    public PawnRarity Rarity;
+    public string Name;
 
     private float attackMassRatio = 0.75f;
 

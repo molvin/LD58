@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 614580442360199080}
   - component: {fileID: 1763937129188362571}
+  - component: {fileID: -3204066915502390269}
   m_Layer: 0
   m_Name: Pawn
   m_TagString: Untagged
@@ -61,6 +62,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-3204066915502390269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3015495788201396692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd70e47ad985b364eb23ad4addaf6c30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Pawn
+  Prototype: BasicPawn
 --- !u!1 &3706322370241117448
 GameObject:
   m_ObjectHideFlags: 0
