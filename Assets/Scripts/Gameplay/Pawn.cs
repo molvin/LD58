@@ -32,12 +32,15 @@ public class Pawn : MonoBehaviour
     public AudioEvent YeetSound;
     public AudioEvent BonkHitSound;
 
-    private float attackMassRatio = 0.75f;
+    public float CollisionForce = 3;
+    private float attackMassRatio = 0.5f;
 
+    private SphereCollider yeetCollider;
+    private float YeetSphereRadius = 1.15f;
     private new Rigidbody rigidbody;
     private float baseMass;
     private Vector3 baseCoM;
-    public float EffectiveMass => baseMass / (1.0f + damageTaken);
+    public float EffectiveMass => baseMass;// / (1.0f + damageTaken);
 
     private bool beingYeeted = false;
     private Vector3 preYeetPosition;
@@ -57,17 +60,32 @@ public class Pawn : MonoBehaviour
         baseMass = rigidbody.mass;
         baseCoM = rigidbody.centerOfMass;
 
+        yeetCollider = GetComponent<SphereCollider>();
+        yeetCollider.enabled = false;
+
         if (Prototype != null)
         {
             prototype = (PawnPrototype)System.Activator.CreateInstance(System.Type.GetType(Prototype));
         }
-        prototype?.Dang();
     }
 
     private void Update()
     {
-        if (primaryYeet.other != null && !primaryYeet.consumed && primaryYeet.collisionStart + 0.5f < Time.time)
+        if (beingYeeted)
         {
+            yeetCollider.radius = Mathf.Clamp01(rigidbody.linearVelocity.magnitude * 0.08f) * YeetSphereRadius;
+        }
+
+        if (primaryYeet.other != null && !primaryYeet.consumed && primaryYeet.collisionStart + 0.04f < Time.time)
+        {
+            float damageForce = primaryYeet.other.damageTaken * CollisionForce;
+            primaryYeet.other.rigidbody.AddForce(primaryYeet.impulse.normalized * damageForce, ForceMode.Impulse);
+            primaryYeet.consumed = true;
+
+            rigidbody.linearVelocity *= 0.4f;
+            rigidbody.angularVelocity *= 0.7f;
+
+            yeetCollider.enabled = false;
         }
     }
 
@@ -80,7 +98,8 @@ public class Pawn : MonoBehaviour
 
             if (beingYeeted)
             {
-                StopYeet(true);
+                //StopYeet(true);
+                Destroy(gameObject);
             }
             else
             {
@@ -90,7 +109,7 @@ public class Pawn : MonoBehaviour
 
         if (rigidbody.linearVelocity.magnitude < 0.001f && beingYeeted && startYeetTime + 1.0f < Time.time)
         {
-            StopYeet(true);
+            StopYeet(false);
         }
     }
 
@@ -107,7 +126,20 @@ public class Pawn : MonoBehaviour
                 {
                     ForceCollector.Instance.AddForce(this, otherPawn, magnitude, true);
 
+                    Vector3 dir2D = (otherPawn.transform.position - transform.position);
+                    dir2D.y = 0.0f;
+                    dir2D.Normalize();
 
+                    if (primaryYeet.other == null)
+                    {
+                        primaryYeet.other = otherPawn;
+                        primaryYeet.collisionStart = Time.time;
+                        primaryYeet.impulse += dir2D * magnitude;
+                    }
+                    else if (!primaryYeet.consumed && primaryYeet.other == otherPawn)
+                    {
+                        primaryYeet.impulse += dir2D * magnitude;
+                    }
                 }
                 else if (otherPawn.beingYeeted)
                 {
@@ -130,6 +162,8 @@ public class Pawn : MonoBehaviour
     public void StopYeet(bool reset)
     {
         rigidbody.mass = EffectiveMass;
+
+        yeetCollider.enabled = false;
 
         if (reset)
         {
@@ -180,10 +214,13 @@ public class Pawn : MonoBehaviour
         preYeetPosition = transform.position;
         preYeetOrientation = transform.rotation;
         startYeetTime = Time.time;
+        primaryYeet = new();
+
+        yeetCollider.enabled = true;
+
+        transform.position += Vector3.up * 0.1f;
         
         rigidbody.mass = EffectiveMass * attackMassRatio;
-        rigidbody.AddForce(force, ForceMode.VelocityChange);
-
-        
+        rigidbody.AddForce(force / baseMass, ForceMode.VelocityChange);
     }
 }

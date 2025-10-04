@@ -6,7 +6,9 @@ public class ForceCollector : MonoBehaviour
     struct CollisionPair
     {
         public int FirstID;
+        public float FirstDmg;
         public int SecondID;
+        public float SecondDmg;
         public int Yeeter;
     }
 
@@ -60,7 +62,14 @@ public class ForceCollector : MonoBehaviour
             }
         }
 
-        CollisionPair collision = new() { FirstID = f, SecondID = s, Yeeter = yeet };
+        CollisionPair collision = new()
+        {
+            FirstID = f,
+            FirstDmg = Pawns[f].CollisionForce,
+            SecondID = s,
+            SecondDmg = Pawns[s].CollisionForce,
+            Yeeter = yeet
+        };
 
         if (!forcePairs.ContainsKey(collision))
         {
@@ -99,22 +108,22 @@ public class ForceCollector : MonoBehaviour
                     {
                         if (it.Key.Yeeter == 0)
                         {
-                            first.AddDamage(magnitude * 0.2f);
+                            first.AddDamage(it.Key.SecondDmg * magnitude * 0.2f);
                         }
                         else
                         {
-                            first.AddDamage(magnitude);
+                            first.AddDamage(it.Key.SecondDmg * magnitude);
                         }
                     }
                     if (second != null)
                     {
                         if (it.Key.Yeeter == 1)
                         {
-                            second.AddDamage(magnitude * 0.2f);
+                            second.AddDamage(it.Key.FirstDmg * magnitude * 0.2f);
                         }
                         else
                         {
-                            second.AddDamage(magnitude);
+                            second.AddDamage(it.Key.FirstDmg * magnitude);
                         }
                     }
                 }
