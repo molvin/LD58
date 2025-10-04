@@ -28,6 +28,10 @@ public class Pawn : MonoBehaviour
     public PawnRarity Rarity;
     public string Name;
 
+    [Header("Audio")]
+    public AudioEvent YeetSound;
+    public AudioEvent BonkHitSound;
+
     private float attackMassRatio = 0.75f;
 
     private new Rigidbody rigidbody;
@@ -96,6 +100,7 @@ public class Pawn : MonoBehaviour
         if (otherPawn != null)
         {
             float magnitude = collision.impulse.magnitude;
+            AudioManager.Play(BonkHitSound, this.transform.position);
             if (magnitude > 0.01f)
             {
                 if (beingYeeted)
@@ -169,6 +174,8 @@ public class Pawn : MonoBehaviour
 
     public void Yeet(Vector3 force)
     {
+
+        AudioManager.Play(YeetSound, this.transform.position);
         beingYeeted = true;
         preYeetPosition = transform.position;
         preYeetOrientation = transform.rotation;
@@ -176,5 +183,7 @@ public class Pawn : MonoBehaviour
         
         rigidbody.mass = EffectiveMass * attackMassRatio;
         rigidbody.AddForce(force, ForceMode.VelocityChange);
+
+        
     }
 }
