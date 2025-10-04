@@ -94,7 +94,8 @@ public class Pawn : MonoBehaviour
 
             if (beingYeeted)
             {
-                StopYeet(true);
+                //StopYeet(true);
+                Destroy(gameObject);
             }
             else
             {
@@ -104,7 +105,7 @@ public class Pawn : MonoBehaviour
 
         if (rigidbody.linearVelocity.magnitude < 0.001f && beingYeeted && startYeetTime + 1.0f < Time.time)
         {
-            StopYeet(true);
+            StopYeet(false);
         }
     }
 
@@ -213,6 +214,6 @@ public class Pawn : MonoBehaviour
         transform.position += Vector3.up * 0.1f;
         
         rigidbody.mass = EffectiveMass * attackMassRatio;
-        rigidbody.AddForce(force, ForceMode.VelocityChange);
+        rigidbody.AddForce(force / baseMass, ForceMode.VelocityChange);
     }
 }
