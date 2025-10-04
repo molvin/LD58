@@ -5,6 +5,17 @@ using UnityEngine;
 
 public class Pawn : MonoBehaviour
 {
+    struct YeetData
+    {
+        public Pawn other;
+        public Vector3 impulse;
+        public float collisionStart;
+        public bool consumed;
+    }
+
+    [SerializeField] public string Prototype;
+    private PawnPrototype prototype;
+
     private float attackMassRatio = 0.75f;
 
     private new Rigidbody rigidbody;
@@ -20,6 +31,8 @@ public class Pawn : MonoBehaviour
 
     private float damageTaken = 0.0f;
 
+    YeetData primaryYeet;
+
     public bool IsStill => rigidbody.linearVelocity.magnitude < 0.001f && rigidbody.angularVelocity.magnitude < 0.001f;
 
     private void Awake()
@@ -27,6 +40,19 @@ public class Pawn : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         baseMass = rigidbody.mass;
         baseCoM = rigidbody.centerOfMass;
+
+        if (Prototype != null)
+        {
+            prototype = (PawnPrototype)System.Activator.CreateInstance(System.Type.GetType(Prototype));
+        }
+        prototype?.Dang();
+    }
+
+    private void Update()
+    {
+        if (primaryYeet.other != null && !primaryYeet.consumed && primaryYeet.collisionStart + 0.5f < Time.time)
+        {
+        }
     }
 
     private void FixedUpdate()
@@ -63,6 +89,8 @@ public class Pawn : MonoBehaviour
                 if (beingYeeted)
                 {
                     ForceCollector.Instance.AddForce(this, otherPawn, magnitude, true);
+
+
                 }
                 else if (otherPawn.beingYeeted)
                 {
