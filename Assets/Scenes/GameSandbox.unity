@@ -673,6 +673,7 @@ MonoBehaviour:
   rigidbody: {fileID: 0}
   beingYeeted: 0
   PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!54 &314821312
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1528,6 +1529,7 @@ MonoBehaviour:
   rigidbody: {fileID: 0}
   beingYeeted: 0
   PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!54 &676969000
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1803,6 +1805,7 @@ MonoBehaviour:
   rigidbody: {fileID: 0}
   beingYeeted: 0
   PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!1 &934890142
 GameObject:
   m_ObjectHideFlags: 0
@@ -2287,6 +2290,7 @@ MonoBehaviour:
   rigidbody: {fileID: 0}
   beingYeeted: 0
   PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!54 &1222084781
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2514,6 +2518,7 @@ MonoBehaviour:
   rigidbody: {fileID: 0}
   beingYeeted: 0
   PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!135 &1727629881
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3063,6 +3068,7 @@ MonoBehaviour:
   rigidbody: {fileID: 0}
   beingYeeted: 0
   PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!54 &2003377097
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3162,6 +3168,14 @@ PrefabInstance:
     - target: {fileID: 363931399669930226, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
       propertyPath: m_Name
       value: GameMode
+      objectReference: {fileID: 0}
+    - target: {fileID: 3866838057361126070, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: Debug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3866838057361126070, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: Debugging
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
