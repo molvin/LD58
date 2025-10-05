@@ -188,10 +188,10 @@ TextureImporter:
       name: stickers_4
       rect:
         serializedVersion: 2
-        x: 1021
-        y: 407
-        width: 271
-        height: 131
+        x: 766
+        y: 354
+        width: 156
+        height: 141
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,10 +210,10 @@ TextureImporter:
       name: stickers_5
       rect:
         serializedVersion: 2
-        x: 1334
-        y: 458
-        width: 28
-        height: 6
+        x: 1021
+        y: 407
+        width: 271
+        height: 131
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -232,10 +232,10 @@ TextureImporter:
       name: stickers_6
       rect:
         serializedVersion: 2
-        x: 70
-        y: 99
-        width: 502
-        height: 222
+        x: 1334
+        y: 458
+        width: 28
+        height: 6
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -254,10 +254,10 @@ TextureImporter:
       name: stickers_7
       rect:
         serializedVersion: 2
-        x: 1041
-        y: 216
-        width: 217
-        height: 123
+        x: 70
+        y: 99
+        width: 502
+        height: 222
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -276,10 +276,10 @@ TextureImporter:
       name: stickers_8
       rect:
         serializedVersion: 2
-        x: 1296
-        y: 298
-        width: 126
-        height: 147
+        x: 1041
+        y: 216
+        width: 217
+        height: 123
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -298,10 +298,10 @@ TextureImporter:
       name: stickers_9
       rect:
         serializedVersion: 2
-        x: 1067
-        y: 55
-        width: 138
-        height: 139
+        x: 1296
+        y: 298
+        width: 126
+        height: 147
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -320,6 +320,50 @@ TextureImporter:
       name: stickers_10
       rect:
         serializedVersion: 2
+        x: 778
+        y: 140
+        width: 145
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecc4d7a74151ece4ea8168c4d8de59c5
+      internalID: -1027359031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stickers_11
+      rect:
+        serializedVersion: 2
+        x: 1067
+        y: 55
+        width: 138
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd2d73687ce4c27409041dce127e1aca
+      internalID: -87996590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stickers_12
+      rect:
+        serializedVersion: 2
         x: 1274
         y: 76
         width: 137
@@ -332,8 +376,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ecc4d7a74151ece4ea8168c4d8de59c5
-      internalID: -1027359031
+      spriteID: ae08876f7f4d1a34f9544be6e07f8844
+      internalID: -398046280
       vertices: []
       indices: 
       edges: []
@@ -357,6 +401,8 @@ TextureImporter:
       stickers_0: -94336293
       stickers_1: 302670924
       stickers_10: -1027359031
+      stickers_11: -87996590
+      stickers_12: -398046280
       stickers_2: -882323556
       stickers_3: 372114720
       stickers_4: -930061214

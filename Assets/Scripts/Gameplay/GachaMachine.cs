@@ -17,6 +17,7 @@ public class GachaMachine : MonoBehaviour
     public Shoebox ShoeBox;
     public Animator Anim;
     public float SpinAnimationDuration;
+    public ParticleSystem BallPresentationCelebration;
 
     private List<Pawn> prefabPool;
     private List<GachaBall> gachaBalls = new();
@@ -120,7 +121,7 @@ public class GachaMachine : MonoBehaviour
         ball.GetComponent<Rigidbody>().AddForce(SpawnPoint.forward * SpawnForce);
         ball.Prefab = prefab;
         gachaBalls.Add(ball);
-
+        BallPresentationCelebration.Play();
         rolling = false;
     }
 

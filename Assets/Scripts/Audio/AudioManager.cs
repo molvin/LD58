@@ -18,6 +18,14 @@ public class AudioManager : MonoBehaviour
             return;
         }
     }
+    private void Update()
+    {
+        // For hot-reloading
+        if(instance == null)
+        {
+            instance = this;
+        }
+    }
 
     public static void Play(AudioEvent settings, Vector3 position)
     {

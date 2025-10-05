@@ -21,8 +21,10 @@ public class Pawn : MonoBehaviour
         public bool consumed;
     }
 
-    [SerializeField] public string Prototype;
+    [HideInInspector] public string Prototype;
     private PawnPrototype prototype;
+
+    public int Team;
 
     [Header("Settings")]
     public PawnRarity Rarity;
@@ -71,6 +73,12 @@ public class Pawn : MonoBehaviour
 
     private void Update()
     {
+        // Note: for hot-reloading
+        if (Prototype != null)
+        {
+            prototype = (PawnPrototype)System.Activator.CreateInstance(System.Type.GetType(Prototype));
+        }
+
         if (beingYeeted)
         {
             yeetCollider.radius = Mathf.Clamp01(rigidbody.linearVelocity.magnitude * 0.08f) * YeetSphereRadius;
@@ -78,15 +86,22 @@ public class Pawn : MonoBehaviour
 
         if (primaryYeet.other != null && !primaryYeet.consumed && primaryYeet.collisionStart + 0.04f < Time.time)
         {
-            float damageForce = primaryYeet.other.damageTaken * CollisionForce;
-            primaryYeet.other.rigidbody.AddForce(primaryYeet.impulse.normalized * damageForce, ForceMode.Impulse);
-            primaryYeet.consumed = true;
-
-            rigidbody.linearVelocity *= 0.4f;
-            rigidbody.angularVelocity *= 0.7f;
-
-            yeetCollider.enabled = false;
+            TriggerPrimaryYeet();
         }
+    }
+
+    private void TriggerPrimaryYeet()
+    {
+        float damageForce = primaryYeet.other.damageTaken * CollisionForce;
+        primaryYeet.other.rigidbody.AddForce(primaryYeet.impulse.normalized * damageForce, ForceMode.Impulse);
+        primaryYeet.consumed = true;
+
+        rigidbody.linearVelocity *= 0.4f;
+        rigidbody.angularVelocity *= 0.7f;
+
+        yeetCollider.enabled = false;
+
+        prototype.PrimaryYeet(this, primaryYeet.other);
     }
 
     private void FixedUpdate()
