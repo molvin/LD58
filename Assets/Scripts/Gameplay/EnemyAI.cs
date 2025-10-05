@@ -43,7 +43,20 @@ public static class EnemyAI
 
         for (int i = 0; i < team.Count; i++)
         {
-            float dist = team[i].transform.position.magnitude / 42.0f;
+            Vector3 orig = team[i].transform.position;
+
+            float dist = orig.magnitude / 42.0f;
+
+            RaycastHit hit;
+            if (Physics.Raycast(orig, -orig.normalized, out hit, orig.magnitude * 0.9f))
+            {
+                Pawn p = hit.transform.GetComponent<Pawn>();
+                if (p != null && p.Team == 1)
+                {
+                    dist *= 0.2f;
+                }
+            }
+
             if (dist > score)
             {
                 pawn = i;
@@ -78,7 +91,7 @@ public static class EnemyAI
                 if (!Physics.Raycast(origin, dir, out hit) || hit.transform == targets[j].transform)
                 {
                     float boundsDist = bounds.CheckBoundary(origin, dir) - dir.magnitude;
-                    boundsDist += dir.magnitude * 0.25f;
+                    boundsDist += dir.magnitude * 0.2f;
 
                     if (bestPawn < 0 || bestTarget < 0 || boundsDist < bestEdge)
                     {
@@ -134,6 +147,16 @@ public static class EnemyAI
                 dirScore = dirScore * 0.5f + 0.5f;
                 dirScore = Mathf.Lerp(0.65f, 1.0f, dirScore);
                 score *= dirScore;
+
+                RaycastHit hit;
+                if (Physics.Raycast(p.transform.position, toTarget.normalized, out hit, toTarget.magnitude * 0.9f))
+                {
+                    Pawn hitPawn = hit.transform.GetComponent<Pawn>();
+                    if (hitPawn != null && hitPawn.Team == 1)
+                    {
+                        score *= 0.2f;
+                    }
+                }
 
                 if (bestPawn == null || score > bestScore)
                 {

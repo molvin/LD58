@@ -70,7 +70,7 @@ public class Pawn : MonoBehaviour
     private float startYeetTime;
     private Coroutine flipRoutine;
 
-    public float DamagePercentage => Mathf.Pow(1.0f + damageTaken, 1.3f);
+    public float DamagePercentage => Mathf.Pow(1.0f + damageTaken, 1.45f);
     private float damageTaken = 0.0f;
     public Action<float> OnDamageTaken;
 
@@ -162,7 +162,7 @@ public class Pawn : MonoBehaviour
             }
         }
 
-        if (rigidbody.linearVelocity.magnitude < 0.001f && beingYeeted && startYeetTime + 1.0f < Time.time)
+        if (IsStill && beingYeeted && startYeetTime + 1.0f < Time.time)
         {
             StopYeet(false);
         }

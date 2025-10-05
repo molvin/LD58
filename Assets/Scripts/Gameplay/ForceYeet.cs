@@ -205,7 +205,7 @@ public class ForceYeet : MonoBehaviour
 
         foreach (Pawn pawn in Pawns)
         {
-            if (pawn != null && !pawn.IsStill)
+            if (pawn != null && pawn.Team == activeTeam && !pawn.IsStill)
             {
                 return;
             }
