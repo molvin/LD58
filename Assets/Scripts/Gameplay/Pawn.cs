@@ -58,13 +58,13 @@ public class Pawn : MonoBehaviour
     private float startYeetTime;
     private Coroutine flipRoutine;
 
-    public float DamagePercentage => 1.0f + damageTaken;
+    public float DamagePercentage => Mathf.Pow(1.0f + damageTaken, 1.3f);
     private float damageTaken = 0.0f;
     public Action<float> OnDamageTaken;
 
     YeetData primaryYeet;
 
-    public bool IsStill => rigidbody.linearVelocity.magnitude < 0.001f && rigidbody.angularVelocity.magnitude < 0.001f;
+    public bool IsStill => rigidbody.linearVelocity.magnitude < 0.003f && rigidbody.angularVelocity.magnitude < 0.003f;
     public SphereCollider PickupCollider;
     public bool IsReadyToYeet => IsStill && Vector3.Dot(transform.up, Vector3.up) >= 0.99f;
 
@@ -110,8 +110,9 @@ public class Pawn : MonoBehaviour
     {
         AudioManager.Play(BonkHitSound, this.transform.position);
 
-        rigidbody.linearVelocity *= 0.4f;
+        rigidbody.linearVelocity *= 0.6f;
         rigidbody.angularVelocity *= 0.7f;
+        rigidbody.linearVelocity -= primaryYeet.impulse.normalized * rigidbody.linearVelocity.magnitude * 0.5f;
 
         yeetCollider.enabled = false;
 
@@ -189,7 +190,7 @@ public class Pawn : MonoBehaviour
 
     public void AddDamage(float value)
     {
-        damageTaken += value;
+        damageTaken += value / (RarityFactor * 0.5f + 0.5f);
         rigidbody.mass = EffectiveMass;
         OnDamageTaken?.Invoke(damageTaken);
     }
