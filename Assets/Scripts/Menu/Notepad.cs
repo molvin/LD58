@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Notepad : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class Notepad : MonoBehaviour
 
     public Animator Anim;
     public BoxCollider SelectionCollider;
+    public GachaMachine Gacha;
+    public Shoebox Shoebox;
 
     public bool InGame;
     private bool hidden = true;
@@ -34,6 +37,8 @@ public class Notepad : MonoBehaviour
         InGame = true;
         Anim.SetTrigger("ToGame");
         SetHidden(true);
+
+        StartCoroutine(GachamachineState());
     }
 
     public void ToggleHidden()
@@ -101,5 +106,34 @@ public class Notepad : MonoBehaviour
                 }
             }
         }
+    }
+
+    // Game states
+
+    private IEnumerator GachamachineState()
+    {
+        yield return Gacha.RunGacha();
+
+        StartCoroutine(GameplayState());
+    }
+
+    public IEnumerator GameplayState()
+    {
+        // TODO: Show players (VS splash)
+
+        yield return null;
+
+        // TODO: Spawn enemy team
+
+        // Show shoebox
+
+        Shoebox.RespawnAll();
+
+        // wait for player to finish picking a team (how does a player continue?)
+        yield return Shoebox.PickTeam();
+
+
+        // start gameplay
+
     }
 }

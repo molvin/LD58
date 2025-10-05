@@ -21,7 +21,6 @@ public class GachaMachine : MonoBehaviour
 
     private List<Pawn> prefabPool;
     private List<GachaBall> gachaBalls = new();
-    private bool rolling;
 
     private void Start()
     {
@@ -63,42 +62,54 @@ public class GachaMachine : MonoBehaviour
         }
     }
 
-    private void Update()
+    public IEnumerator RunGacha()
     {
         TokensText.text = $"Tokens: {Tokens}";
 
-        if(!rolling && Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(Roll());
-        }
+        Anim.SetBool("Shown", true);
+        yield return new WaitForSeconds(1);
 
-        if (Input.GetMouseButtonDown(0))
+        while(!Input.GetKeyDown(KeyCode.Return))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            TokensText.text = $"Tokens: {Tokens}";
 
-            int i = 0;
-            for (; i < gachaBalls.Count; i++)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                GachaBall gacha = gachaBalls[i];
-                bool hit = gacha.ClickCollider.Raycast(ray, out _, 1000.0f);
-                if (hit)
+                yield return Roll();
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                int i = 0;
+                for (; i < gachaBalls.Count; i++)
                 {
-                    Inspect(gacha.Prefab);
-                    Destroy(gacha.gameObject);
-                    break;
+                    GachaBall gacha = gachaBalls[i];
+                    bool hit = gacha.ClickCollider.Raycast(ray, out _, 1000.0f);
+                    if (hit)
+                    {
+                        yield return Inspect(gacha.Prefab);
+                        Destroy(gacha.gameObject);
+
+                        break;
+                    }
+                }
+                if (i < gachaBalls.Count)
+                {
+                    gachaBalls.RemoveAt(i);
                 }
             }
-            if(i < gachaBalls.Count)
-            {
-                gachaBalls.RemoveAt(i);
-            }
+
+            yield return null;
         }
+
+        Anim.SetBool("Shown", false);
+        yield return new WaitForSeconds(1);
     }
 
     public IEnumerator Roll()
     {
-        rolling = true;
-
         if(Tokens < Cost)
         {
             yield break;
@@ -122,21 +133,17 @@ public class GachaMachine : MonoBehaviour
         ball.Prefab = prefab;
         gachaBalls.Add(ball);
         BallPresentationCelebration.Play();
-        rolling = false;
     }
 
-    public void Inspect(Pawn prefab)
+    public IEnumerator Inspect(Pawn prefab)
     {
+        GameObject go = Instantiate(prefab).gameObject;
+        DestroyImmediate(go.GetComponent<Pawn>());
+        DestroyImmediate(go.GetComponent<Rigidbody>());
+        yield return Inspector.Inspect(go, prefab);
 
-        IEnumerator Inspect()
-        {
-            yield return Inspector.Inspect(Instantiate(prefab));
-
-            // TODO: add to collection and stuff
-            ShoeBox.Collection.Add(prefab);
-        }
-
-        StartCoroutine(Inspect());
+        // TODO: add to collection and stuff
+        ShoeBox.Collection.Add(prefab);
     }
 
 }

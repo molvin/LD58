@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,6 +56,7 @@ public class Pawn : MonoBehaviour
     YeetData primaryYeet;
 
     public bool IsStill => rigidbody.linearVelocity.magnitude < 0.001f && rigidbody.angularVelocity.magnitude < 0.001f;
+    public SphereCollider PickupCollider;
     public bool IsReadyToYeet => IsStill && Vector3.Dot(transform.up, Vector3.up) >= 0.99f;
 
     private void Awake()
@@ -224,8 +226,8 @@ public class Pawn : MonoBehaviour
 
     public void Yeet(Vector3 force)
     {
-
-        AudioManager.Play(YeetSound, this.transform.position);
+        if(YeetSound != null)
+            AudioManager.Play(YeetSound, this.transform.position);
         beingYeeted = true;
         preYeetPosition = transform.position;
         preYeetOrientation = transform.rotation;
@@ -238,5 +240,15 @@ public class Pawn : MonoBehaviour
         
         rigidbody.mass = EffectiveMass * attackMassRatio;
         rigidbody.AddForce(force / baseMass, ForceMode.VelocityChange);
+    }
+
+    public void PickUp()
+    {
+        rigidbody.isKinematic = true;
+    }
+
+    public void Drop()
+    {
+        rigidbody.isKinematic = false;
     }
 }
