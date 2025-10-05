@@ -17,6 +17,7 @@ public class PlayerCard : MonoBehaviour
     public List<Sprite> Stickers, Bordrers;
     public List<TMP_FontAsset> Fonts;
     public SpriteRenderer Border;
+    public Transform StickerArea;
     public SpriteRenderer StickerPrefab;
 
     private List<SpriteRenderer> strickerPrefabs;
@@ -44,7 +45,7 @@ public class PlayerCard : MonoBehaviour
         if (delta > 0)
         {
             for (int i = 0; i < delta; i++)
-                strickerPrefabs.Add(Instantiate(StickerPrefab));
+                strickerPrefabs.Add(Instantiate(StickerPrefab, StickerArea));
         }
         else if(delta < 0)
         {
