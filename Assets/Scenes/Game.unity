@@ -667,6 +667,8 @@ MonoBehaviour:
   Team: 0
   Rarity: 0
   Name: 
+  YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
+  BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
   CollisionForce: 1
 --- !u!54 &314821312
 Rigidbody:
