@@ -205,7 +205,7 @@ public class ForceYeet : MonoBehaviour
 
         foreach (Pawn pawn in Pawns)
         {
-            if (pawn != null && !pawn.IsStill)
+            if (pawn != null && pawn.Team == activeTeam && !pawn.IsStill)
             {
                 return;
             }
@@ -330,6 +330,7 @@ public class ForceYeet : MonoBehaviour
             Vector3 yeetDirection = whoToYeet.transform.position - lastYeetPoint;
             yeetDirection.y = 0.0f;
             float forceFactor = Mathf.Clamp01((yeetDirection.magnitude - Deadzone) / DistForMaxForce);
+            whoToYeet.Charging.Play();
 
             if (forceFactor > 0.01f)
             {
