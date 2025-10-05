@@ -2193,6 +2193,11 @@ MonoBehaviour:
   Collection: {fileID: 5686838048056231957}
   Anim: {fileID: 172933126119383638}
   SelectionCollider: {fileID: 628408712044196937}
+  Gacha: {fileID: 0}
+  Shoebox: {fileID: 0}
+  GameManager: {fileID: 0}
+  Database: {fileID: 0}
+  CameraManager: {fileID: 0}
   InGame: 0
 --- !u!95 &172933126119383638
 Animator:
@@ -4960,7 +4965,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3732412489461408951, guid: 523c847ff5106dc4da88057420576579, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6038123027901853879, guid: 523c847ff5106dc4da88057420576579, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

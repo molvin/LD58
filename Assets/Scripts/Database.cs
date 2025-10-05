@@ -147,7 +147,11 @@ public class Database : MonoBehaviour
         {
             //Inc opponent reference
             DocumentSnapshot snap = await opponentReferenceRef.GetSnapshotAsync();
-            int currentOpponentCount = snap.GetValue<int>(level.ToString()) + 1;
+
+            int currentOpponentCount = 0;
+            snap.TryGetValue(level.ToString(), out currentOpponentCount);
+            currentOpponentCount += 1;
+
             Dictionary<string, int> opponentRefUpdate = new Dictionary<string, int> { { level.ToString(), currentOpponentCount } };
 
             //Add the table
@@ -164,7 +168,12 @@ public class Database : MonoBehaviour
     public async Task<OpponentDB> GetOpponent(int level)
     {
         DocumentSnapshot snap = await opponentReferenceRef.GetSnapshotAsync();
-        int currentOpponentCount = snap.GetValue<int>(level.ToString());
+        bool found = snap.TryGetValue(level.ToString(), out int currentOpponentCount);
+        if(!found)
+        {
+            return null;
+        }
+        
         System.Random random = new System.Random();
         DocumentReference opRef = opponentCollection.Document($"opponent_{level}:{random.Next(1, currentOpponentCount)}");
         DocumentSnapshot opSnap = await opRef.GetSnapshotAsync();

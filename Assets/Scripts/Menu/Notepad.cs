@@ -21,6 +21,8 @@ public class Notepad : MonoBehaviour
     public Shoebox Shoebox;
     public ForceYeet GameManager;
     public Database Database;
+    public CameraManager CameraManager;
+    public PlaceableAreas PlaceableAreas;
 
     public bool InGame;
     private bool hidden = true;
@@ -153,7 +155,9 @@ public class Notepad : MonoBehaviour
 
     private async Awaitable GachamachineState()
     {
+        await CameraManager.Gacha();
         await Gacha.RunGacha();
+        await CameraManager.Idle();
 
         StartCoroutine(GameplayState());
     }
@@ -162,18 +166,32 @@ public class Notepad : MonoBehaviour
     {
         OpponentDB opponent = await Database.GetOpponent(currentLevel);
 
+        if (opponent == null)
+        {
+            opponent = GenerateOpponent(currentLevel);
+        }
+
         // TODO: Show players (VS splash)
+
         List<Pawn> opponentTeam = new();
         foreach(PawnDB pawnDb in opponent.Board)
         {
             Pawn prefab = Gacha.Prefabs[pawnDb.PawnType];
-            Pawn pawn = Instantiate(prefab, pawnDb.Location, Quaternion.identity);
+            Vector3 playerCenter = PlaceableAreas.GetCenter(true);
+            Vector3 opponentCenter = PlaceableAreas.GetCenter(false);
+            Pawn pawn = Instantiate(prefab, (pawnDb.Location - playerCenter) + opponentCenter, Quaternion.identity);
+            pawn.enabled = false;
+            pawn.rigidbody.isKinematic = true;
             opponentTeam.Add(pawn);
         }
 
         Shoebox.RespawnAll();
 
+        await CameraManager.Placing();
+
         await Shoebox.PickTeam();
+
+        await CameraManager.Idle();
 
         List<PawnDB> dbPawns = new();
         foreach(Pawn pawn in Shoebox.Team)
@@ -202,5 +220,37 @@ public class Notepad : MonoBehaviour
         currentLevel += 1;
 
         StartCoroutine(GachamachineState());
+    }
+
+    private OpponentDB GenerateOpponent(int level)
+    {
+        Debug.LogWarning("Using generated opponent");
+
+        PlayerCardDB card = new PlayerCardDB()
+        {
+            Name = "Generated",
+            Boarder = 0,
+            Font = 0,
+            Stickers = new()
+        };
+
+        List<PawnDB> board = new();
+
+        for(int i = 0; i < 5; i++)
+        {
+            // TODO: generate pawns based on level
+            PawnDB pawn = new()
+            {
+                PawnType = Random.Range(0, Gacha.Prefabs.Count),
+                Location = PlaceableAreas.GetRandomPointInPlaceableArea()
+            };
+            board.Add(pawn);
+        }
+
+        return new OpponentDB()
+        {
+            PlayerCard = card,
+            Board = board
+        };
     }
 }

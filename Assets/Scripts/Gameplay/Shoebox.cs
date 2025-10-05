@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
 
 public class Shoebox : MonoBehaviour
@@ -43,7 +42,7 @@ public class Shoebox : MonoBehaviour
             Pawn pawn = Instantiate(prefab, transform);
             pawn.PrefabId = index;
             pawn.enabled = false;
-            pawn.transform.position = RandomPointInBounds(SpawnArea.bounds);
+            pawn.transform.position = SpawnArea.bounds.RandomPointInBounds();
             pawn.transform.rotation = Random.rotation;
             pawn.transform.localScale = Vector3.one * PawnScale;
             spawned.Add(pawn);
@@ -88,8 +87,20 @@ public class Shoebox : MonoBehaviour
             {
                 if(!Input.GetMouseButton(0))
                 {
-                    // TODO: make sure place is unoccupied
                     (bool valid, Vector3 point) = PlaceableAreas.Valid(pickup.transform.position);
+                    if(valid)
+                    {
+                        // Make sure you dont place teammates too close to eachother
+                        foreach(Pawn teamMate in Team)
+                        {
+                            if (Vector3.Distance(teamMate.transform.position, point) < pickup.PickupCollider.radius)
+                            {
+                                valid = false;
+                                break;
+                            }
+                        }
+                    }
+                    
                     if (valid && Team.Count < 5)
                     {
                         pickup.transform.SetParent(null);
@@ -100,8 +111,8 @@ public class Shoebox : MonoBehaviour
                     else
                     {
                         pickup.transform.position = HoverPlanePoint.position;
+                        pickup.Drop();
                     }
-                    pickup.Drop();
                     pickup = null;
                 }
                 else
@@ -120,7 +131,12 @@ public class Shoebox : MonoBehaviour
         await Awaitable.WaitForSecondsAsync(1.0f);
     }
 
-    private static Vector3 RandomPointInBounds(Bounds bounds)
+
+}
+
+public static class BoundExtensions
+{
+    public static Vector3 RandomPointInBounds(this Bounds bounds)
     {
         return new Vector3(
             Random.Range(bounds.min.x, bounds.max.x),
