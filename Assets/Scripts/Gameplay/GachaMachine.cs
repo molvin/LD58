@@ -47,10 +47,6 @@ public class GachaMachine : MonoBehaviour
                 case PawnRarity.Epic:
                     amount = 3;
                     break;
-                case PawnRarity.Shiny:
-                    amount = 1;
-                    break;
-
                 case PawnRarity.Common:
                 default:
                     amount = 15;

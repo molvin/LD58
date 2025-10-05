@@ -22,7 +22,7 @@ public class ForceYeet : MonoBehaviour
 
     public bool Debugging = false;
 
-    public float YeetForce = 25.0f;
+    public float YeetForce = 20.0f;
     public float DistForMaxForce = 5.0f;
     public float Deadzone = 1.0f;
     public Collider GroundCollider;
@@ -377,9 +377,9 @@ public class ForceYeet : MonoBehaviour
         CollisionPair collision = new()
         {
             FirstID = f,
-            FirstDmg = Pawns[f].CollisionDamage,
+            FirstDmg = Pawns[f].EffectiveCollisionDamage,
             SecondID = s,
-            SecondDmg = Pawns[s].CollisionDamage,
+            SecondDmg = Pawns[s].EffectiveCollisionDamage,
         };
 
         if (!forcePairs.ContainsKey(collision))
