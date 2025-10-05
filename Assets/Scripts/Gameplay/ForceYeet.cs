@@ -300,9 +300,9 @@ public class ForceYeet : MonoBehaviour
         CollisionPair collision = new()
         {
             FirstID = f,
-            FirstDmg = Pawns[f].CollisionForce,
+            FirstDmg = Pawns[f].CollisionDamage,
             SecondID = s,
-            SecondDmg = Pawns[s].CollisionForce,
+            SecondDmg = Pawns[s].CollisionDamage,
             Yeeter = yeet
         };
 

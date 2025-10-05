@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 1763937129188362571}
   - component: {fileID: -3204066915502390269}
   - component: {fileID: 5895939429346438812}
+  - component: {fileID: 4672808620410302467}
   m_Layer: 0
   m_Name: Pawn
   m_TagString: Untagged
@@ -124,7 +125,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3015495788201396692}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd70e47ad985b364eb23ad4addaf6c30, type: 3}
   m_Name: 
@@ -133,9 +134,12 @@ MonoBehaviour:
   Team: 0
   Rarity: 0
   Name: 
+  AttackDamage: 1
+  CollisionDamage: 3
+  Mass: 1
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 3
+  beingYeeted: 0
   PickupCollider: {fileID: 6961291119445459577}
 --- !u!114 &5895939429346438812
 MonoBehaviour:
@@ -149,6 +153,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6cb21681b5d4684d9589d75b203841a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!135 &4672808620410302467
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3015495788201396692}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0.95, z: 0}
 --- !u!1 &3706322370241117448
 GameObject:
   m_ObjectHideFlags: 0
