@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public enum PawnRarity
 {
@@ -30,6 +31,7 @@ public class Pawn : MonoBehaviour
     public PawnRarity Rarity;
     public float RarityFactor => 0.8f * (1.0f + (int)Rarity * 0.25f);
     public string Name;
+    public int ColorValue;
 
     [Header("Pawn stats")]
     [SerializeField] private float AttackDamage = 1.0f;
@@ -46,11 +48,14 @@ public class Pawn : MonoBehaviour
     public AudioEvent YeetSound;
     public AudioEvent BonkHitSound;
 
+    [Header("Visuals")]
+    public List<Material> RarityMaterials;
+    public MeshRenderer MeshRenderer;
+
     private SphereCollider yeetCollider;
     private float YeetSphereRadius = 1.15f;
     [HideInInspector] public new Rigidbody rigidbody;
     private Vector3 baseCoM;
-
 
     [HideInInspector] public bool beingYeeted = false;
     private Vector3 preYeetPosition;
@@ -67,9 +72,7 @@ public class Pawn : MonoBehaviour
     public bool IsStill => rigidbody.linearVelocity.magnitude < 0.001f && rigidbody.angularVelocity.magnitude < 0.001f;
     public SphereCollider PickupCollider;
     public bool IsReadyToYeet => IsStill && Vector3.Dot(transform.up, Vector3.up) >= 0.99f;
-
     public ForceYeet Manager;
-
     public int PrefabId;
 
     private void Awake()
@@ -267,5 +270,22 @@ public class Pawn : MonoBehaviour
     public void Drop()
     {
         rigidbody.isKinematic = false;
+    }
+
+    public void InitializeVisuals()
+    {
+        if ((int)Rarity >= RarityMaterials.Count)
+            return;
+
+        System.Random ran = new System.Random(ColorValue);
+        Color c1 = Color.HSVToRGB(ran.Next(255) / 255f, (ran.Next(100) / 200f) + 0.5f, (ran.Next(100) / 200f) + 0.5f);
+        MeshRenderer.material = RarityMaterials[(int)Rarity];
+        MeshRenderer.material.SetColor("_Color1", c1);
+        if (Rarity != PawnRarity.Common)
+        {
+            Color c2 = Color.HSVToRGB(ran.Next(255) / 255f, (ran.Next(100) / 200f) + 0.5f, (ran.Next(100) / 200f) + 0.5f);
+            MeshRenderer.material.SetColor("_Color2", c2);
+        }
+            
     }
 }

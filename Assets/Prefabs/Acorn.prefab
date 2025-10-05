@@ -108,6 +108,11 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 6622222389644278242, guid: 4feee0d1aa7e08f449c77569c9848793, type: 3}
+--- !u!23 &3549238629587930370 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 4feee0d1aa7e08f449c77569c9848793, type: 3}
+  m_PrefabInstance: {fileID: 2774490166533575046}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6628927478232766640
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,6 +125,30 @@ PrefabInstance:
       propertyPath: Prototype
       value: Basic
       objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: MeshRenderer
+      value: 
+      objectReference: {fileID: 3549238629587930370}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: RarityMaterials.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: 'RarityMaterials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 89edfae7d9cd4a847a67563b9427d64f, type: 2}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: 'RarityMaterials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a386223e588aee74d9b8f777a0897ba8, type: 2}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: 'RarityMaterials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e993bc03e85de5b4a8b00da7c4a1082f, type: 2}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: 'RarityMaterials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 517ca77c80f60644d93ab078e515e480, type: 2}
     - target: {fileID: 614580442360199080, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

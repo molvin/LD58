@@ -42,6 +42,10 @@ public class Database : MonoBehaviour
     {
         [FirestoreProperty]
         public int PawnType { get; set; }
+        [FirestoreProperty]
+        public byte Rarity { get; set; }
+        [FirestoreProperty]
+        public byte Color { get; set; }
         [FirestoreProperty(ConverterType = typeof(Vector3Converter))]
         public Vector3 Location { get; set; }
     }

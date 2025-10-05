@@ -183,6 +183,9 @@ public class Notepad : MonoBehaviour
             pawn.Team = 1;
             pawn.enabled = false;
             pawn.rigidbody.isKinematic = true;
+            pawn.Rarity = (PawnRarity)pawnDb.Rarity;
+            pawn.ColorValue = pawnDb.Color;
+            pawn.InitializeVisuals();
             opponentTeam.Add(pawn);
         }
 
@@ -200,7 +203,10 @@ public class Notepad : MonoBehaviour
             dbPawns.Add(new PawnDB()
             {
                 Location = pawn.transform.position,
-                PawnType = pawn.PrefabId
+                PawnType = pawn.PrefabId,
+                Color = (byte)pawn.ColorValue,
+                Rarity = (byte)pawn.Rarity
+
             });
         }
         await Database.CreateOpponent(currentLevel, playerData.PlayerCard, dbPawns);
