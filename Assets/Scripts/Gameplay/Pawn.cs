@@ -205,7 +205,7 @@ public class Pawn : MonoBehaviour
         float timer = 2.0f;
         rigidbody.centerOfMass = Vector3.down;
 
-        rigidbody.AddForceAtPosition(Vector3.up * rigidbody.mass * 2.0f, transform.position + transform.up, ForceMode.Impulse);
+        rigidbody.AddForceAtPosition(Vector3.up * 1.0f, transform.position + transform.up, ForceMode.VelocityChange);
 
         while (timer > 0.0f)
         {

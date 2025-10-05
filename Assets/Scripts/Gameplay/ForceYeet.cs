@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -58,20 +59,7 @@ public class ForceYeet : MonoBehaviour
         {
             case ScuffedState.Upkeep:
             {
-                for (int i = Pawns.Count- 1; i >= 0; --i)
-                {
-                    if (Pawns[i] == null)
-                    {
-                        Pawns.RemoveAt(i);
-                        continue;
-                    }
-
-                    if (Pawns[i].IsStill && Vector3.Dot(Pawns[i].transform.up, Vector3.up) < 0.99f)
-                    {
-                        Pawns[i].FlipUp();
-                    }
-                }
-                activeState++;
+                Upkeeep();
             } break;
             case ScuffedState.Playing:
             {
@@ -100,8 +88,57 @@ public class ForceYeet : MonoBehaviour
         forceArrowRend.enabled = false;
     }
 
+    private void Upkeeep()
+    {
+        if (upkeep != null)
+        {
+            return;
+        }
+
+        foreach (Pawn pawn in Pawns)
+        {
+            if (pawn != null && pawn.Team == activeTeam && pawn.IsReadyToYeet)
+            {
+                activeState++;
+                return;
+            }
+        }
+
+        upkeep = StartCoroutine(TurnUpTeam());
+    }
+
+    private IEnumerator TurnUpTeam()
+    {
+        foreach (Pawn pawn in Pawns)
+        {
+            if (pawn != null && pawn.Team == activeTeam && !pawn.IsReadyToYeet)
+            {
+                pawn.FlipUp();
+            }
+        }
+        yield return new WaitForSecondsRealtime(2.0f);
+        upkeep = null;
+        activeState++;
+    }
+
     private void HandlePlayerInput()
     {
+        bool canPlay = false;
+        foreach (Pawn pawn in Pawns)
+        {
+            if (pawn != null && pawn.Team == activeTeam && (!pawn.IsStill || pawn.IsReadyToYeet))
+            {
+                canPlay = true;
+                break;
+            }
+        }
+
+        if (!canPlay)
+        {
+            activeState++;
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
