@@ -109,7 +109,7 @@ public static class EnemyAI
 
     private static ActionUtility PowerPlay(List<Pawn> team, List<Pawn> targets, ForceYeet manager)
     {
-        float Strongest = manager.Pawns.Where(p => p != null && p.Team == 1).Max(p => p.AttackDamage);
+        float Strongest = manager.Pawns.Where(p => p != null && p.Team == 1).Max(p => p.EffectiveAttackDamage);
 
         if (Strongest == 0)
         {
@@ -122,7 +122,7 @@ public static class EnemyAI
 
         foreach (Pawn p in team)
         {
-            float baseScore = Mathf.Lerp(0.5f, 1.0f, p.AttackDamage / Strongest);
+            float baseScore = Mathf.Lerp(0.5f, 1.0f, p.EffectiveAttackDamage / Strongest);
 
             foreach (Pawn target in targets)
             {
