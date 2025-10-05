@@ -146,7 +146,7 @@ public class ForceYeet : MonoBehaviour
             Pawn first = Pawns[it.Key.FirstID];
             Pawn second = Pawns[it.Key.SecondID];
 
-            float magnitude = Mathf.Log(1.0f + it.Value.impact) * 0.1f;
+            float magnitude = Mathf.Log(1.0f + it.Value.impact * 0.5f) * 0.1f; // Added both ways
 
             if (first != null)
             {
@@ -184,6 +184,14 @@ public class ForceYeet : MonoBehaviour
         if (upkeep != null)
         {
             return;
+        }
+
+        foreach (Pawn pawn in Pawns)
+        {
+            if (pawn != null && !pawn.IsStill)
+            {
+                return;
+            }
         }
 
         foreach (Pawn pawn in Pawns)

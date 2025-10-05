@@ -407,13 +407,17 @@ MonoBehaviour:
   Rarity: 0
   Name: 
   AttackDamage: 1
-  CollisionDamage: 3
+  AttackForce: 1
+  CollisionDamage: 0
   Mass: 1
+  AttackMassRatio: 0.5
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
+  rigidbody: {fileID: 0}
   beingYeeted: 0
   PickupCollider: {fileID: 6961291119445459577}
   Manager: {fileID: 0}
+  PrefabId: 0
 --- !u!135 &4672808620410302467
 SphereCollider:
   m_ObjectHideFlags: 0

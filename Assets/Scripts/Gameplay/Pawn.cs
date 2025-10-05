@@ -148,7 +148,7 @@ public class Pawn : MonoBehaviour
         var otherPawn = collision.gameObject.GetComponent<Pawn>();
         if (otherPawn != null)
         {
-            float magnitude = collision.impulse.magnitude * 0.5f; // both will add
+            float magnitude = collision.impulse.magnitude;
             if (magnitude > 0.01f)
             {
                 Manager.AddForce(this, otherPawn, magnitude);
