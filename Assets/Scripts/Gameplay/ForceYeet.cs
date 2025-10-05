@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class ForceYeet : MonoBehaviour
 {
+    enum ScuffedState
+    {
+        Upkeep,
+        Playing,
+        Yeeting,
+    }
+
     struct CollisionPair
     {
         public int FirstID;
@@ -21,7 +28,8 @@ public class ForceYeet : MonoBehaviour
     [HideInInspector] public List<Pawn> Pawns;
     private Dictionary<CollisionPair, float> forcePairs = new();
 
-    private int teamTurn;
+    private ScuffedState activeState = ScuffedState.Upkeep;
+    private int activeTeam;
 
     private Pawn whoToYeet;
     private Vector3 lastYeetPoint;
@@ -29,12 +37,13 @@ public class ForceYeet : MonoBehaviour
     private Quaternion originalYeetRot;
 
     private LineRenderer forceArrowRend;
+    private Coroutine upkeep;
 
     private void Awake()
     {
         Initialize();
 
-        teamTurn = Random.Range(0, 2);
+        activeTeam = Random.Range(0, 2);
     }
 
     private void Update()
@@ -45,9 +54,34 @@ public class ForceYeet : MonoBehaviour
             Initialize();
         }
 
-        HandlePlayerInput();
+        switch (activeState)
+        {
+            case ScuffedState.Upkeep:
+            {
+                for (int i = Pawns.Count- 1; i >= 0; --i)
+                {
+                    if (Pawns[i] == null)
+                    {
+                        Pawns.RemoveAt(i);
+                        continue;
+                    }
 
-        ResolveCollisionResponses();
+                    if (Pawns[i].IsStill && Vector3.Dot(Pawns[i].transform.up, Vector3.up) < 0.99f)
+                    {
+                        Pawns[i].FlipUp();
+                    }
+                }
+                activeState++;
+            } break;
+            case ScuffedState.Playing:
+            {
+                HandlePlayerInput();
+            } break;
+            case ScuffedState.Yeeting:
+            {
+                ResolveCollisionResponses();
+            } break;
+        }
     }
 
     private void Initialize()
@@ -76,10 +110,14 @@ public class ForceYeet : MonoBehaviour
             {
                 whoToYeet = hit.transform.GetComponentInParent<Pawn>();
 
-                if (whoToYeet)
+                if (whoToYeet && whoToYeet.Team == activeTeam && whoToYeet.IsReadyToYeet)
                 {
                     originalYeetPos = whoToYeet.transform.position;
                     originalYeetRot = whoToYeet.transform.rotation;
+                }
+                else
+                {
+                    whoToYeet = null;
                 }
             }
         }
@@ -129,6 +167,8 @@ public class ForceYeet : MonoBehaviour
             if (forceFactor > 0.01f)
             {
                 whoToYeet.Yeet(yeetDirection.normalized * forceFactor * YeetForce);
+
+                activeState++;
             }
 
             forceArrowRend.enabled = false;
@@ -138,6 +178,14 @@ public class ForceYeet : MonoBehaviour
 
     private void ResolveCollisionResponses()
     {
+        foreach (Pawn p in Pawns)
+        {
+            if (p != null && p.beingYeeted)
+            {
+                return;
+            }
+        }
+
         if (forcePairs.Count > 0)
         {
             bool resolve = true;
@@ -184,21 +232,12 @@ public class ForceYeet : MonoBehaviour
                 }
 
                 forcePairs.Clear();
-
-                for (int i = Pawns.Count- 1; i >= 0; --i)
-                {
-                    if (Pawns[i] == null)
-                    {
-                        Pawns.RemoveAt(i);
-                        continue;
-                    }
-
-                    if (Pawns[i].IsStill && Vector3.Dot(Pawns[i].transform.up, Vector3.up) < 0.99f)
-                    {
-                        Pawns[i].FlipUp();
-                    }
-                }
             }
+        }
+        else
+        {
+            activeState = ScuffedState.Upkeep;
+            activeTeam = (activeTeam + 1) % 2;
         }
     }
 
