@@ -90,6 +90,15 @@ public class ForceYeet : MonoBehaviour
         }
 
         Debug.Log("Game Over");
+        foreach(Pawn pawn in Pawns)
+        {
+            if(pawn != null)
+            {
+                Destroy(pawn.gameObject);
+            }
+        }
+        Pawns.Clear();
+
     }
 
     private void Initialize(List<Pawn> pawns)

@@ -161,20 +161,20 @@ public class Notepad : MonoBehaviour
     public IEnumerator GameplayState()
     {
         // TODO: Show players (VS splash)
-
-        yield return null;
-
         // TODO: Spawn enemy team
-
-        // Show shoebox
 
         Shoebox.RespawnAll();
 
-        // wait for player to finish picking a team (how does a player continue?)
         yield return Shoebox.PickTeam();
 
         yield return GameManager.Play(Shoebox.Team, new List<Pawn>());
-        // start gameplay
 
+        // TODO: show result of game
+        yield return new WaitForSeconds(1);
+
+        // TODO: get actual rewards
+        Gacha.Tokens = 5;
+
+        StartCoroutine(GachamachineState());
     }
 }

@@ -28,7 +28,10 @@ public class Shoebox : MonoBehaviour
     {
         foreach(Pawn pawn in spawned)
         {
-            Destroy(pawn.gameObject);
+            if(pawn != null)
+            {
+                Destroy(pawn.gameObject);
+            }
         }
         spawned = new();
 
