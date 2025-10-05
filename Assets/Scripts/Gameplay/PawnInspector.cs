@@ -14,13 +14,13 @@ public class PawnInspector : MonoBehaviour
 
     public bool Inspecting { get; private set; }
 
-    public IEnumerator Inspect(GameObject go, Pawn prefab)
+    public IEnumerator Inspect(Pawn pawn)
     {
         Root.gameObject.SetActive(true);
-        Title.text = prefab.Name;
-        go.transform.SetParent(InspectRoot);
-        go.transform.localPosition = Vector3.zero;
-        go.transform.localRotation = Quaternion.identity;
+        Title.text = pawn.Name;
+        pawn.transform.SetParent(InspectRoot);
+        pawn.transform.localPosition = Vector3.zero;
+        pawn.transform.localRotation = Quaternion.identity;
 
         while (!Input.GetMouseButtonDown(1))
         {
@@ -28,7 +28,7 @@ public class PawnInspector : MonoBehaviour
             yield return null;
         }        
 
-        Destroy(go);
+        Destroy(pawn.gameObject);
         Root.gameObject.SetActive(false);
     }
 }

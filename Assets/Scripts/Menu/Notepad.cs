@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Notepad : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Notepad : MonoBehaviour
     public BoxCollider SelectionCollider;
     public GachaMachine Gacha;
     public Shoebox Shoebox;
+    public ForceYeet GameManager;
 
     public bool InGame;
     private bool hidden = true;
@@ -132,7 +134,7 @@ public class Notepad : MonoBehaviour
         // wait for player to finish picking a team (how does a player continue?)
         yield return Shoebox.PickTeam();
 
-
+        yield return GameManager.Play(Shoebox.Team, new List<Pawn>());
         // start gameplay
 
     }
