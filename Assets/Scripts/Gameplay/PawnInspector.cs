@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using static Database;
 
 public class PawnInspector : MonoBehaviour
 {
@@ -16,14 +17,11 @@ public class PawnInspector : MonoBehaviour
     public IEnumerator Inspect(Pawn pawn)
     {
         Root.gameObject.SetActive(true);
-        pawn.enabled = false;
         Title.text = pawn.Name;
         pawn.transform.SetParent(InspectRoot);
         pawn.transform.localPosition = Vector3.zero;
         pawn.transform.localRotation = Quaternion.identity;
 
-        Destroy(pawn.GetComponent<Rigidbody>());
-         
         while (!Input.GetMouseButtonDown(1))
         {
             InspectRoot.Rotate(Vector3.up, RotationSpeed * Time.deltaTime);

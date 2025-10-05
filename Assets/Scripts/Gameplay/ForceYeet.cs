@@ -1,19 +1,187 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ForceYeet : MonoBehaviour
 {
-    public float YeetForce = 100.0f;
+    enum ScuffedState
+    {
+        Upkeep,
+        Playing,
+        Yeeting,
+    }
+
+    struct CollisionPair
+    {
+        public int FirstID;
+        public float FirstDmg;
+        public int SecondID;
+        public float SecondDmg;
+    }
+
+    public bool Debugging = false;
+
+    public float YeetForce = 25.0f;
     public float DistForMaxForce = 5.0f;
+    public float Deadzone = 1.0f;
+
+    [HideInInspector] public List<Pawn> Pawns;
+    private Dictionary<CollisionPair, float> forcePairs = new();
+
+    private ScuffedState activeState = ScuffedState.Upkeep;
+    private int activeTeam;
 
     private Pawn whoToYeet;
     private Vector3 lastYeetPoint;
     private Vector3 originalYeetPos;
     private Quaternion originalYeetRot;
 
+    private LineRenderer forceArrowRend;
+    private Coroutine upkeep;
+    private Coroutine debugPlaying;
+
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Debugging && debugPlaying == null)
+        {
+            List<Pawn> pawns = new(FindObjectsByType<Pawn>(FindObjectsSortMode.None));
+
+            debugPlaying = StartCoroutine(Play(pawns.Where(p => p.Team == 0).ToList(), pawns.Where(p => p.Team == 1).ToList()));
+        }
+    }
+    public IEnumerator Play(List<Pawn> playerTeam, List<Pawn> opponentTeam)
+    {
+        activeTeam = Random.Range(0, 2);
+
+        foreach (Pawn pawn in playerTeam)
+        {
+            pawn.Team = 0;
+        }
+        foreach(Pawn pawn in opponentTeam)
+        {
+            pawn.Team = 1;
+        }
+
+        Initialize(playerTeam.Union(opponentTeam).ToList());
+
+        while (!GameOver())
+        {
+            switch (activeState)
+            {
+                case ScuffedState.Upkeep:
+                    {
+                        Upkeeep();
+                    }
+                    break;
+                case ScuffedState.Playing:
+                    {
+                        HandlePlayerInput();
+                    }
+                    break;
+                case ScuffedState.Yeeting:
+                    {
+                        ResolveCollisionResponses();
+                    }
+                    break;
+            }
+
+            yield return null;
+        }
+
+        Debug.Log("Game Over");
+        foreach(Pawn pawn in Pawns)
+        {
+            if(pawn != null)
+            {
+                Destroy(pawn.gameObject);
+            }
+        }
+        Pawns.Clear();
+
+    }
+
+    private void Initialize(List<Pawn> pawns)
+    {
+        Pawns = pawns;
+        foreach(Pawn pawn in Pawns)
+        {
+            pawn.enabled = true;
+            pawn.Manager = this;
+        }
+        forceArrowRend = GetComponent<LineRenderer>();
+        forceArrowRend.enabled = false;
+    }
+
+    private bool GameOver()
+    {
+        bool teamOneHas = false;
+        bool teamTwoHas = false;
+
+        foreach (Pawn pawn in Pawns)
+        {
+            if (pawn != null)
+            {
+                teamOneHas = teamOneHas || pawn.Team == 0;
+                teamTwoHas = teamTwoHas || pawn.Team == 1;
+            }
+        }
+
+        return !teamOneHas || !teamTwoHas;
+    }
+
+    private void Upkeeep()
+    {
+        if (upkeep != null)
+        {
+            return;
+        }
+
+        foreach (Pawn pawn in Pawns)
+        {
+            if (pawn != null && pawn.Team == activeTeam && pawn.IsReadyToYeet)
+            {
+                activeState++;
+                return;
+            }
+        }
+
+        upkeep = StartCoroutine(TurnUpTeam());
+    }
+
+    private IEnumerator TurnUpTeam()
+    {
+        foreach (Pawn pawn in Pawns)
+        {
+            if (pawn != null && pawn.Team == activeTeam && !pawn.IsReadyToYeet)
+            {
+                pawn.FlipUp();
+            }
+        }
+        yield return new WaitForSecondsRealtime(2.0f);
+        upkeep = null;
+        activeState++;
+    }
+
+    private void HandlePlayerInput()
+    {
+        bool canPlay = false;
+        foreach (Pawn pawn in Pawns)
+        {
+            if (pawn != null && pawn.Team == activeTeam && (!pawn.IsStill || pawn.IsReadyToYeet))
+            {
+                canPlay = true;
+                break;
+            }
+        }
+
+        if (!canPlay)
+        {
+            activeState++;
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -21,16 +189,22 @@ public class ForceYeet : MonoBehaviour
             {
                 whoToYeet = hit.transform.GetComponentInParent<Pawn>();
 
-                if (whoToYeet)
+                if (whoToYeet && whoToYeet.Team == activeTeam && whoToYeet.IsReadyToYeet)
                 {
                     originalYeetPos = whoToYeet.transform.position;
                     originalYeetRot = whoToYeet.transform.rotation;
+                }
+                else
+                {
+                    whoToYeet = null;
                 }
             }
         }
 
         if (Input.GetMouseButton(0) && whoToYeet)
         {
+            whoToYeet.GetComponent<Rigidbody>().isKinematic = true;
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -38,13 +212,24 @@ public class ForceYeet : MonoBehaviour
                 lastYeetPoint = hit.point;
             }
 
-            float dist = Vector3.Distance(whoToYeet.transform.position, lastYeetPoint);
+            Vector3 yeetToPawn = originalYeetPos - lastYeetPoint;
+            yeetToPawn.y = 0.0f;
+            float dist = yeetToPawn.magnitude;
 
-            float chargeFactor = Mathf.Clamp01(dist / DistForMaxForce);
+            float chargeFactor = Mathf.Clamp01((dist - Deadzone) / DistForMaxForce);
 
             Vector3 randomDir = Random.insideUnitSphere;
             randomDir.y = Mathf.Abs(randomDir.y);
             whoToYeet.transform.position = originalYeetPos + randomDir * chargeFactor * 0.2f;
+
+            forceArrowRend.enabled = true;
+            Vector3 startPos = whoToYeet.transform.position;
+            startPos.y = 0.1f;
+            forceArrowRend.SetPosition(0, startPos);
+            Vector3 endPos = originalYeetPos + yeetToPawn.normalized * chargeFactor * DistForMaxForce;
+            endPos.y = 0.1f;
+            forceArrowRend.SetPosition(1, endPos);
+            forceArrowRend.endColor = Color.Lerp(new Color(0.6f, 1.0f, 0.0f), new Color(1.0f, 0.0f, 0.6f), chargeFactor);
         }
 
         if (Input.GetMouseButtonUp(0) && whoToYeet)
@@ -52,10 +237,106 @@ public class ForceYeet : MonoBehaviour
             whoToYeet.transform.position = originalYeetPos;
             whoToYeet.transform.rotation = originalYeetRot;
 
+            whoToYeet.GetComponent<Rigidbody>().isKinematic = false;
+
             Vector3 yeetDirection = whoToYeet.transform.position - lastYeetPoint;
-            float forceFactor = Mathf.Clamp01(yeetDirection.magnitude / DistForMaxForce);
-            yeetDirection = new Vector3(yeetDirection.x, 0.0f, yeetDirection.z).normalized;
-            whoToYeet.Yeet(yeetDirection * forceFactor * YeetForce);
+            yeetDirection.y = 0.0f;
+            float forceFactor = Mathf.Clamp01((yeetDirection.magnitude - Deadzone) / DistForMaxForce);
+
+            if (forceFactor > 0.01f)
+            {
+                whoToYeet.Yeet(yeetDirection.normalized * forceFactor * YeetForce);
+
+                activeState++;
+            }
+
+            forceArrowRend.enabled = false;
+            whoToYeet = null;
+        }
+    }
+
+    private void ResolveCollisionResponses()
+    {
+        foreach (Pawn p in Pawns)
+        {
+            if (p != null && p.beingYeeted)
+            {
+                return;
+            }
+        }
+
+        if (forcePairs.Count > 0)
+        {
+            bool resolve = true;
+            foreach (Pawn pawn in Pawns)
+            {
+                if (pawn != null && !pawn.IsStill)
+                {
+                    resolve = false;
+                    break;
+                }
+            }
+
+            if (resolve)
+            {
+                foreach (var it in forcePairs)
+                {
+                    Pawn first = Pawns[it.Key.FirstID];
+                    Pawn second = Pawns[it.Key.SecondID];
+
+                    float magnitude = Mathf.Log(1.0f + it.Value) * 0.1f;
+
+                    if (first != null)
+                    {
+                        float teamDamage = first.Team == activeTeam ? 0.5f : 1.0f;
+
+                        first.AddDamage(it.Key.SecondDmg * magnitude * teamDamage);
+                    }
+                    if (second != null)
+                    {
+                        float teamDamage = second.Team == activeTeam ? 0.5f : 1.0f;
+
+                        second.AddDamage(it.Key.FirstDmg * magnitude * teamDamage);
+                    }
+                }
+
+                forcePairs.Clear();
+            }
+        }
+        else
+        {
+            activeState = ScuffedState.Upkeep;
+            activeTeam = (activeTeam + 1) % 2;
+        }
+    }
+
+    public void AddForce(Pawn first, Pawn second, float impulse)
+    {
+        int f = Pawns.IndexOf(first);
+        int s = Pawns.IndexOf(second);
+
+        if (f > s)
+        {
+            f ^= s;
+            s ^= f;
+            f ^= s;
+        }
+
+        CollisionPair collision = new()
+        {
+            FirstID = f,
+            FirstDmg = Pawns[f].CollisionDamage,
+            SecondID = s,
+            SecondDmg = Pawns[s].CollisionDamage,
+        };
+
+        if (!forcePairs.ContainsKey(collision))
+        {
+            forcePairs.Add(collision, impulse);
+        }
+        else
+        {
+            forcePairs[collision] += impulse;
         }
     }
 }

@@ -1,14 +1,10 @@
 using Firebase.Auth;
 using System;
 using System.Threading.Tasks;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using Firebase.Firestore;
 using System.Collections.Generic;
-using static Database;
 using System.IO;
-using System.ComponentModel;
-using Unity.VisualScripting;
 
 public class Database : MonoBehaviour
 {
@@ -22,10 +18,10 @@ public class Database : MonoBehaviour
     private DocumentReference opponentReferenceRef;
 
     [FirestoreData]
-    public class PlayerData
+    public class PlayerDataDB
     {
         [FirestoreProperty]
-        public PlayerCard PlayerCard { get; set; }
+        public PlayerCardDB PlayerCard { get; set; }
         [FirestoreProperty]
         public int Lives { get; set; }
         [FirestoreProperty]
@@ -34,10 +30,10 @@ public class Database : MonoBehaviour
         public List<PawnDB> Box { get; set; }
     }
     [FirestoreData]
-    public class Opponent
+    public class OpponentDB
     {
         [FirestoreProperty]
-        public PlayerCard PlayerCard { get; set; }
+        public PlayerCardDB PlayerCard { get; set; }
         [FirestoreProperty]
         public List<PawnDB> Board { get; set; }
     }
@@ -50,7 +46,7 @@ public class Database : MonoBehaviour
         public Vector3 Location { get; set; }
     }
     [FirestoreData]
-    public class PlayerCard
+    public class PlayerCardDB
     {
         [FirestoreProperty]
         public string Name { get; set; }
@@ -59,10 +55,10 @@ public class Database : MonoBehaviour
         [FirestoreProperty]
         public int Boarder { get; set; }
         [FirestoreProperty]
-        public List<Sticker> Stickers { get; set; }
+        public List<StickerDB> Stickers { get; set; }
     }
     [FirestoreData]
-    public class Sticker
+    public class StickerDB
     {
         [FirestoreProperty]
         public int StickerType { get; set; }
@@ -72,7 +68,7 @@ public class Database : MonoBehaviour
         public int Rotation { get; set; }
     }
 
-    private async void Awake()
+    public async Awaitable Init()
     {
         //Environment.SetEnvironmentVariable("USE_AUTH_EMULATOR", "no");
         InitializeFirebase();
@@ -82,10 +78,11 @@ public class Database : MonoBehaviour
         
         InitializeFireStore();
 
+        /*
         //Create player card
-        PlayerCard card = new PlayerCard();
+        PlayerCardDB card = new PlayerCardDB();
         card.Name = "Kvasir";
-        card.Stickers = new List<Sticker>();
+        card.Stickers = new List<StickerDB>();
         await CreatePlayer(card);
 
         //Make opponent
@@ -97,10 +94,12 @@ public class Database : MonoBehaviour
         board.Add(new PawnDB());
         await CreateOpponent(board);
 
-
         //Get opp
-        Opponent ha = await GetOpponent();
+        OpponentDB ha = await GetOpponent();
         Debug.Log(ha.PlayerCard.Name);
+
+        */
+
     }
 
     private void InitializeFirebase()
@@ -120,15 +119,15 @@ public class Database : MonoBehaviour
         opponentReferenceRef = opponentCollection.Document("opponent_reference");
     }
 
-    public async Task<PlayerData> GetPlayer()
+    public async Task<PlayerDataDB> GetPlayer()
     {
         DocumentSnapshot playerSnap = await playerDocRef.GetSnapshotAsync();
-        return playerSnap.ConvertTo<PlayerData>();
+        return playerSnap.ConvertTo<PlayerDataDB>();
     }
 
-    public async Task<PlayerData> CreatePlayer(PlayerCard card)
+    public async Task<PlayerDataDB> CreatePlayer(PlayerCardDB card)
     {
-        PlayerData playerData = new PlayerData();
+        PlayerDataDB playerData = new PlayerDataDB();
         playerData.PlayerCard = card;
         playerData.Box = new List<PawnDB>();
         playerData.Lives = 3;
@@ -137,7 +136,7 @@ public class Database : MonoBehaviour
         return playerData;
     }
 
-    public async Awaitable UpdatePlayer(PlayerData data)
+    public async Awaitable UpdatePlayer(PlayerDataDB data)
     {
         await playerDocRef?.SetAsync(data);
     }
@@ -146,7 +145,7 @@ public class Database : MonoBehaviour
     {
         await firestore.RunTransactionAsync(async transaction =>
         {
-            PlayerData player = await GetPlayer();
+            PlayerDataDB player = await GetPlayer();
             string level = player.Level.ToString();
 
             //Inc opponent reference
@@ -156,7 +155,7 @@ public class Database : MonoBehaviour
 
             //Add the table
             DocumentReference opRef = opponentCollection.Document($"opponent_{level}:{currentOpponentCount}");
-            Opponent op = new Opponent();
+            OpponentDB op = new OpponentDB();
             op.PlayerCard = player.PlayerCard;
             op.Board = board;
 
@@ -165,16 +164,16 @@ public class Database : MonoBehaviour
             transaction.Set(opponentReferenceRef, opponentRefUpdate);
         });
     }
-    public async Task<Opponent> GetOpponent()
+    public async Task<OpponentDB> GetOpponent()
     {
-        PlayerData player = await GetPlayer();
+        PlayerDataDB player = await GetPlayer();
         string level = player.Level.ToString();
         DocumentSnapshot snap = await opponentReferenceRef.GetSnapshotAsync();
         int currentOpponentCount = snap.GetValue<int>(level);
         System.Random random = new System.Random();
         DocumentReference opRef = opponentCollection.Document($"opponent_{level}:{random.Next(1, currentOpponentCount)}");
         DocumentSnapshot opSnap = await opRef.GetSnapshotAsync();
-        return opSnap.ConvertTo<Opponent>();
+        return opSnap.ConvertTo<OpponentDB>();
     }
 
     public async Task<bool> HasPlayerCard()
@@ -185,7 +184,7 @@ public class Database : MonoBehaviour
 
     public async Awaitable NewGame()
     {
-        PlayerData player = await GetPlayer();
+        PlayerDataDB player = await GetPlayer();
         player.Box = new List<PawnDB>();
         player.Lives = 3;
         player.Level = 0;
@@ -205,7 +204,7 @@ public class Database : MonoBehaviour
             user = auth.CurrentUser;
             if (signedIn)
             {
-                Debug.Log("Signed in " + user);
+                Debug.Log("Signed in " + user.UserId);
                 UserChanged?.Invoke(user);
             }
         }
