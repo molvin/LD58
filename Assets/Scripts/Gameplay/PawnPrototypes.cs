@@ -29,7 +29,7 @@ public class Explosion : PawnPrototype
                 continue;
             }
 
-            float radius = 25.0f * owner.RarityFactor;
+            float radius = 8.0f * owner.RarityFactor;
             float distanceToPawn = Vector3.Distance(owner.transform.position, p.transform.position);
             if (distanceToPawn > radius)
                 continue;
