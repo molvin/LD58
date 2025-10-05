@@ -230,6 +230,20 @@ public class ForceYeet : MonoBehaviour
             return;
         }
 
+        if (activeTeam == 1)
+        {
+            foreach (Pawn pawn in Pawns)
+            {
+                if (pawn != null && pawn.Team == activeTeam && !pawn.IsStill)
+                {
+                    return;
+                }
+            }
+            EnemyAI.Yeet(this);
+            activeState++;
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
