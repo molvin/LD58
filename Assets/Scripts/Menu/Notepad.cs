@@ -10,10 +10,9 @@ public class Notepad : MonoBehaviour
     public Button SettingsButton;
     public Button CollectionButton;
     public PlayerCard PlayerCard;
-
-    public MainMenu Main;
     public GameObject Settings;
     public GameObject Collection;
+    public GameObject Cover;
 
     public Animator Anim;
     public BoxCollider SelectionCollider;
@@ -23,6 +22,8 @@ public class Notepad : MonoBehaviour
     public Database Database;
     public CameraManager CameraManager;
     public PlaceableAreas PlaceableAreas;
+
+    public OpponentNotepad OpponentNotepad;
 
     public bool InGame;
     private bool hidden = true;
@@ -34,8 +35,6 @@ public class Notepad : MonoBehaviour
         MainButton.onClick.AddListener(ToMain);
         SettingsButton.onClick.AddListener(ToSettings);
         CollectionButton.onClick.AddListener(ToCollection);
-
-        PlayerCard.OnNameChanged += Main.SetCanPlay;
 
         await InitGame();
     }
@@ -53,19 +52,9 @@ public class Notepad : MonoBehaviour
         }
         else
         {
-            // TODO: actually take input from player
-            /*
-            while (true)
-            {
-                Debug.Log("TODO: create a player");
-
-                await Awaitable.NextFrameAsync();
-            }
-            */
-
             PlayerCardDB playerCard = new()
             {
-                Name = "Per",
+                Name = "",
                 Font = 0,
                 Boarder = 0,
                 Stickers = new()
@@ -74,11 +63,17 @@ public class Notepad : MonoBehaviour
             Debug.Log($"Created Player: {playerData.PlayerCard.Name}");
         }
 
+        PlayerCard.Init(playerData.PlayerCard);
+
         ToMain();
     }
 
-    public void StartGame()
+    public async void StartGame()
     {
+        // TODO: set playerdata in server
+        playerData.PlayerCard = PlayerCard.GetPlayerCard();
+        await Database.UpdatePlayer(playerData);
+
         InGame = true;
         Anim.SetTrigger("ToGame");
         SetHidden(true);
@@ -99,8 +94,9 @@ public class Notepad : MonoBehaviour
 
     public void ToMain()
     {
-        Main.gameObject.SetActive(true);
-        Main.Show(InGame);
+        PlayerCard.gameObject.SetActive(true);
+        Cover.SetActive(true);
+        PlayerCard.Show(InGame);
         PlayerCard.SetInteractable(!InGame);
         Settings.SetActive(false);
         Collection.SetActive(false);
@@ -110,8 +106,9 @@ public class Notepad : MonoBehaviour
 
     public void ToSettings()
     {
-        Main.gameObject.SetActive(false);
-        Main.Show(InGame);
+        PlayerCard.gameObject.SetActive(false);
+        Cover.SetActive(false);
+        PlayerCard.Show(InGame);
         Settings.SetActive(true);
         Collection.SetActive(false);
 
@@ -120,8 +117,9 @@ public class Notepad : MonoBehaviour
 
     public void ToCollection()
     {
-        Main.gameObject.SetActive(false);
-        Main.Show(InGame);
+        PlayerCard.gameObject.SetActive(false);
+        Cover.SetActive(false);
+        PlayerCard.Show(InGame);
         Settings.SetActive(false);
         Collection.SetActive(true);
 
@@ -171,7 +169,15 @@ public class Notepad : MonoBehaviour
             opponent = GenerateOpponent(currentLevel);
         }
 
-        // TODO: Show players (VS splash)
+        OpponentNotepad.PlayerCard.Init(opponent.PlayerCard);
+        Anim.SetBool("Versus", true);
+        OpponentNotepad.Anim.SetBool("Versus", true);
+
+        await Awaitable.WaitForSecondsAsync(1.5f);
+
+        Anim.SetBool("Versus", false);
+        OpponentNotepad.Anim.SetBool("Versus", false);
+
 
         List<Pawn> opponentTeam = new();
         foreach(PawnDB pawnDb in opponent.Board)
@@ -185,6 +191,8 @@ public class Notepad : MonoBehaviour
             pawn.rigidbody.isKinematic = true;
             opponentTeam.Add(pawn);
         }
+
+        await Awaitable.WaitForSecondsAsync(1.5f);
 
         Shoebox.RespawnAll();
 
