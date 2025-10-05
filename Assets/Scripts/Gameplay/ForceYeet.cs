@@ -330,6 +330,7 @@ public class ForceYeet : MonoBehaviour
             Vector3 yeetDirection = whoToYeet.transform.position - lastYeetPoint;
             yeetDirection.y = 0.0f;
             float forceFactor = Mathf.Clamp01((yeetDirection.magnitude - Deadzone) / DistForMaxForce);
+            whoToYeet.Charging.Play();
 
             if (forceFactor > 0.01f)
             {

@@ -48,6 +48,13 @@ public class Pawn : MonoBehaviour
     public AudioEvent YeetSound;
     public AudioEvent BonkHitSound;
 
+    [Header("VFX")]
+    public ParticleSystem YeetParticle;
+    public ParticleSystem HitTrail;
+    public ParticleSystem Indisposed;
+    public ParticleSystem InFlight;
+    public ParticleSystem Charging;
+
     [Header("Visuals")]
     public List<Material> RarityMaterials;
     public MeshRenderer MeshRenderer;
@@ -107,11 +114,21 @@ public class Pawn : MonoBehaviour
         {
             TriggerPrimaryYeet();
         }
+
+        if (!IsReadyToYeet && !Indisposed.isPlaying)
+        {
+            Indisposed.Play();
+        }
+        else if(IsReadyToYeet && Indisposed.isPlaying)
+        {
+            Indisposed.Stop();
+        }
     }
 
     private void TriggerPrimaryYeet()
     {
         AudioManager.Play(BonkHitSound, this.transform.position);
+        Instantiate(YeetParticle, this.transform.position, Quaternion.identity);
 
         rigidbody.linearVelocity *= 0.6f;
         rigidbody.angularVelocity *= 0.7f;
@@ -157,6 +174,7 @@ public class Pawn : MonoBehaviour
         if (otherPawn != null)
         {
             float magnitude = collision.impulse.magnitude;
+            InFlight.Stop();
             if (magnitude > 0.01f)
             {
                 Manager.AddForce(this, otherPawn, magnitude);
@@ -166,6 +184,7 @@ public class Pawn : MonoBehaviour
                     Vector3 dir2D = (otherPawn.transform.position - transform.position);
                     dir2D.y = 0.0f;
                     dir2D.Normalize();
+                    otherPawn.HitTrail.Play();
 
                     if (primaryYeet.other == null)
                     {
@@ -203,7 +222,7 @@ public class Pawn : MonoBehaviour
         rigidbody.mass = EffectiveMass;
 
         yeetCollider.enabled = false;
-
+        InFlight.Stop();
         if (reset)
         {
             transform.position = preYeetPosition;
@@ -247,8 +266,10 @@ public class Pawn : MonoBehaviour
 
     public void Yeet(Vector3 force)
     {
+        Charging.Stop();
         if(YeetSound != null)
             AudioManager.Play(YeetSound, this.transform.position);
+        InFlight.Play();
         beingYeeted = true;
         preYeetPosition = transform.position;
         preYeetOrientation = transform.rotation;
