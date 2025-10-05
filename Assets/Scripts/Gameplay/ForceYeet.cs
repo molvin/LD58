@@ -16,14 +16,26 @@ public class ForceYeet : MonoBehaviour
 
     public float YeetForce = 25.0f;
     public float DistForMaxForce = 5.0f;
+    public float Deadzone = 1.0f;
 
-    public List<Pawn> Pawns;
+    [HideInInspector] public List<Pawn> Pawns;
     private Dictionary<CollisionPair, float> forcePairs = new();
+
+    private int teamTurn;
 
     private Pawn whoToYeet;
     private Vector3 lastYeetPoint;
     private Vector3 originalYeetPos;
     private Quaternion originalYeetRot;
+
+    private LineRenderer forceArrowRend;
+
+    private void Awake()
+    {
+        Initialize();
+
+        teamTurn = Random.Range(0, 2);
+    }
 
     private void Update()
     {
@@ -38,11 +50,6 @@ public class ForceYeet : MonoBehaviour
         ResolveCollisionResponses();
     }
 
-    private void Awake()
-    {
-        Initialize();
-    }
-
     private void Initialize()
     {
         if (Instance != null)
@@ -53,11 +60,15 @@ public class ForceYeet : MonoBehaviour
         Instance = this;
 
         Pawns = new(FindObjectsByType<Pawn>(FindObjectsSortMode.None));
+        Pawns.ForEach(pawn => { pawn.enabled = true; });
+
+        forceArrowRend = GetComponent<LineRenderer>();
+        forceArrowRend.enabled = false;
     }
 
     private void HandlePlayerInput()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -75,6 +86,8 @@ public class ForceYeet : MonoBehaviour
 
         if (Input.GetMouseButton(0) && whoToYeet)
         {
+            whoToYeet.GetComponent<Rigidbody>().isKinematic = true;
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -82,13 +95,24 @@ public class ForceYeet : MonoBehaviour
                 lastYeetPoint = hit.point;
             }
 
-            float dist = Vector3.Distance(whoToYeet.transform.position, lastYeetPoint);
+            Vector3 yeetToPawn = originalYeetPos - lastYeetPoint;
+            yeetToPawn.y = 0.0f;
+            float dist = yeetToPawn.magnitude;
 
-            float chargeFactor = Mathf.Clamp01(dist / DistForMaxForce);
+            float chargeFactor = Mathf.Clamp01((dist - Deadzone) / DistForMaxForce);
 
             Vector3 randomDir = Random.insideUnitSphere;
             randomDir.y = Mathf.Abs(randomDir.y);
             whoToYeet.transform.position = originalYeetPos + randomDir * chargeFactor * 0.2f;
+
+            forceArrowRend.enabled = true;
+            Vector3 startPos = whoToYeet.transform.position;
+            startPos.y = 0.1f;
+            forceArrowRend.SetPosition(0, startPos);
+            Vector3 endPos = originalYeetPos + yeetToPawn.normalized * chargeFactor * DistForMaxForce;
+            endPos.y = 0.1f;
+            forceArrowRend.SetPosition(1, endPos);
+            forceArrowRend.endColor = Color.Lerp(new Color(0.6f, 1.0f, 0.0f), new Color(1.0f, 0.0f, 0.6f), chargeFactor);
         }
 
         if (Input.GetMouseButtonUp(0) && whoToYeet)
@@ -96,10 +120,19 @@ public class ForceYeet : MonoBehaviour
             whoToYeet.transform.position = originalYeetPos;
             whoToYeet.transform.rotation = originalYeetRot;
 
+            whoToYeet.GetComponent<Rigidbody>().isKinematic = false;
+
             Vector3 yeetDirection = whoToYeet.transform.position - lastYeetPoint;
-            float forceFactor = Mathf.Clamp01(yeetDirection.magnitude / DistForMaxForce);
-            yeetDirection = new Vector3(yeetDirection.x, 0.0f, yeetDirection.z).normalized;
-            whoToYeet.Yeet(yeetDirection * forceFactor * YeetForce);
+            yeetDirection.y = 0.0f;
+            float forceFactor = Mathf.Clamp01((yeetDirection.magnitude - Deadzone) / DistForMaxForce);
+
+            if (forceFactor > 0.01f)
+            {
+                whoToYeet.Yeet(yeetDirection.normalized * forceFactor * YeetForce);
+            }
+
+            forceArrowRend.enabled = false;
+            whoToYeet = null;
         }
     }
 

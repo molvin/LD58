@@ -23,7 +23,7 @@ public class Bomb : PawnPrototype
                 continue;
             }
 
-            p.GetComponent<Rigidbody>().AddExplosionForce(100.0f, owner.transform.position, 50.0f);
+            p.GetComponent<Rigidbody>().AddExplosionForce(120.0f, owner.transform.position, 30.0f);
         }
     }
 }
