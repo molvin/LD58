@@ -20,9 +20,9 @@ public static class EnemyAI
         actions.Add(SafePlay(choosable, targets));
         actions.Add(KnockoutShot(choosable, targets));
         actions.Add(PowerPlay(choosable, targets, manager));
-        Debug.LogFormat($"Safey: {actions[0].score}");
-        Debug.LogFormat($"Edging: {actions[1].score}");
-        Debug.LogFormat($"Power: {actions[2].score}");
+        //Debug.LogFormat($"Safey: {actions[0].score}");
+        //Debug.LogFormat($"Edging: {actions[1].score}");
+        //Debug.LogFormat($"Power: {actions[2].score}");
 
         int best = 0;
         for (int i = 1; i < actions.Count; i++)
@@ -43,7 +43,7 @@ public static class EnemyAI
 
         for (int i = 0; i < team.Count; i++)
         {
-            float dist = team[i].transform.position.magnitude / 40.0f;
+            float dist = team[i].transform.position.magnitude / 42.0f;
             if (dist > score)
             {
                 pawn = i;
@@ -78,7 +78,7 @@ public static class EnemyAI
                 if (!Physics.Raycast(origin, dir, out hit) || hit.transform == targets[j].transform)
                 {
                     float boundsDist = bounds.CheckBoundary(origin, dir) - dir.magnitude;
-                    boundsDist += dir.magnitude * 0.3f;
+                    boundsDist += dir.magnitude * 0.25f;
 
                     if (bestPawn < 0 || bestTarget < 0 || boundsDist < bestEdge)
                     {

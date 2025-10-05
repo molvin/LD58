@@ -148,7 +148,7 @@ public class Pawn : MonoBehaviour
         var otherPawn = collision.gameObject.GetComponent<Pawn>();
         if (otherPawn != null)
         {
-            float magnitude = collision.impulse.magnitude * 0.5f; // both will add
+            float magnitude = collision.impulse.magnitude;
             if (magnitude > 0.01f)
             {
                 Manager.AddForce(this, otherPawn, magnitude);
@@ -164,6 +164,8 @@ public class Pawn : MonoBehaviour
                         primaryYeet.other = otherPawn;
                         primaryYeet.collisionStart = Time.time;
                         primaryYeet.impulse += dir2D * magnitude;
+
+                        StartCoroutine(HitTimerJuice());
                     }
                     else if (!primaryYeet.consumed && primaryYeet.other == otherPawn)
                     {
@@ -172,6 +174,13 @@ public class Pawn : MonoBehaviour
                 }
             }
         }
+    }
+
+    public IEnumerator HitTimerJuice()
+    {
+        Time.timeScale = 0.0f;
+        yield return new WaitForSecondsRealtime(0.05f);
+        Time.timeScale = 1.0f;
     }
 
     public void AddDamage(float value)

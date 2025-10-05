@@ -12,7 +12,7 @@ public class Basic : PawnPrototype
         float attackForce = target.DamagePercentage * owner.AttackForce;
         target.rigidbody.AddForce(impulse.normalized * attackForce, ForceMode.Impulse);
 
-        target.AddDamage(owner.AttackDamage);
+        target.AddDamage(impulse.magnitude * 0.1f * owner.AttackDamage);
 
         return true;
     }
