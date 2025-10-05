@@ -24,6 +24,8 @@ public class Notepad : MonoBehaviour
 
     public bool InGame;
     private bool hidden = true;
+    private PlayerDataDB playerData = null;
+    private int currentLevel;
 
     private async void Awake()
     {
@@ -44,8 +46,8 @@ public class Notepad : MonoBehaviour
 
         if (hasPlayer)
         {
-            PlayerDataDB card = await Database.GetPlayer();
-            Debug.Log($"Got player: {card.PlayerCard.Name}");
+            playerData = await Database.GetPlayer();
+            Debug.Log($"Got player: {playerData.PlayerCard.Name}");
         }
         else
         {
@@ -55,7 +57,7 @@ public class Notepad : MonoBehaviour
             {
                 Debug.Log("TODO: create a player");
 
-                await Awaitable.EndOfFrameAsync();
+                await Awaitable.NextFrameAsync();
             }
             */
 
@@ -149,31 +151,55 @@ public class Notepad : MonoBehaviour
         }
     }
 
-    // Game states
-
-    private IEnumerator GachamachineState()
+    private async Awaitable GachamachineState()
     {
-        yield return Gacha.RunGacha();
+        await Gacha.RunGacha();
 
         StartCoroutine(GameplayState());
     }
 
-    public IEnumerator GameplayState()
+    public async Awaitable GameplayState()
     {
+        OpponentDB opponent = await Database.GetOpponent(currentLevel);
+
         // TODO: Show players (VS splash)
-        // TODO: Spawn enemy team
+        List<Pawn> opponentTeam = new();
+        foreach(PawnDB pawnDb in opponent.Board)
+        {
+            Pawn prefab = Gacha.Prefabs[pawnDb.PawnType];
+            Pawn pawn = Instantiate(prefab, pawnDb.Location, Quaternion.identity);
+            opponentTeam.Add(pawn);
+        }
 
         Shoebox.RespawnAll();
 
-        yield return Shoebox.PickTeam();
+        await Shoebox.PickTeam();
 
-        yield return GameManager.Play(Shoebox.Team, new List<Pawn>());
+        List<PawnDB> dbPawns = new();
+        foreach(Pawn pawn in Shoebox.Team)
+        {
+            dbPawns.Add(new PawnDB()
+            {
+                Location = pawn.transform.position,
+                PawnType = pawn.PrefabId
+            });
+        }
+        await Database.CreateOpponent(currentLevel, playerData.PlayerCard, dbPawns);
+
+        await GameManager.Play(Shoebox.Team, opponentTeam);
 
         // TODO: show result of game
-        yield return new WaitForSeconds(1);
+        await Awaitable.WaitForSecondsAsync(1.0f);
 
-        // TODO: get actual rewards
+        playerData.Lives = 3; // TODO: lives
+        playerData.Level = currentLevel;
+        playerData.Box = new List<PawnDB>();
+        await Database.UpdatePlayer(playerData);
+
+        // Next level
+        // TODO: rewards
         Gacha.Tokens = 5;
+        currentLevel += 1;
 
         StartCoroutine(GachamachineState());
     }

@@ -66,6 +66,8 @@ public class Pawn : MonoBehaviour
 
     public ForceYeet Manager;
 
+    public int PrefabId;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();

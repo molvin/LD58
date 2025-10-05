@@ -141,22 +141,19 @@ public class Database : MonoBehaviour
         await playerDocRef?.SetAsync(data);
     }
 
-    public async Awaitable CreateOpponent(List<PawnDB> board)
+    public async Awaitable CreateOpponent(int level, PlayerCardDB playerCard, List<PawnDB> board)
     {
         await firestore.RunTransactionAsync(async transaction =>
         {
-            PlayerDataDB player = await GetPlayer();
-            string level = player.Level.ToString();
-
             //Inc opponent reference
             DocumentSnapshot snap = await opponentReferenceRef.GetSnapshotAsync();
-            int currentOpponentCount = snap.GetValue<int>(level) + 1;
-            Dictionary<string, int> opponentRefUpdate = new Dictionary<string, int> { { level, currentOpponentCount } };
+            int currentOpponentCount = snap.GetValue<int>(level.ToString()) + 1;
+            Dictionary<string, int> opponentRefUpdate = new Dictionary<string, int> { { level.ToString(), currentOpponentCount } };
 
             //Add the table
             DocumentReference opRef = opponentCollection.Document($"opponent_{level}:{currentOpponentCount}");
             OpponentDB op = new OpponentDB();
-            op.PlayerCard = player.PlayerCard;
+            op.PlayerCard = playerCard;
             op.Board = board;
 
             //Set dataA§1qaAA
@@ -164,12 +161,10 @@ public class Database : MonoBehaviour
             transaction.Set(opponentReferenceRef, opponentRefUpdate);
         });
     }
-    public async Task<OpponentDB> GetOpponent()
+    public async Task<OpponentDB> GetOpponent(int level)
     {
-        PlayerDataDB player = await GetPlayer();
-        string level = player.Level.ToString();
         DocumentSnapshot snap = await opponentReferenceRef.GetSnapshotAsync();
-        int currentOpponentCount = snap.GetValue<int>(level);
+        int currentOpponentCount = snap.GetValue<int>(level.ToString());
         System.Random random = new System.Random();
         DocumentReference opRef = opponentCollection.Document($"opponent_{level}:{random.Next(1, currentOpponentCount)}");
         DocumentSnapshot opSnap = await opRef.GetSnapshotAsync();
