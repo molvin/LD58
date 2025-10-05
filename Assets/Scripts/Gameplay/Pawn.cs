@@ -8,8 +8,7 @@ public enum PawnRarity
     Common,
     Uncommon,
     Rare,
-    Epic,
-    Shiny
+    Epic
 }
 
 public class Pawn : MonoBehaviour
@@ -29,13 +28,18 @@ public class Pawn : MonoBehaviour
 
     [Header("Settings")]
     public PawnRarity Rarity;
+    public float RarityFactor => 0.8f * (1.0f + (int)Rarity * 0.25f);
     public string Name;
 
     [Header("Pawn stats")]
-    public float AttackDamage = 0.3f;
-    public float AttackForce = 3;
-    public float CollisionDamage = 1;
-    public float Mass = 1;
+    [SerializeField] private float AttackDamage = 1.0f;
+    public float EffectiveAttackDamage => AttackDamage * RarityFactor;
+    [SerializeField] private float AttackForce = 1.0f;
+    public float EffectiveAttackForce => AttackForce * RarityFactor;
+    [SerializeField] private float CollisionDamage = 0.0f;
+    public float EffectiveCollisionDamage => CollisionDamage * RarityFactor;
+    [SerializeField] private float Mass = 1;
+    public float EffectiveMass => Mass * (RarityFactor * 0.5f + 0.5f);
     public float AttackMassRatio = 0.5f;
 
     [Header("Audio")]
@@ -46,7 +50,7 @@ public class Pawn : MonoBehaviour
     private float YeetSphereRadius = 1.15f;
     [HideInInspector] public new Rigidbody rigidbody;
     private Vector3 baseCoM;
-    public float EffectiveMass => Mass;
+
 
     [HideInInspector] public bool beingYeeted = false;
     private Vector3 preYeetPosition;
@@ -66,10 +70,12 @@ public class Pawn : MonoBehaviour
 
     public ForceYeet Manager;
 
+    public int PrefabId;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        rigidbody.mass = Mass;
+        rigidbody.mass = EffectiveMass;
         baseCoM = rigidbody.centerOfMass;
 
         yeetCollider = GetComponent<SphereCollider>();
@@ -146,7 +152,7 @@ public class Pawn : MonoBehaviour
         var otherPawn = collision.gameObject.GetComponent<Pawn>();
         if (otherPawn != null)
         {
-            float magnitude = collision.impulse.magnitude * 0.5f; // both will add
+            float magnitude = collision.impulse.magnitude;
             if (magnitude > 0.01f)
             {
                 Manager.AddForce(this, otherPawn, magnitude);
@@ -162,6 +168,8 @@ public class Pawn : MonoBehaviour
                         primaryYeet.other = otherPawn;
                         primaryYeet.collisionStart = Time.time;
                         primaryYeet.impulse += dir2D * magnitude;
+
+                        StartCoroutine(HitTimerJuice());
                     }
                     else if (!primaryYeet.consumed && primaryYeet.other == otherPawn)
                     {
@@ -170,6 +178,13 @@ public class Pawn : MonoBehaviour
                 }
             }
         }
+    }
+
+    public IEnumerator HitTimerJuice()
+    {
+        Time.timeScale = 0.0f;
+        yield return new WaitForSecondsRealtime(0.05f);
+        Time.timeScale = 1.0f;
     }
 
     public void AddDamage(float value)
@@ -241,7 +256,7 @@ public class Pawn : MonoBehaviour
         transform.position += Vector3.up * 0.1f;
         
         rigidbody.mass = EffectiveMass * AttackMassRatio;
-        rigidbody.AddForce(force / Mass, ForceMode.VelocityChange);
+        rigidbody.AddForce((force * RarityFactor) / EffectiveMass, ForceMode.VelocityChange);
     }
 
     public void PickUp()

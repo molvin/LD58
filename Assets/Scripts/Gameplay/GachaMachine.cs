@@ -1,6 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
-using System.Collections;
 using TMPro;
 
 public class GachaMachine : MonoBehaviour
@@ -9,7 +9,7 @@ public class GachaMachine : MonoBehaviour
     public int Cost = 1;
 
     public float SpawnForce = 250;
-    public Pawn[] Prefabs;
+    public List<Pawn> Prefabs;
     public GachaBall GachaPrefab;
     public Transform SpawnPoint;
     public PawnInspector Inspector;
@@ -18,6 +18,8 @@ public class GachaMachine : MonoBehaviour
     public Animator Anim;
     public float SpinAnimationDuration;
     public ParticleSystem BallPresentationCelebration;
+    public SphereCollider LeverInteractionCollider;
+    public Button DoneButton;
 
     private List<Pawn> prefabPool;
     private List<GachaBall> gachaBalls = new();
@@ -45,10 +47,6 @@ public class GachaMachine : MonoBehaviour
                 case PawnRarity.Epic:
                     amount = 3;
                     break;
-                case PawnRarity.Shiny:
-                    amount = 1;
-                    break;
-
                 case PawnRarity.Common:
                 default:
                     amount = 15;
@@ -62,57 +60,62 @@ public class GachaMachine : MonoBehaviour
         }
     }
 
-    public IEnumerator RunGacha()
+    public async Awaitable RunGacha()
     {
         TokensText.text = $"Tokens: {Tokens}";
 
         Anim.SetBool("Shown", true);
-        yield return new WaitForSeconds(1);
+        await Awaitable.WaitForSecondsAsync(1);
 
-        while(!Input.GetKeyDown(KeyCode.Return))
+        bool done = false;
+        DoneButton.onClick.AddListener(() => done = true);
+
+        while(!done)
         {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             TokensText.text = $"Tokens: {Tokens}";
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                yield return Roll();
-            }
 
             if (Input.GetMouseButtonDown(0))
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                int i = 0;
-                for (; i < gachaBalls.Count; i++)
+                if(LeverInteractionCollider.Raycast(ray, out RaycastHit _, 10000.0f))
                 {
-                    GachaBall gacha = gachaBalls[i];
-                    bool hit = gacha.ClickCollider.Raycast(ray, out _, 1000.0f);
-                    if (hit)
-                    {
-                        yield return Inspect(gacha.Prefab);
-                        Destroy(gacha.gameObject);
-
-                        break;
-                    }
+                    await Roll();
                 }
-                if (i < gachaBalls.Count)
+                else
                 {
-                    gachaBalls.RemoveAt(i);
+                    int i = 0;
+                    for (; i < gachaBalls.Count; i++)
+                    {
+                        GachaBall gacha = gachaBalls[i];
+                        bool hit = gacha.ClickCollider.Raycast(ray, out _, 1000.0f);
+                        if (hit)
+                        {
+                            await Inspect(gacha.Prefab);
+                            Destroy(gacha.gameObject);
+
+                            break;
+                        }
+                    }
+                    if (i < gachaBalls.Count)
+                    {
+                        gachaBalls.RemoveAt(i);
+                    }
                 }
             }
 
-            yield return null;
+            await Awaitable.NextFrameAsync();
         }
+        DoneButton.onClick.RemoveAllListeners();
 
         Anim.SetBool("Shown", false);
-        yield return new WaitForSeconds(1);
+        await Awaitable.WaitForSecondsAsync(1);
     }
 
-    public IEnumerator Roll()
+    public async Awaitable Roll()
     {
         if(Tokens < Cost)
         {
-            yield break;
+            return;
         }
         Tokens -= Cost;
 
@@ -122,7 +125,7 @@ public class GachaMachine : MonoBehaviour
         }
 
         Anim.SetTrigger("Spin");
-        yield return new WaitForSeconds(SpinAnimationDuration);
+        await Awaitable.WaitForSecondsAsync(SpinAnimationDuration);
 
         int index = Random.Range(0, prefabPool.Count);
         Pawn prefab = prefabPool[index];
@@ -135,14 +138,14 @@ public class GachaMachine : MonoBehaviour
         BallPresentationCelebration.Play();
     }
 
-    public IEnumerator Inspect(Pawn prefab)
+    public async Awaitable Inspect(Pawn prefab)
     {
         Pawn pawn = Instantiate(prefab);
         pawn.GetComponent<Rigidbody>().isKinematic = true;
-        yield return Inspector.Inspect(pawn);
+        await Inspector.Inspect(pawn);
 
         // TODO: add to collection and stuff
-        ShoeBox.Collection.Add(prefab);
+        ShoeBox.Collection.Add(Prefabs.IndexOf(prefab));
     }
 
 }

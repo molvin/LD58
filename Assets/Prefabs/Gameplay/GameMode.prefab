@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 212df46af74a37b4bb39e5ab6297f755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceYeet
-  YeetForce: 25
+  Debugging: 0
+  YeetForce: 20
   DistForMaxForce: 5
+  Deadzone: 1
   Pawns: []
 --- !u!120 &7573127650791761155
 LineRenderer:

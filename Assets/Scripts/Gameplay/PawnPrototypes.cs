@@ -9,10 +9,10 @@ public class Basic : PawnPrototype
 {
     public override bool PrimaryYeet(Pawn owner, Pawn target, Vector3 impulse)
     {
-        float attackForce = target.DamagePercentage * owner.AttackForce;
+        float attackForce = target.DamagePercentage * owner.EffectiveAttackForce;
         target.rigidbody.AddForce(impulse.normalized * attackForce, ForceMode.Impulse);
 
-        target.AddDamage(owner.AttackDamage);
+        target.AddDamage(impulse.magnitude * 0.1f * owner.EffectiveAttackDamage);
 
         return true;
     }
@@ -29,15 +29,15 @@ public class Explosion : PawnPrototype
                 continue;
             }
 
-            float radius = 30.0f;
+            float radius = 25.0f * owner.RarityFactor;
             float distanceToPawn = Vector3.Distance(owner.transform.position, p.transform.position);
             if (distanceToPawn > radius)
                 continue;
 
             float ratio = Mathf.Clamp01(distanceToPawn / radius);
 
-            p.GetComponent<Rigidbody>().AddExplosionForce(owner.AttackForce, owner.transform.position, radius);
-            p.AddDamage(owner.AttackDamage * ratio);
+            p.GetComponent<Rigidbody>().AddExplosionForce(owner.EffectiveAttackForce, owner.transform.position, radius);
+            p.AddDamage(owner.EffectiveAttackDamage * ratio);
         }
 
         return true;
