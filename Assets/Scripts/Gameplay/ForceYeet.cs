@@ -25,6 +25,7 @@ public class ForceYeet : MonoBehaviour
     public float YeetForce = 20.0f;
     public float DistForMaxForce = 5.0f;
     public float Deadzone = 1.0f;
+    public Collider GroundCollider;
 
     [HideInInspector] public List<Pawn> Pawns;
     private Dictionary<CollisionPair, (float time, float impact)> forcePairs = new();
@@ -112,6 +113,19 @@ public class ForceYeet : MonoBehaviour
             pawn.rigidbody.isKinematic = false;
             pawn.rigidbody.angularVelocity = Vector3.zero;
             pawn.rigidbody.linearVelocity = Vector3.zero;
+            if(GroundCollider != null)
+            {
+                Ray ray = new Ray(pawn.transform.position + Vector3.up, Vector3.down);
+                if (GroundCollider.Raycast(ray, out RaycastHit hitInfo, 10000.0f))
+                {
+                    pawn.transform.position = hitInfo.point + Vector3.up * 0.01f;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Ground collider not set");
+            }
+            
         }
         forceArrowRend = GetComponent<LineRenderer>();
         forceArrowRend.enabled = false;
