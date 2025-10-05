@@ -54,6 +54,7 @@ public class Pawn : MonoBehaviour
     private Coroutine flipRoutine;
 
     private float damageTaken = 0.0f;
+    public Action<float> OnDamageTaken;
 
     YeetData primaryYeet;
 
@@ -179,6 +180,7 @@ public class Pawn : MonoBehaviour
     {
         damageTaken += value;
         rigidbody.mass = EffectiveMass;
+        OnDamageTaken?.Invoke(damageTaken);
     }
 
     public void StopYeet(bool reset)
