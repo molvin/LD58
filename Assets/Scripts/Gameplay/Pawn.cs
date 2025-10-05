@@ -31,19 +31,21 @@ public class Pawn : MonoBehaviour
     public PawnRarity Rarity;
     public string Name;
 
+    [Header("Pawn stats")]
+    public float AttackDamage = 1;
+    public float CollisionDamage = 3;
+    public float Mass = 1;
+    private float attackMassRatio = 0.5f;
+
     [Header("Audio")]
     public AudioEvent YeetSound;
     public AudioEvent BonkHitSound;
 
-    public float CollisionForce = 3;
-    private float attackMassRatio = 0.5f;
-
     private SphereCollider yeetCollider;
     private float YeetSphereRadius = 1.15f;
     private new Rigidbody rigidbody;
-    private float baseMass;
     private Vector3 baseCoM;
-    public float EffectiveMass => baseMass;// / (1.0f + damageTaken);
+    public float EffectiveMass => Mass;
 
     [HideInInspector] public bool beingYeeted = false;
     private Vector3 preYeetPosition;
@@ -64,7 +66,7 @@ public class Pawn : MonoBehaviour
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        baseMass = rigidbody.mass;
+        rigidbody.mass = Mass;
         baseCoM = rigidbody.centerOfMass;
 
         yeetCollider = GetComponent<SphereCollider>();
@@ -97,7 +99,7 @@ public class Pawn : MonoBehaviour
 
     private void TriggerPrimaryYeet()
     {
-        float damageForce = primaryYeet.other.damageTaken * CollisionForce;
+        float damageForce = primaryYeet.other.damageTaken * CollisionDamage;
         primaryYeet.other.rigidbody.AddForce(primaryYeet.impulse.normalized * damageForce, ForceMode.Impulse);
         primaryYeet.consumed = true;
 
@@ -241,7 +243,7 @@ public class Pawn : MonoBehaviour
         transform.position += Vector3.up * 0.1f;
         
         rigidbody.mass = EffectiveMass * attackMassRatio;
-        rigidbody.AddForce(force / baseMass, ForceMode.VelocityChange);
+        rigidbody.AddForce(force / Mass, ForceMode.VelocityChange);
     }
 
     public void PickUp()
