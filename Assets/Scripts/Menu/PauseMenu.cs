@@ -7,16 +7,13 @@ public class PauseMenu : MonoBehaviour
     public Slider MasterVolume;
     public Slider SfxVolume;
     public Slider MusicVolume;
-
     public AudioMixer Master;
-
 
     private void Start()
     {
         foreach((string group, Slider slider)in new[] {("Master", MasterVolume), ("Sfx", SfxVolume), ("Music", MusicVolume)})
         {
-            float v;
-            Master.GetFloat(group, out v);
+            Master.GetFloat(group, out float v);
             slider.value = Mathf.Pow(10, v);
             slider.onValueChanged.AddListener(x => SetVolume(x, group));
         }
