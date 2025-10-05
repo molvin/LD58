@@ -160,6 +160,12 @@ public class ForceYeet : MonoBehaviour
 
                 second.AddDamage(it.Key.FirstDmg * magnitude * teamDamage);
             }
+
+            if (first != null || second != null)
+            {
+                Vector3 pos = first == null ? second.transform.position : second == null ? first.transform.position : (first.transform.position + second.transform.position) * 0.5f;
+                PlayCollisionEffects(pos, magnitude);
+            }
         }
 
         foreach (CollisionPair pair in consumed)
@@ -167,6 +173,12 @@ public class ForceYeet : MonoBehaviour
             forcePairs.Remove(pair);
         }
     }
+
+    private void PlayCollisionEffects(Vector3 position, float magnitude)
+    {
+
+    }
+
     private void Upkeeep()
     {
         if (upkeep != null)
