@@ -10,10 +10,9 @@ public class Notepad : MonoBehaviour
     public Button SettingsButton;
     public Button CollectionButton;
     public PlayerCard PlayerCard;
-
-    public MainMenu Main;
     public GameObject Settings;
     public GameObject Collection;
+    public GameObject Cover;
 
     public Animator Anim;
     public BoxCollider SelectionCollider;
@@ -21,17 +20,21 @@ public class Notepad : MonoBehaviour
     public Shoebox Shoebox;
     public ForceYeet GameManager;
     public Database Database;
+    public CameraManager CameraManager;
+    public PlaceableAreas PlaceableAreas;
+
+    public OpponentNotepad OpponentNotepad;
 
     public bool InGame;
     private bool hidden = true;
+    private PlayerDataDB playerData = null;
+    private int currentLevel;
 
     private async void Awake()
     {
         MainButton.onClick.AddListener(ToMain);
         SettingsButton.onClick.AddListener(ToSettings);
         CollectionButton.onClick.AddListener(ToCollection);
-
-        PlayerCard.OnNameChanged += Main.SetCanPlay;
 
         await InitGame();
     }
@@ -44,24 +47,14 @@ public class Notepad : MonoBehaviour
 
         if (hasPlayer)
         {
-            PlayerDataDB card = await Database.GetPlayer();
-            Debug.Log($"Got player: {card.PlayerCard.Name}");
+            playerData = await Database.GetPlayer();
+            Debug.Log($"Got player: {playerData.PlayerCard.Name}");
         }
         else
         {
-            // TODO: actually take input from player
-            /*
-            while (true)
-            {
-                Debug.Log("TODO: create a player");
-
-                await Awaitable.EndOfFrameAsync();
-            }
-            */
-
             PlayerCardDB playerCard = new()
             {
-                Name = "Per",
+                Name = "",
                 Font = 0,
                 Boarder = 0,
                 Stickers = new()
@@ -70,11 +63,17 @@ public class Notepad : MonoBehaviour
             Debug.Log($"Created Player: {playerData.PlayerCard.Name}");
         }
 
+        PlayerCard.Init(playerData.PlayerCard);
+
         ToMain();
     }
 
-    public void StartGame()
+    public async void StartGame()
     {
+        // TODO: set playerdata in server
+        playerData.PlayerCard = PlayerCard.GetPlayerCard();
+        await Database.UpdatePlayer(playerData);
+
         InGame = true;
         Anim.SetTrigger("ToGame");
         SetHidden(true);
@@ -95,8 +94,9 @@ public class Notepad : MonoBehaviour
 
     public void ToMain()
     {
-        Main.gameObject.SetActive(true);
-        Main.Show(InGame);
+        PlayerCard.gameObject.SetActive(true);
+        Cover.SetActive(true);
+        PlayerCard.Show(InGame);
         PlayerCard.SetInteractable(!InGame);
         Settings.SetActive(false);
         Collection.SetActive(false);
@@ -106,8 +106,9 @@ public class Notepad : MonoBehaviour
 
     public void ToSettings()
     {
-        Main.gameObject.SetActive(false);
-        Main.Show(InGame);
+        PlayerCard.gameObject.SetActive(false);
+        Cover.SetActive(false);
+        PlayerCard.Show(InGame);
         Settings.SetActive(true);
         Collection.SetActive(false);
 
@@ -116,8 +117,9 @@ public class Notepad : MonoBehaviour
 
     public void ToCollection()
     {
-        Main.gameObject.SetActive(false);
-        Main.Show(InGame);
+        PlayerCard.gameObject.SetActive(false);
+        Cover.SetActive(false);
+        PlayerCard.Show(InGame);
         Settings.SetActive(false);
         Collection.SetActive(true);
 
@@ -149,32 +151,121 @@ public class Notepad : MonoBehaviour
         }
     }
 
-    // Game states
-
-    private IEnumerator GachamachineState()
+    private async Awaitable GachamachineState()
     {
-        yield return Gacha.RunGacha();
+        await CameraManager.Gacha();
+        await Gacha.RunGacha();
+        await CameraManager.Idle();
 
         StartCoroutine(GameplayState());
     }
 
-    public IEnumerator GameplayState()
+    public async Awaitable GameplayState()
     {
-        // TODO: Show players (VS splash)
-        // TODO: Spawn enemy team
+        OpponentDB opponent = await Database.GetOpponent(currentLevel);
+
+        if (opponent == null)
+        {
+            opponent = GenerateOpponent(currentLevel);
+        }
+
+        OpponentNotepad.PlayerCard.Init(opponent.PlayerCard);
+        Anim.SetBool("Versus", true);
+        OpponentNotepad.Anim.SetBool("Versus", true);
+
+        await Awaitable.WaitForSecondsAsync(1.5f);
+
+        Anim.SetBool("Versus", false);
+        OpponentNotepad.Anim.SetBool("Versus", false);
+
+
+        List<Pawn> opponentTeam = new();
+        foreach(PawnDB pawnDb in opponent.Board)
+        {
+            Pawn prefab = Gacha.Prefabs[pawnDb.PawnType];
+            Vector3 playerCenter = PlaceableAreas.GetCenter(true);
+            Vector3 opponentCenter = PlaceableAreas.GetCenter(false);
+            Pawn pawn = Instantiate(prefab, (pawnDb.Location - playerCenter) + opponentCenter, Quaternion.identity);
+            pawn.Team = 1;
+            pawn.enabled = false;
+            pawn.rigidbody.isKinematic = true;
+            pawn.Rarity = (PawnRarity)pawnDb.Rarity;
+            pawn.ColorValue = pawnDb.Color;
+            pawn.InitializeVisuals();
+            opponentTeam.Add(pawn);
+        }
+
+        await Awaitable.WaitForSecondsAsync(1.5f);
 
         Shoebox.RespawnAll();
 
-        yield return Shoebox.PickTeam();
+        await CameraManager.Placing();
 
-        yield return GameManager.Play(Shoebox.Team, new List<Pawn>());
+        await Shoebox.PickTeam();
+
+        await CameraManager.Idle();
+
+        List<PawnDB> dbPawns = new();
+        foreach(Pawn pawn in Shoebox.Team)
+        {
+            dbPawns.Add(new PawnDB()
+            {
+                Location = pawn.transform.position,
+                PawnType = pawn.PrefabId,
+                Color = (byte)pawn.ColorValue,
+                Rarity = (byte)pawn.Rarity
+
+            });
+        }
+        await Database.CreateOpponent(currentLevel, playerData.PlayerCard, dbPawns);
+
+        await GameManager.Play(Shoebox.Team, opponentTeam);
 
         // TODO: show result of game
-        yield return new WaitForSeconds(1);
+        await Awaitable.WaitForSecondsAsync(1.0f);
 
-        // TODO: get actual rewards
+        playerData.Lives = 3; // TODO: lives
+        playerData.Level = currentLevel;
+        playerData.Box = new List<PawnDB>();
+        await Database.UpdatePlayer(playerData);
+
+        // Next level
+        // TODO: rewards
         Gacha.Tokens = 5;
+        currentLevel += 1;
 
         StartCoroutine(GachamachineState());
+    }
+
+    private OpponentDB GenerateOpponent(int level)
+    {
+        Debug.LogWarning("Using generated opponent");
+
+        PlayerCardDB card = new PlayerCardDB()
+        {
+            Name = "Generated",
+            Boarder = 0,
+            Font = 0,
+            Stickers = new()
+        };
+
+        List<PawnDB> board = new();
+
+        for(int i = 0; i < 5; i++)
+        {
+            // TODO: generate pawns based on level
+            PawnDB pawn = new()
+            {
+                PawnType = Random.Range(0, Gacha.Prefabs.Count),
+                Location = PlaceableAreas.GetRandomPointInPlaceableArea()
+            };
+            board.Add(pawn);
+        }
+
+        return new OpponentDB()
+        {
+            PlayerCard = card,
+            Board = board
+        };
     }
 }

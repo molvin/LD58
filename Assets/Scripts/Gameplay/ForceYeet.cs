@@ -22,9 +22,10 @@ public class ForceYeet : MonoBehaviour
 
     public bool Debugging = false;
 
-    public float YeetForce = 25.0f;
+    public float YeetForce = 20.0f;
     public float DistForMaxForce = 5.0f;
     public float Deadzone = 1.0f;
+    public Collider GroundCollider;
 
     [HideInInspector] public List<Pawn> Pawns;
     private Dictionary<CollisionPair, (float time, float impact)> forcePairs = new();
@@ -50,7 +51,7 @@ public class ForceYeet : MonoBehaviour
             debugPlaying = StartCoroutine(Play(pawns.Where(p => p.Team == 0).ToList(), pawns.Where(p => p.Team == 1).ToList()));
         }
     }
-    public IEnumerator Play(List<Pawn> playerTeam, List<Pawn> opponentTeam)
+    public async Awaitable Play(List<Pawn> playerTeam, List<Pawn> opponentTeam)
     {
         activeTeam = Random.Range(0, 2);
 
@@ -88,7 +89,7 @@ public class ForceYeet : MonoBehaviour
                     break;
             }
 
-            yield return null;
+            await Awaitable.NextFrameAsync();
         }
 
         foreach(Pawn pawn in Pawns)
@@ -109,6 +110,22 @@ public class ForceYeet : MonoBehaviour
         {
             pawn.enabled = true;
             pawn.Manager = this;
+            pawn.rigidbody.isKinematic = false;
+            pawn.rigidbody.angularVelocity = Vector3.zero;
+            pawn.rigidbody.linearVelocity = Vector3.zero;
+            if(GroundCollider != null)
+            {
+                Ray ray = new Ray(pawn.transform.position + Vector3.up, Vector3.down);
+                if (GroundCollider.Raycast(ray, out RaycastHit hitInfo, 10000.0f))
+                {
+                    pawn.transform.position = hitInfo.point + Vector3.up * 0.01f;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Ground collider not set");
+            }
+            
         }
         forceArrowRend = GetComponent<LineRenderer>();
         forceArrowRend.enabled = false;
@@ -146,7 +163,7 @@ public class ForceYeet : MonoBehaviour
             Pawn first = Pawns[it.Key.FirstID];
             Pawn second = Pawns[it.Key.SecondID];
 
-            float magnitude = Mathf.Log(1.0f + it.Value.impact) * 0.1f;
+            float magnitude = Mathf.Log(1.0f + it.Value.impact * 0.5f) * 0.1f; // Added both ways
 
             if (first != null)
             {
@@ -160,6 +177,12 @@ public class ForceYeet : MonoBehaviour
 
                 second.AddDamage(it.Key.FirstDmg * magnitude * teamDamage);
             }
+
+            if (first != null || second != null)
+            {
+                Vector3 pos = first == null ? second.transform.position : second == null ? first.transform.position : (first.transform.position + second.transform.position) * 0.5f;
+                PlayCollisionEffects(pos, magnitude);
+            }
         }
 
         foreach (CollisionPair pair in consumed)
@@ -167,11 +190,25 @@ public class ForceYeet : MonoBehaviour
             forcePairs.Remove(pair);
         }
     }
+
+    private void PlayCollisionEffects(Vector3 position, float magnitude)
+    {
+
+    }
+
     private void Upkeeep()
     {
         if (upkeep != null)
         {
             return;
+        }
+
+        foreach (Pawn pawn in Pawns)
+        {
+            if (pawn != null && !pawn.IsStill)
+            {
+                return;
+            }
         }
 
         foreach (Pawn pawn in Pawns)
@@ -214,6 +251,20 @@ public class ForceYeet : MonoBehaviour
 
         if (!canPlay)
         {
+            activeState++;
+            return;
+        }
+
+        if (activeTeam == 1)
+        {
+            foreach (Pawn pawn in Pawns)
+            {
+                if (pawn != null && pawn.Team == activeTeam && !pawn.IsStill)
+                {
+                    return;
+                }
+            }
+            EnemyAI.Yeet(this);
             activeState++;
             return;
         }
@@ -326,9 +377,9 @@ public class ForceYeet : MonoBehaviour
         CollisionPair collision = new()
         {
             FirstID = f,
-            FirstDmg = Pawns[f].CollisionDamage,
+            FirstDmg = Pawns[f].EffectiveCollisionDamage,
             SecondID = s,
-            SecondDmg = Pawns[s].CollisionDamage,
+            SecondDmg = Pawns[s].EffectiveCollisionDamage,
         };
 
         if (!forcePairs.ContainsKey(collision))

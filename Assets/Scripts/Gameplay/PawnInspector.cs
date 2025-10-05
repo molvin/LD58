@@ -1,7 +1,5 @@
 using UnityEngine;
 using TMPro;
-using System.Collections;
-using static Database;
 
 public class PawnInspector : MonoBehaviour
 {
@@ -14,7 +12,7 @@ public class PawnInspector : MonoBehaviour
 
     public bool Inspecting { get; private set; }
 
-    public IEnumerator Inspect(Pawn pawn)
+    public async Awaitable Inspect(Pawn pawn)
     {
         Root.gameObject.SetActive(true);
         Title.text = pawn.Name;
@@ -25,7 +23,7 @@ public class PawnInspector : MonoBehaviour
         while (!Input.GetMouseButtonDown(1))
         {
             InspectRoot.Rotate(Vector3.up, RotationSpeed * Time.deltaTime);
-            yield return null;
+            await Awaitable.NextFrameAsync();
         }        
 
         Destroy(pawn.gameObject);

@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public enum PawnRarity
 {
     Common,
     Uncommon,
     Rare,
-    Epic,
-    Shiny
+    Epic
 }
 
 public class Pawn : MonoBehaviour
@@ -29,24 +29,33 @@ public class Pawn : MonoBehaviour
 
     [Header("Settings")]
     public PawnRarity Rarity;
+    public float RarityFactor => 0.8f * (1.0f + (int)Rarity * 0.25f);
     public string Name;
+    public int ColorValue;
 
     [Header("Pawn stats")]
-    public float AttackDamage = 0.3f;
-    public float AttackForce = 3;
-    public float CollisionDamage = 1;
-    public float Mass = 1;
+    [SerializeField] private float AttackDamage = 1.0f;
+    public float EffectiveAttackDamage => AttackDamage * RarityFactor;
+    [SerializeField] private float AttackForce = 1.0f;
+    public float EffectiveAttackForce => AttackForce * RarityFactor;
+    [SerializeField] private float CollisionDamage = 0.0f;
+    public float EffectiveCollisionDamage => CollisionDamage * RarityFactor;
+    [SerializeField] private float Mass = 1;
+    public float EffectiveMass => Mass * (RarityFactor * 0.5f + 0.5f);
     public float AttackMassRatio = 0.5f;
 
     [Header("Audio")]
     public AudioEvent YeetSound;
     public AudioEvent BonkHitSound;
 
+    [Header("Visuals")]
+    public List<Material> RarityMaterials;
+    public MeshRenderer MeshRenderer;
+
     private SphereCollider yeetCollider;
     private float YeetSphereRadius = 1.15f;
     [HideInInspector] public new Rigidbody rigidbody;
     private Vector3 baseCoM;
-    public float EffectiveMass => Mass;
 
     [HideInInspector] public bool beingYeeted = false;
     private Vector3 preYeetPosition;
@@ -54,22 +63,22 @@ public class Pawn : MonoBehaviour
     private float startYeetTime;
     private Coroutine flipRoutine;
 
-    public float DamagePercentage => 1.0f + damageTaken;
+    public float DamagePercentage => Mathf.Pow(1.0f + damageTaken, 1.3f);
     private float damageTaken = 0.0f;
     public Action<float> OnDamageTaken;
 
     YeetData primaryYeet;
 
-    public bool IsStill => rigidbody.linearVelocity.magnitude < 0.001f && rigidbody.angularVelocity.magnitude < 0.001f;
+    public bool IsStill => rigidbody.linearVelocity.magnitude < 0.003f && rigidbody.angularVelocity.magnitude < 0.003f;
     public SphereCollider PickupCollider;
     public bool IsReadyToYeet => IsStill && Vector3.Dot(transform.up, Vector3.up) >= 0.99f;
-
     public ForceYeet Manager;
+    public int PrefabId;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        rigidbody.mass = Mass;
+        rigidbody.mass = EffectiveMass;
         baseCoM = rigidbody.centerOfMass;
 
         yeetCollider = GetComponent<SphereCollider>();
@@ -104,8 +113,9 @@ public class Pawn : MonoBehaviour
     {
         AudioManager.Play(BonkHitSound, this.transform.position);
 
-        rigidbody.linearVelocity *= 0.4f;
+        rigidbody.linearVelocity *= 0.6f;
         rigidbody.angularVelocity *= 0.7f;
+        rigidbody.linearVelocity -= primaryYeet.impulse.normalized * rigidbody.linearVelocity.magnitude * 0.5f;
 
         yeetCollider.enabled = false;
 
@@ -146,7 +156,7 @@ public class Pawn : MonoBehaviour
         var otherPawn = collision.gameObject.GetComponent<Pawn>();
         if (otherPawn != null)
         {
-            float magnitude = collision.impulse.magnitude * 0.5f; // both will add
+            float magnitude = collision.impulse.magnitude;
             if (magnitude > 0.01f)
             {
                 Manager.AddForce(this, otherPawn, magnitude);
@@ -162,6 +172,8 @@ public class Pawn : MonoBehaviour
                         primaryYeet.other = otherPawn;
                         primaryYeet.collisionStart = Time.time;
                         primaryYeet.impulse += dir2D * magnitude;
+
+                        StartCoroutine(HitTimerJuice());
                     }
                     else if (!primaryYeet.consumed && primaryYeet.other == otherPawn)
                     {
@@ -172,9 +184,16 @@ public class Pawn : MonoBehaviour
         }
     }
 
+    public IEnumerator HitTimerJuice()
+    {
+        Time.timeScale = 0.0f;
+        yield return new WaitForSecondsRealtime(0.05f);
+        Time.timeScale = 1.0f;
+    }
+
     public void AddDamage(float value)
     {
-        damageTaken += value;
+        damageTaken += value / (RarityFactor * 0.5f + 0.5f);
         rigidbody.mass = EffectiveMass;
         OnDamageTaken?.Invoke(damageTaken);
     }
@@ -241,7 +260,7 @@ public class Pawn : MonoBehaviour
         transform.position += Vector3.up * 0.1f;
         
         rigidbody.mass = EffectiveMass * AttackMassRatio;
-        rigidbody.AddForce(force / Mass, ForceMode.VelocityChange);
+        rigidbody.AddForce((force * RarityFactor) / EffectiveMass, ForceMode.VelocityChange);
     }
 
     public void PickUp()
@@ -252,5 +271,22 @@ public class Pawn : MonoBehaviour
     public void Drop()
     {
         rigidbody.isKinematic = false;
+    }
+
+    public void InitializeVisuals()
+    {
+        if ((int)Rarity >= RarityMaterials.Count)
+            return;
+
+        System.Random ran = new System.Random(ColorValue);
+        Color c1 = Color.HSVToRGB(ran.Next(255) / 255f, (ran.Next(100) / 200f) + 0.5f, (ran.Next(100) / 200f) + 0.5f);
+        MeshRenderer.material = RarityMaterials[(int)Rarity];
+        MeshRenderer.material.SetColor("_Color1", c1);
+        if (Rarity != PawnRarity.Common)
+        {
+            Color c2 = Color.HSVToRGB(ran.Next(255) / 255f, (ran.Next(100) / 200f) + 0.5f, (ran.Next(100) / 200f) + 0.5f);
+            MeshRenderer.material.SetColor("_Color2", c2);
+        }
+            
     }
 }

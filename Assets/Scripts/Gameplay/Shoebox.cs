@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Shoebox : MonoBehaviour
 {
-    public List<Pawn> Collection = new();
+    public List<int> Collection = new();
     public float PawnScale = 0.05f;
 
     public BoxCollider SpawnArea;
@@ -15,6 +15,14 @@ public class Shoebox : MonoBehaviour
     private List<Pawn> spawned = new();
 
     public List<Pawn> Team;
+
+    public GachaMachine GachaMachine;
+    public Button ReadyButton;
+
+    private void Start()
+    {
+        ReadyButton.gameObject.SetActive(false);
+    }
 
     private void Update()
     {
@@ -35,27 +43,31 @@ public class Shoebox : MonoBehaviour
         }
         spawned = new();
 
-        foreach(Pawn prefab in Collection)
+        foreach(int index in Collection)
         {
+            Pawn prefab = GachaMachine.Prefabs[index];
             Pawn pawn = Instantiate(prefab, transform);
+            pawn.PrefabId = index;
             pawn.enabled = false;
-            pawn.transform.position = RandomPointInBounds(SpawnArea.bounds);
+            pawn.transform.position = SpawnArea.bounds.RandomPointInBounds();
             pawn.transform.rotation = Random.rotation;
             pawn.transform.localScale = Vector3.one * PawnScale;
             spawned.Add(pawn);
         }
     }
-    
-    public IEnumerator PickTeam()
+        
+    public async Awaitable PickTeam()
     {
         Anim.SetBool("Shown", true);
 
         Team = new();
         Pawn pickup = null;
-        while (true)
+        bool done = false;
+        ReadyButton.gameObject.SetActive(true);
+        ReadyButton.onClick.AddListener(() => done = true);
+        while (!done)
         {
-            if (Input.GetKeyDown(KeyCode.Return))
-                break;
+            ReadyButton.interactable = Team.Count == 5;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Plane plane = new Plane(Vector3.up, HoverPlanePoint.position);
@@ -84,8 +96,20 @@ public class Shoebox : MonoBehaviour
             {
                 if(!Input.GetMouseButton(0))
                 {
-                    // TODO: make sure place is unoccupied
                     (bool valid, Vector3 point) = PlaceableAreas.Valid(pickup.transform.position);
+                    if(valid)
+                    {
+                        // Make sure you dont place teammates too close to eachother
+                        foreach(Pawn teamMate in Team)
+                        {
+                            if (Vector3.Distance(teamMate.transform.position, point) < pickup.PickupCollider.radius)
+                            {
+                                valid = false;
+                                break;
+                            }
+                        }
+                    }
+                    
                     if (valid && Team.Count < 5)
                     {
                         pickup.transform.SetParent(null);
@@ -96,8 +120,8 @@ public class Shoebox : MonoBehaviour
                     else
                     {
                         pickup.transform.position = HoverPlanePoint.position;
+                        pickup.Drop();
                     }
-                    pickup.Drop();
                     pickup = null;
                 }
                 else
@@ -109,14 +133,20 @@ public class Shoebox : MonoBehaviour
                 }
             }
 
-            yield return null;
+            await Awaitable.NextFrameAsync();
         }
 
-        Anim.SetBool("Shown", false);
-        yield return new WaitForSeconds(1.0f);
-    }
+        ReadyButton.onClick.RemoveAllListeners();
+        ReadyButton.gameObject.SetActive(false);
 
-    private static Vector3 RandomPointInBounds(Bounds bounds)
+        Anim.SetBool("Shown", false);
+        await Awaitable.WaitForSecondsAsync(1.0f);
+    }
+}
+
+public static class BoundExtensions
+{
+    public static Vector3 RandomPointInBounds(this Bounds bounds)
     {
         return new Vector3(
             Random.Range(bounds.min.x, bounds.max.x),
