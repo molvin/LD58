@@ -34,7 +34,7 @@ public class Explosion : PawnPrototype
             if (distanceToPawn > radius)
                 continue;
 
-            float ratio = Mathf.Clamp01(distanceToPawn / radius);
+            float ratio = 1.0f - Mathf.Clamp01(distanceToPawn / radius);
 
             p.GetComponent<Rigidbody>().AddExplosionForce(owner.EffectiveAttackForce, owner.transform.position, radius);
             p.AddDamage(owner.EffectiveAttackDamage * ratio);

@@ -189,7 +189,7 @@ public class Pawn : MonoBehaviour
 
     public void AddDamage(float value)
     {
-        damageTaken += value;
+        damageTaken += value / RarityFactor;
         rigidbody.mass = EffectiveMass;
         OnDamageTaken?.Invoke(damageTaken);
     }
