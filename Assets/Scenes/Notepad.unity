@@ -527,33 +527,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 507752364214012965, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 537880376167752600, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 984197732274847529, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170546021970166182, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2555864613365474311, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4534459054434840906, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
       propertyPath: m_Name
       value: Notepad
-      objectReference: {fileID: 0}
-    - target: {fileID: 5486750897508176834, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6393235678863739280, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
       propertyPath: m_LocalPosition.x
@@ -594,10 +570,6 @@ PrefabInstance:
     - target: {fileID: 6393235678863739280, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8206688074891680558, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
