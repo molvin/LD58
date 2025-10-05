@@ -27,7 +27,7 @@ public class ForceYeet : MonoBehaviour
     public float Deadzone = 1.0f;
 
     [HideInInspector] public List<Pawn> Pawns;
-    private Dictionary<CollisionPair, float> forcePairs = new();
+    private Dictionary<CollisionPair, (float time, float impact)> forcePairs = new();
 
     private ScuffedState activeState = ScuffedState.Upkeep;
     private int activeTeam;
@@ -67,6 +67,8 @@ public class ForceYeet : MonoBehaviour
 
         while (!GameOver())
         {
+            ResolveForces();
+
             switch (activeState)
             {
                 case ScuffedState.Upkeep:
@@ -89,7 +91,6 @@ public class ForceYeet : MonoBehaviour
             await Awaitable.NextFrameAsync();
         }
 
-        Debug.Log("Game Over");
         foreach(Pawn pawn in Pawns)
         {
             if(pawn != null)
@@ -128,6 +129,54 @@ public class ForceYeet : MonoBehaviour
         }
 
         return !teamOneHas || !teamTwoHas;
+    }
+
+    private void ResolveForces()
+    {
+        List<CollisionPair> consumed = new();
+
+        foreach (var it in forcePairs)
+        {
+            if (it.Value.time + 0.07 > Time.time)
+            {
+                continue;
+            }
+            consumed.Add(it.Key);
+
+            Pawn first = Pawns[it.Key.FirstID];
+            Pawn second = Pawns[it.Key.SecondID];
+
+            float magnitude = Mathf.Log(1.0f + it.Value.impact) * 0.1f;
+
+            if (first != null)
+            {
+                float teamDamage = first.Team == activeTeam ? 0.5f : 1.0f;
+
+                first.AddDamage(it.Key.SecondDmg * magnitude * teamDamage);
+            }
+            if (second != null)
+            {
+                float teamDamage = second.Team == activeTeam ? 0.5f : 1.0f;
+
+                second.AddDamage(it.Key.FirstDmg * magnitude * teamDamage);
+            }
+
+            if (first != null || second != null)
+            {
+                Vector3 pos = first == null ? second.transform.position : second == null ? first.transform.position : (first.transform.position + second.transform.position) * 0.5f;
+                PlayCollisionEffects(pos, magnitude);
+            }
+        }
+
+        foreach (CollisionPair pair in consumed)
+        {
+            forcePairs.Remove(pair);
+        }
+    }
+
+    private void PlayCollisionEffects(Vector3 position, float magnitude)
+    {
+
     }
 
     private void Upkeeep()
@@ -257,6 +306,11 @@ public class ForceYeet : MonoBehaviour
 
     private void ResolveCollisionResponses()
     {
+        if (forcePairs.Count > 0)
+        {
+            return;
+        }
+
         foreach (Pawn p in Pawns)
         {
             if (p != null && p.beingYeeted)
@@ -265,49 +319,8 @@ public class ForceYeet : MonoBehaviour
             }
         }
 
-        if (forcePairs.Count > 0)
-        {
-            bool resolve = true;
-            foreach (Pawn pawn in Pawns)
-            {
-                if (pawn != null && !pawn.IsStill)
-                {
-                    resolve = false;
-                    break;
-                }
-            }
-
-            if (resolve)
-            {
-                foreach (var it in forcePairs)
-                {
-                    Pawn first = Pawns[it.Key.FirstID];
-                    Pawn second = Pawns[it.Key.SecondID];
-
-                    float magnitude = Mathf.Log(1.0f + it.Value) * 0.1f;
-
-                    if (first != null)
-                    {
-                        float teamDamage = first.Team == activeTeam ? 0.5f : 1.0f;
-
-                        first.AddDamage(it.Key.SecondDmg * magnitude * teamDamage);
-                    }
-                    if (second != null)
-                    {
-                        float teamDamage = second.Team == activeTeam ? 0.5f : 1.0f;
-
-                        second.AddDamage(it.Key.FirstDmg * magnitude * teamDamage);
-                    }
-                }
-
-                forcePairs.Clear();
-            }
-        }
-        else
-        {
-            activeState = ScuffedState.Upkeep;
-            activeTeam = (activeTeam + 1) % 2;
-        }
+        activeState = ScuffedState.Upkeep;
+        activeTeam = (activeTeam + 1) % 2;
     }
 
     public void AddForce(Pawn first, Pawn second, float impulse)
@@ -332,11 +345,12 @@ public class ForceYeet : MonoBehaviour
 
         if (!forcePairs.ContainsKey(collision))
         {
-            forcePairs.Add(collision, impulse);
+            forcePairs.Add(collision, (Time.time, impulse));
         }
         else
         {
-            forcePairs[collision] += impulse;
+            var (time, forc) = forcePairs[collision];
+            forcePairs[collision] = (time, forc + impulse);
         }
     }
 }
