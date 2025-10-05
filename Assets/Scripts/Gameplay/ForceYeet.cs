@@ -109,6 +109,9 @@ public class ForceYeet : MonoBehaviour
         {
             pawn.enabled = true;
             pawn.Manager = this;
+            pawn.rigidbody.isKinematic = false;
+            pawn.rigidbody.angularVelocity = Vector3.zero;
+            pawn.rigidbody.linearVelocity = Vector3.zero;
         }
         forceArrowRend = GetComponent<LineRenderer>();
         forceArrowRend.enabled = false;
