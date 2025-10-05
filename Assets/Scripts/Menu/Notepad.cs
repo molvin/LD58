@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using static Database;
 
 public class Notepad : MonoBehaviour
 {
@@ -19,17 +20,55 @@ public class Notepad : MonoBehaviour
     public GachaMachine Gacha;
     public Shoebox Shoebox;
     public ForceYeet GameManager;
+    public Database Database;
 
     public bool InGame;
     private bool hidden = true;
 
-    private void Awake()
+    private async void Awake()
     {
         MainButton.onClick.AddListener(ToMain);
         SettingsButton.onClick.AddListener(ToSettings);
         CollectionButton.onClick.AddListener(ToCollection);
 
         PlayerCard.OnNameChanged += Main.SetCanPlay;
+
+        await InitGame();
+    }
+
+    private async Awaitable InitGame()
+    {
+        await Database.Init();
+
+        bool hasPlayer = await Database.HasPlayerCard();
+
+        if (hasPlayer)
+        {
+            PlayerDataDB card = await Database.GetPlayer();
+            Debug.Log($"Got player: {card.PlayerCard.Name}");
+        }
+        else
+        {
+            // TODO: actually take input from player
+            /*
+            while (true)
+            {
+                Debug.Log("TODO: create a player");
+
+                await Awaitable.EndOfFrameAsync();
+            }
+            */
+
+            PlayerCardDB playerCard = new()
+            {
+                Name = "Per",
+                Font = 0,
+                Boarder = 0,
+                Stickers = new()
+            };
+            PlayerDataDB playerData = await Database.CreatePlayer(playerCard);
+            Debug.Log($"Created Player: {playerData.PlayerCard.Name}");
+        }
 
         ToMain();
     }
