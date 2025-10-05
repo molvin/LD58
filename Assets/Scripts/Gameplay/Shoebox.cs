@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Shoebox : MonoBehaviour
 {
@@ -16,6 +17,12 @@ public class Shoebox : MonoBehaviour
     public List<Pawn> Team;
 
     public GachaMachine GachaMachine;
+    public Button ReadyButton;
+
+    private void Start()
+    {
+        ReadyButton.gameObject.SetActive(false);
+    }
 
     private void Update()
     {
@@ -55,10 +62,12 @@ public class Shoebox : MonoBehaviour
 
         Team = new();
         Pawn pickup = null;
-        while (true)
+        bool done = false;
+        ReadyButton.gameObject.SetActive(true);
+        ReadyButton.onClick.AddListener(() => done = true);
+        while (!done)
         {
-            if (Input.GetKeyDown(KeyCode.Return))
-                break;
+            ReadyButton.interactable = Team.Count == 5;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Plane plane = new Plane(Vector3.up, HoverPlanePoint.position);
@@ -126,6 +135,9 @@ public class Shoebox : MonoBehaviour
 
             await Awaitable.NextFrameAsync();
         }
+
+        ReadyButton.onClick.RemoveAllListeners();
+        ReadyButton.gameObject.SetActive(false);
 
         Anim.SetBool("Shown", false);
         await Awaitable.WaitForSecondsAsync(1.0f);

@@ -180,6 +180,7 @@ public class Notepad : MonoBehaviour
             Vector3 playerCenter = PlaceableAreas.GetCenter(true);
             Vector3 opponentCenter = PlaceableAreas.GetCenter(false);
             Pawn pawn = Instantiate(prefab, (pawnDb.Location - playerCenter) + opponentCenter, Quaternion.identity);
+            pawn.Team = 1;
             pawn.enabled = false;
             pawn.rigidbody.isKinematic = true;
             opponentTeam.Add(pawn);
