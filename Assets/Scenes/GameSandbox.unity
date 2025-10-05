@@ -539,6 +539,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cat
       objectReference: {fileID: 0}
+    - target: {fileID: 7986223544873821256, guid: 7a48e601ddfd4f640a4888859455bcdc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3368,6 +3372,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1013223168}
     m_Modifications:
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: Team
       value: 0
       objectReference: {fileID: 0}
@@ -3376,12 +3384,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: Prototype
+      value: Chain
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: AttackForce
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: AttackDamage
-      value: 1
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: AttackMassRatio
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: CollisionDamage
@@ -3437,11 +3453,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 40237a9a5f1293e4e8f2444b45b7b3c6, type: 2}
     - target: {fileID: 3015495788201396692, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: m_Name
-      value: Pawn (7)
+      value: Lightning
       objectReference: {fileID: 0}
     - target: {fileID: 3015495788201396692, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
