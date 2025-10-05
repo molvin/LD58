@@ -32,10 +32,11 @@ public class Pawn : MonoBehaviour
     public string Name;
 
     [Header("Pawn stats")]
-    public float AttackDamage = 1;
-    public float CollisionDamage = 3;
+    public float AttackDamage = 0.3f;
+    public float AttackForce = 3;
+    public float CollisionDamage = 1;
     public float Mass = 1;
-    private float attackMassRatio = 0.5f;
+    public float AttackMassRatio = 0.5f;
 
     [Header("Audio")]
     public AudioEvent YeetSound;
@@ -43,7 +44,7 @@ public class Pawn : MonoBehaviour
 
     private SphereCollider yeetCollider;
     private float YeetSphereRadius = 1.15f;
-    private new Rigidbody rigidbody;
+    [HideInInspector] public new Rigidbody rigidbody;
     private Vector3 baseCoM;
     public float EffectiveMass => Mass;
 
@@ -53,6 +54,7 @@ public class Pawn : MonoBehaviour
     private float startYeetTime;
     private Coroutine flipRoutine;
 
+    public float DamagePercentage => 1.0f + damageTaken;
     private float damageTaken = 0.0f;
     public Action<float> OnDamageTaken;
 
@@ -100,16 +102,19 @@ public class Pawn : MonoBehaviour
 
     private void TriggerPrimaryYeet()
     {
-        float damageForce = primaryYeet.other.damageTaken * CollisionDamage;
-        primaryYeet.other.rigidbody.AddForce(primaryYeet.impulse.normalized * damageForce, ForceMode.Impulse);
-        primaryYeet.consumed = true;
+        AudioManager.Play(BonkHitSound, this.transform.position);
 
         rigidbody.linearVelocity *= 0.4f;
         rigidbody.angularVelocity *= 0.7f;
 
         yeetCollider.enabled = false;
 
-        prototype.PrimaryYeet(this, primaryYeet.other);
+        primaryYeet.consumed = prototype.PrimaryYeet(this, primaryYeet.other, primaryYeet.impulse);
+
+        if (!primaryYeet.consumed)
+        {
+            primaryYeet = new();
+        }
     }
 
     private void FixedUpdate()
@@ -141,14 +146,13 @@ public class Pawn : MonoBehaviour
         var otherPawn = collision.gameObject.GetComponent<Pawn>();
         if (otherPawn != null)
         {
-            float magnitude = collision.impulse.magnitude;
-            AudioManager.Play(BonkHitSound, this.transform.position);
+            float magnitude = collision.impulse.magnitude * 0.5f; // both will add
             if (magnitude > 0.01f)
             {
+                Manager.AddForce(this, otherPawn, magnitude);
+
                 if (beingYeeted)
                 {
-                    Manager.AddForce(this, otherPawn, magnitude, true);
-
                     Vector3 dir2D = (otherPawn.transform.position - transform.position);
                     dir2D.y = 0.0f;
                     dir2D.Normalize();
@@ -163,14 +167,6 @@ public class Pawn : MonoBehaviour
                     {
                         primaryYeet.impulse += dir2D * magnitude;
                     }
-                }
-                else if (otherPawn.beingYeeted)
-                {
-                    Manager.AddForce(otherPawn, this, magnitude, true);
-                }
-                else
-                {
-                    Manager.AddForce(this, otherPawn, magnitude, false);
                 }
             }
         }
@@ -244,7 +240,7 @@ public class Pawn : MonoBehaviour
 
         transform.position += Vector3.up * 0.1f;
         
-        rigidbody.mass = EffectiveMass * attackMassRatio;
+        rigidbody.mass = EffectiveMass * AttackMassRatio;
         rigidbody.AddForce(force / Mass, ForceMode.VelocityChange);
     }
 

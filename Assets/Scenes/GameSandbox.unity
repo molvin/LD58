@@ -663,9 +663,17 @@ MonoBehaviour:
   Team: 0
   Rarity: 0
   Name: 
+  AttackDamage: 0.1
+  AttackForce: 1
+  CollisionDamage: 3
+  Mass: 2
+  AttackMassRatio: 0.5
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 1
+  rigidbody: {fileID: 0}
+  beingYeeted: 0
+  PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!54 &314821312
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -674,7 +682,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314821308}
   serializedVersion: 5
-  m_Mass: 2
+  m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1507,13 +1515,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd70e47ad985b364eb23ad4addaf6c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pawn
-  Prototype: Bomb
+  Prototype: Basic
   Team: 1
   Rarity: 0
   Name: 
+  AttackDamage: 1
+  AttackForce: 3
+  CollisionDamage: 3
+  Mass: 1
+  AttackMassRatio: 0.5
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 4
+  rigidbody: {fileID: 0}
+  beingYeeted: 0
+  PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!54 &676969000
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1779,9 +1795,17 @@ MonoBehaviour:
   Team: 0
   Rarity: 0
   Name: 
+  AttackDamage: 1
+  AttackForce: 0
+  CollisionDamage: 0
+  Mass: 1
+  AttackMassRatio: 0.5
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 3
+  rigidbody: {fileID: 0}
+  beingYeeted: 0
+  PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!1 &934890142
 GameObject:
   m_ObjectHideFlags: 0
@@ -2252,13 +2276,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd70e47ad985b364eb23ad4addaf6c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pawn
-  Prototype: Bomb
+  Prototype: Basic
   Team: 1
   Rarity: 0
   Name: 
+  AttackDamage: 1
+  AttackForce: 3
+  CollisionDamage: 3
+  Mass: 1
+  AttackMassRatio: 0.5
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 4
+  rigidbody: {fileID: 0}
+  beingYeeted: 0
+  PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!54 &1222084781
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2476,9 +2508,17 @@ MonoBehaviour:
   Team: 1
   Rarity: 0
   Name: 
+  AttackDamage: 1
+  AttackForce: 3
+  CollisionDamage: 3
+  Mass: 1
+  AttackMassRatio: 0.5
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 3
+  rigidbody: {fileID: 0}
+  beingYeeted: 0
+  PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!135 &1727629881
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3018,9 +3058,17 @@ MonoBehaviour:
   Team: 0
   Rarity: 0
   Name: 
+  AttackDamage: 1
+  AttackForce: 0
+  CollisionDamage: 0
+  Mass: 1
+  AttackMassRatio: 0.5
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 3
+  rigidbody: {fileID: 0}
+  beingYeeted: 0
+  PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!54 &2003377097
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3120,6 +3168,14 @@ PrefabInstance:
     - target: {fileID: 363931399669930226, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
       propertyPath: m_Name
       value: GameMode
+      objectReference: {fileID: 0}
+    - target: {fileID: 3866838057361126070, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: Debug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3866838057361126070, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: Debugging
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
