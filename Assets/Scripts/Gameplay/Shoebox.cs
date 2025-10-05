@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shoebox : MonoBehaviour
 {
-    public List<Pawn> Collection = new();
+    public List<int> Collection = new();
     public float PawnScale = 0.05f;
 
     public BoxCollider SpawnArea;
@@ -15,6 +15,8 @@ public class Shoebox : MonoBehaviour
     private List<Pawn> spawned = new();
 
     public List<Pawn> Team;
+
+    public GachaMachine GachaMachine;
 
     private void Update()
     {
@@ -35,9 +37,11 @@ public class Shoebox : MonoBehaviour
         }
         spawned = new();
 
-        foreach(Pawn prefab in Collection)
+        foreach(int index in Collection)
         {
+            Pawn prefab = GachaMachine.Prefabs[index];
             Pawn pawn = Instantiate(prefab, transform);
+            pawn.PrefabId = index;
             pawn.enabled = false;
             pawn.transform.position = RandomPointInBounds(SpawnArea.bounds);
             pawn.transform.rotation = Random.rotation;
@@ -45,8 +49,8 @@ public class Shoebox : MonoBehaviour
             spawned.Add(pawn);
         }
     }
-    
-    public IEnumerator PickTeam()
+        
+    public async Awaitable PickTeam()
     {
         Anim.SetBool("Shown", true);
 
@@ -109,11 +113,11 @@ public class Shoebox : MonoBehaviour
                 }
             }
 
-            yield return null;
+            await Awaitable.NextFrameAsync();
         }
 
         Anim.SetBool("Shown", false);
-        yield return new WaitForSeconds(1.0f);
+        await Awaitable.WaitForSecondsAsync(1.0f);
     }
 
     private static Vector3 RandomPointInBounds(Bounds bounds)

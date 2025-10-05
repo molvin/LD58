@@ -50,7 +50,7 @@ public class ForceYeet : MonoBehaviour
             debugPlaying = StartCoroutine(Play(pawns.Where(p => p.Team == 0).ToList(), pawns.Where(p => p.Team == 1).ToList()));
         }
     }
-    public IEnumerator Play(List<Pawn> playerTeam, List<Pawn> opponentTeam)
+    public async Awaitable Play(List<Pawn> playerTeam, List<Pawn> opponentTeam)
     {
         activeTeam = Random.Range(0, 2);
 
@@ -86,7 +86,7 @@ public class ForceYeet : MonoBehaviour
                     break;
             }
 
-            yield return null;
+            await Awaitable.NextFrameAsync();
         }
 
         Debug.Log("Game Over");
