@@ -15,6 +15,8 @@ public class Notepad : MonoBehaviour
 
     public Animator Anim;
     public BoxCollider SelectionCollider;
+    public GachaMachine Gacha;
+    public Shoebox Shoebox;
 
     public bool InGame;
     private bool hidden = true;
@@ -110,19 +112,28 @@ public class Notepad : MonoBehaviour
 
     private IEnumerator GachamachineState()
     {
-        // Spawn gacha machine
+        yield return Gacha.RunGacha();
 
-        // wait for player to finish getting new things(how does a player continue)?
-
-        // Despawn gacha machine
-
-        // Go to gameplay state
-
-        yield return null;
+        StartCoroutine(GameplayState());
     }
 
-    public void GameplayState()
+    public IEnumerator GameplayState()
     {
+        // TODO: Show players (VS splash)
+
+        yield return null;
+
+        // TODO: Spawn enemy team
+
+        // Show shoebox
+
+        Shoebox.RespawnAll();
+
+        // wait for player to finish picking a team (how does a player continue?)
+        yield return Shoebox.PickTeam();
+
+
+        // start gameplay
 
     }
 }

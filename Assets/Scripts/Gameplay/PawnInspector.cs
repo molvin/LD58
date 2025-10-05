@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using static Database;
 
 public class PawnInspector : MonoBehaviour
 {
@@ -13,24 +14,21 @@ public class PawnInspector : MonoBehaviour
 
     public bool Inspecting { get; private set; }
 
-    public IEnumerator Inspect(Pawn pawn)
+    public IEnumerator Inspect(GameObject go, Pawn prefab)
     {
         Root.gameObject.SetActive(true);
-        pawn.enabled = false;
-        Title.text = pawn.Name;
-        pawn.transform.SetParent(InspectRoot);
-        pawn.transform.localPosition = Vector3.zero;
-        pawn.transform.localRotation = Quaternion.identity;
+        Title.text = prefab.Name;
+        go.transform.SetParent(InspectRoot);
+        go.transform.localPosition = Vector3.zero;
+        go.transform.localRotation = Quaternion.identity;
 
-        Destroy(pawn.GetComponent<Rigidbody>());
-         
         while (!Input.GetMouseButtonDown(1))
         {
             InspectRoot.Rotate(Vector3.up, RotationSpeed * Time.deltaTime);
             yield return null;
         }        
 
-        Destroy(pawn.gameObject);
+        Destroy(go);
         Root.gameObject.SetActive(false);
     }
 }
