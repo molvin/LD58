@@ -1,7 +1,5 @@
 using UnityEngine;
 using TMPro;
-using System.Collections;
-using static Database;
 
 public class PawnInspector : MonoBehaviour
 {
