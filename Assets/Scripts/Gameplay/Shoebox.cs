@@ -81,7 +81,7 @@ public class Shoebox : MonoBehaviour
             {
                 if(!Input.GetMouseButton(0))
                 {
-                    // TODO: check if over board, on placable area, then place
+                    // TODO: make sure place is unoccupied
                     (bool valid, Vector3 point) = PlaceableAreas.Valid(pickup.transform.position);
                     if (valid && Team.Count < 5)
                     {

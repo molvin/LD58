@@ -16,7 +16,7 @@ public class Bomb : PawnPrototype
 {
     public override void PrimaryYeet(Pawn owner, Pawn trigger)
     {
-        foreach (Pawn p in ForceYeet.Instance.Pawns)
+        foreach (Pawn p in owner.Manager.Pawns)
         {
             if (p == null || p == trigger || p.Team == owner.Team)
             {

@@ -1,14 +1,10 @@
 using Firebase.Auth;
 using System;
 using System.Threading.Tasks;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using Firebase.Firestore;
 using System.Collections.Generic;
-using static Database;
 using System.IO;
-using System.ComponentModel;
-using Unity.VisualScripting;
 
 public class Database : MonoBehaviour
 {
@@ -72,7 +68,7 @@ public class Database : MonoBehaviour
         public int Rotation { get; set; }
     }
 
-    private async void Awake()
+    public async Awaitable Init()
     {
         //Environment.SetEnvironmentVariable("USE_AUTH_EMULATOR", "no");
         InitializeFirebase();
@@ -82,6 +78,7 @@ public class Database : MonoBehaviour
         
         InitializeFireStore();
 
+        /*
         //Create player card
         PlayerCardDB card = new PlayerCardDB();
         card.Name = "Kvasir";
@@ -97,10 +94,12 @@ public class Database : MonoBehaviour
         board.Add(new PawnDB());
         await CreateOpponent(board);
 
-
         //Get opp
         OpponentDB ha = await GetOpponent();
         Debug.Log(ha.PlayerCard.Name);
+
+        */
+
     }
 
     private void InitializeFirebase()
@@ -205,7 +204,7 @@ public class Database : MonoBehaviour
             user = auth.CurrentUser;
             if (signedIn)
             {
-                Debug.Log("Signed in " + user);
+                Debug.Log("Signed in " + user.UserId);
                 UserChanged?.Invoke(user);
             }
         }
