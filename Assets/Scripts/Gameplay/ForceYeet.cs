@@ -232,6 +232,13 @@ public class ForceYeet : MonoBehaviour
 
         if (activeTeam == 1)
         {
+            foreach (Pawn pawn in Pawns)
+            {
+                if (pawn != null && pawn.Team == activeTeam && !pawn.IsStill)
+                {
+                    return;
+                }
+            }
             EnemyAI.Yeet(this);
             activeState++;
             return;
