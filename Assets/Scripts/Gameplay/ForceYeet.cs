@@ -17,7 +17,6 @@ public class ForceYeet : MonoBehaviour
         public float FirstDmg;
         public int SecondID;
         public float SecondDmg;
-        public int Yeeter;
     }
 
     public static ForceYeet Instance;
@@ -246,25 +245,15 @@ public class ForceYeet : MonoBehaviour
 
                     if (first != null)
                     {
-                        if (it.Key.Yeeter == 0)
-                        {
-                            first.AddDamage(it.Key.SecondDmg * magnitude * 0.2f);
-                        }
-                        else
-                        {
-                            first.AddDamage(it.Key.SecondDmg * magnitude);
-                        }
+                        float teamDamage = first.Team == activeTeam ? 0.5f : 1.0f;
+
+                        first.AddDamage(it.Key.SecondDmg * magnitude * teamDamage);
                     }
                     if (second != null)
                     {
-                        if (it.Key.Yeeter == 1)
-                        {
-                            second.AddDamage(it.Key.FirstDmg * magnitude * 0.2f);
-                        }
-                        else
-                        {
-                            second.AddDamage(it.Key.FirstDmg * magnitude);
-                        }
+                        float teamDamage = second.Team == activeTeam ? 0.5f : 1.0f;
+
+                        second.AddDamage(it.Key.FirstDmg * magnitude * teamDamage);
                     }
                 }
 
@@ -278,23 +267,16 @@ public class ForceYeet : MonoBehaviour
         }
     }
 
-    public void AddForce(Pawn first, Pawn second, float impulse, bool firstIsYeeter)
+    public void AddForce(Pawn first, Pawn second, float impulse)
     {
         int f = Pawns.IndexOf(first);
         int s = Pawns.IndexOf(second);
-
-        int yeet = firstIsYeeter ? 0 : -1;
 
         if (f > s)
         {
             f ^= s;
             s ^= f;
             f ^= s;
-
-            if (yeet >= 0)
-            {
-                yeet = 1;
-            }
         }
 
         CollisionPair collision = new()
@@ -303,7 +285,6 @@ public class ForceYeet : MonoBehaviour
             FirstDmg = Pawns[f].CollisionDamage,
             SecondID = s,
             SecondDmg = Pawns[s].CollisionDamage,
-            Yeeter = yeet
         };
 
         if (!forcePairs.ContainsKey(collision))
