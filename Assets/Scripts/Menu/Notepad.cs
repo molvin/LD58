@@ -21,6 +21,7 @@ public class Notepad : MonoBehaviour
     public Shoebox Shoebox;
     public ForceYeet GameManager;
     public Database Database;
+    public CameraManager CameraManager;
 
     public bool InGame;
     private bool hidden = true;
@@ -153,7 +154,9 @@ public class Notepad : MonoBehaviour
 
     private async Awaitable GachamachineState()
     {
+        await CameraManager.Gacha();
         await Gacha.RunGacha();
+        await CameraManager.Idle();
 
         StartCoroutine(GameplayState());
     }
@@ -173,7 +176,11 @@ public class Notepad : MonoBehaviour
 
         Shoebox.RespawnAll();
 
+        await CameraManager.Placing();
+
         await Shoebox.PickTeam();
+
+        await CameraManager.Idle();
 
         List<PawnDB> dbPawns = new();
         foreach(Pawn pawn in Shoebox.Team)

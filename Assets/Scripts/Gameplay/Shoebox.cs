@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
 
 public class Shoebox : MonoBehaviour
@@ -88,8 +87,20 @@ public class Shoebox : MonoBehaviour
             {
                 if(!Input.GetMouseButton(0))
                 {
-                    // TODO: make sure place is unoccupied
                     (bool valid, Vector3 point) = PlaceableAreas.Valid(pickup.transform.position);
+                    if(valid)
+                    {
+                        // Make sure you dont place teammates too close to eachother
+                        foreach(Pawn teamMate in Team)
+                        {
+                            if (Vector3.Distance(teamMate.transform.position, point) < pickup.PickupCollider.radius)
+                            {
+                                valid = false;
+                                break;
+                            }
+                        }
+                    }
+                    
                     if (valid && Team.Count < 5)
                     {
                         pickup.transform.SetParent(null);
