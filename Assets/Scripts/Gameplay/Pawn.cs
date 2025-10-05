@@ -139,7 +139,7 @@ public class Pawn : MonoBehaviour
             {
                 if (beingYeeted)
                 {
-                    ForceCollector.Instance.AddForce(this, otherPawn, magnitude, true);
+                    ForceYeet.Instance.AddForce(this, otherPawn, magnitude, true);
 
                     Vector3 dir2D = (otherPawn.transform.position - transform.position);
                     dir2D.y = 0.0f;
@@ -158,11 +158,11 @@ public class Pawn : MonoBehaviour
                 }
                 else if (otherPawn.beingYeeted)
                 {
-                    ForceCollector.Instance.AddForce(otherPawn, this, magnitude, true);
+                    ForceYeet.Instance.AddForce(otherPawn, this, magnitude, true);
                 }
                 else
                 {
-                    ForceCollector.Instance.AddForce(this, otherPawn, magnitude, false);
+                    ForceYeet.Instance.AddForce(this, otherPawn, magnitude, false);
                 }
             }
         }
