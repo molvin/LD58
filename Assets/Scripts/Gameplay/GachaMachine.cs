@@ -1,18 +1,26 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using TMPro;
 
 public class GachaMachine : MonoBehaviour
 {
-    public int Tokens;
+    public int Tokens = 5;
+    public int Cost = 1;
 
+    public float SpawnForce = 250;
     public Pawn[] Prefabs;
     public GachaBall GachaPrefab;
     public Transform SpawnPoint;
     public PawnInspector Inspector;
+    public TextMeshProUGUI TokensText;
+    public Shoebox ShoeBox;
+    public Animator Anim;
+    public float SpinAnimationDuration;
 
     private List<Pawn> prefabPool;
     private List<GachaBall> gachaBalls = new();
+    private bool rolling;
 
     private void Start()
     {
@@ -56,9 +64,11 @@ public class GachaMachine : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        TokensText.text = $"Tokens: {Tokens}";
+
+        if(!rolling && Input.GetKeyDown(KeyCode.Space))
         {
-            SpawnRandom();
+            StartCoroutine(Roll());
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -84,20 +94,34 @@ public class GachaMachine : MonoBehaviour
         }
     }
 
-    public void SpawnRandom()
+    public IEnumerator Roll()
     {
+        rolling = true;
+
+        if(Tokens < Cost)
+        {
+            yield break;
+        }
+        Tokens -= Cost;
+
         if(prefabPool.Count == 0)
         {
             InitPool();
         }
+
+        Anim.SetTrigger("Spin");
+        yield return new WaitForSeconds(SpinAnimationDuration);
 
         int index = Random.Range(0, prefabPool.Count);
         Pawn prefab = prefabPool[index];
         prefabPool.RemoveAt(index);
 
         GachaBall ball = Instantiate(GachaPrefab, SpawnPoint.position + Random.insideUnitSphere * 0.1f, SpawnPoint.rotation);
+        ball.GetComponent<Rigidbody>().AddForce(SpawnPoint.forward * SpawnForce);
         ball.Prefab = prefab;
         gachaBalls.Add(ball);
+
+        rolling = false;
     }
 
     public void Inspect(Pawn prefab)
@@ -108,6 +132,7 @@ public class GachaMachine : MonoBehaviour
             yield return Inspector.Inspect(Instantiate(prefab));
 
             // TODO: add to collection and stuff
+            ShoeBox.Collection.Add(prefab);
         }
 
         StartCoroutine(Inspect());
