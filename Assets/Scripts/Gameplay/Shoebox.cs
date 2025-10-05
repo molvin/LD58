@@ -142,8 +142,6 @@ public class Shoebox : MonoBehaviour
         Anim.SetBool("Shown", false);
         await Awaitable.WaitForSecondsAsync(1.0f);
     }
-
-
 }
 
 public static class BoundExtensions

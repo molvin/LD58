@@ -21,7 +21,7 @@ public class GachaMachine : MonoBehaviour
     public SphereCollider LeverInteractionCollider;
     public Button DoneButton;
 
-    private List<Pawn> prefabPool;
+    private List<(Pawn, PawnRarity)> prefabPool;
     private List<GachaBall> gachaBalls = new();
 
     private void Start()
@@ -35,28 +35,15 @@ public class GachaMachine : MonoBehaviour
 
         foreach(Pawn pawn in Prefabs)
         {
-            int amount;
-            switch (pawn.Rarity)
-            {
-                case PawnRarity.Uncommon:
-                    amount = 8;
-                    break;
-                case PawnRarity.Rare:
-                    amount = 5;
-                    break;
-                case PawnRarity.Epic:
-                    amount = 3;
-                    break;
-                case PawnRarity.Common:
-                default:
-                    amount = 15;
-                    break;
-            }
-
-            for(int i = 0; i < amount; i++)
-            {
-                prefabPool.Add(pawn);
-            }
+            //Add all rarities to pool
+            for (int i = 0; i < 15; i++)
+                prefabPool.Add((pawn, PawnRarity.Common));
+            for (int i = 0; i < 8; i++)
+                prefabPool.Add((pawn, PawnRarity.Uncommon));
+            for (int i = 0; i < 5; i++)
+                prefabPool.Add((pawn, PawnRarity.Rare));
+            for (int i = 0; i < 3; i++)
+                prefabPool.Add((pawn, PawnRarity.Epic));  
         }
     }
 
@@ -90,7 +77,7 @@ public class GachaMachine : MonoBehaviour
                         bool hit = gacha.ClickCollider.Raycast(ray, out _, 1000.0f);
                         if (hit)
                         {
-                            await Inspect(gacha.Prefab);
+                            await Inspect(gacha);
                             Destroy(gacha.gameObject);
 
                             break;
@@ -126,26 +113,29 @@ public class GachaMachine : MonoBehaviour
 
         Anim.SetTrigger("Spin");
         await Awaitable.WaitForSecondsAsync(SpinAnimationDuration);
-
         int index = Random.Range(0, prefabPool.Count);
-        Pawn prefab = prefabPool[index];
+        (Pawn, PawnRarity) prefab = prefabPool[index];
         prefabPool.RemoveAt(index);
 
         GachaBall ball = Instantiate(GachaPrefab, SpawnPoint.position + Random.insideUnitSphere * 0.1f, SpawnPoint.rotation);
         ball.GetComponent<Rigidbody>().AddForce(SpawnPoint.forward * SpawnForce);
-        ball.Prefab = prefab;
+        ball.Prefab = prefab.Item1;
+        ball.Rarity = prefab.Item2;
         gachaBalls.Add(ball);
         BallPresentationCelebration.Play();
     }
 
-    public async Awaitable Inspect(Pawn prefab)
+    public async Awaitable Inspect(GachaBall ball)
     {
-        Pawn pawn = Instantiate(prefab);
+        Pawn pawn = Instantiate(ball.Prefab);
         pawn.GetComponent<Rigidbody>().isKinematic = true;
+        pawn.Rarity = ball.Rarity;
+        pawn.ColorValue = Random.Range(0, 256);
+        pawn.InitializeVisuals();
         await Inspector.Inspect(pawn);
 
         // TODO: add to collection and stuff
-        ShoeBox.Collection.Add(Prefabs.IndexOf(prefab));
+        ShoeBox.Collection.Add(Prefabs.IndexOf(ball.Prefab));
     }
 
 }

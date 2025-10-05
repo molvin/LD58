@@ -42,6 +42,10 @@ public class Database : MonoBehaviour
     {
         [FirestoreProperty]
         public int PawnType { get; set; }
+        [FirestoreProperty]
+        public byte Rarity { get; set; }
+        [FirestoreProperty]
+        public byte Color { get; set; }
         [FirestoreProperty(ConverterType = typeof(Vector3Converter))]
         public Vector3 Location { get; set; }
     }
@@ -148,9 +152,15 @@ public class Database : MonoBehaviour
             //Inc opponent reference
             DocumentSnapshot snap = await opponentReferenceRef.GetSnapshotAsync();
 
-            int currentOpponentCount = 0;
-            snap.TryGetValue(level.ToString(), out currentOpponentCount);
-            currentOpponentCount += 1;
+            bool found = snap.TryGetValue(level.ToString(), out int currentOpponentCount);
+            if(!found)
+            {
+                currentOpponentCount = 1;
+            }
+            else
+            {
+                currentOpponentCount += 1;
+            }
 
             Dictionary<string, int> opponentRefUpdate = new Dictionary<string, int> { { level.ToString(), currentOpponentCount } };
 
