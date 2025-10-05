@@ -138,6 +138,20 @@ public class Notepad : MonoBehaviour
         ToMain();
     }
 
+    public bool AddToCollection(int prefabIndex, int rarity)
+    {
+        byte id = (byte)(prefabIndex * 4 + rarity);
+        if(playerData.Collection == null)
+        {
+            playerData.Collection = new();
+        }
+        if(playerData.Collection.Contains(id))
+            return false;
+
+        playerData.Collection.Add(id);
+        return true;
+    }
+
     private void Update()
     {
         if (InGame && !hidden)

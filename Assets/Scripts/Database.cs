@@ -28,6 +28,9 @@ public class Database : MonoBehaviour
         public int Level { get; set; }
         [FirestoreProperty]
         public List<PawnDB> Box { get; set; }
+
+        [FirestoreProperty]
+        public List<byte> Collection { get; set; }
     }
     [FirestoreData]
     public class OpponentDB

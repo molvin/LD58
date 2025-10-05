@@ -20,6 +20,7 @@ public class GachaMachine : MonoBehaviour
     public ParticleSystem BallPresentationCelebration;
     public SphereCollider LeverInteractionCollider;
     public Button DoneButton;
+    public Notepad Notepad;
 
     private List<(Pawn, PawnRarity)> prefabPool;
     private List<GachaBall> gachaBalls = new();
@@ -135,6 +136,10 @@ public class GachaMachine : MonoBehaviour
         await Inspector.Inspect(pawn);
 
         // TODO: add to collection and stuff
+
+        bool newEntry = Notepad.AddToCollection(Prefabs.IndexOf(ball.Prefab), (int)ball.Rarity);
+        // TODO: do something with this?
+
         ShoeBox.Collection.Add(Prefabs.IndexOf(ball.Prefab));
     }
 
