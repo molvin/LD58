@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Notepad : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class Notepad : MonoBehaviour
         InGame = true;
         Anim.SetTrigger("ToGame");
         SetHidden(true);
+
+        StartCoroutine(GachamachineState());
     }
 
     public void ToggleHidden()
@@ -101,5 +104,25 @@ public class Notepad : MonoBehaviour
                 }
             }
         }
+    }
+
+    // Game states
+
+    private IEnumerator GachamachineState()
+    {
+        // Spawn gacha machine
+
+        // wait for player to finish getting new things(how does a player continue)?
+
+        // Despawn gacha machine
+
+        // Go to gameplay state
+
+        yield return null;
+    }
+
+    public void GameplayState()
+    {
+
     }
 }

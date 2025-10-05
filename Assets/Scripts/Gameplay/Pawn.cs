@@ -208,8 +208,8 @@ public class Pawn : MonoBehaviour
 
     public void Yeet(Vector3 force)
     {
-
-        AudioManager.Play(YeetSound, this.transform.position);
+        if(YeetSound != null)
+            AudioManager.Play(YeetSound, this.transform.position);
         beingYeeted = true;
         preYeetPosition = transform.position;
         preYeetOrientation = transform.rotation;
