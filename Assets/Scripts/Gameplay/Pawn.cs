@@ -44,7 +44,7 @@ public class Pawn : MonoBehaviour
     private Vector3 baseCoM;
     public float EffectiveMass => baseMass;// / (1.0f + damageTaken);
 
-    private bool beingYeeted = false;
+    [HideInInspector] public bool beingYeeted = false;
     private Vector3 preYeetPosition;
     private Quaternion preYeetOrientation;
     private float startYeetTime;
@@ -55,6 +55,7 @@ public class Pawn : MonoBehaviour
     YeetData primaryYeet;
 
     public bool IsStill => rigidbody.linearVelocity.magnitude < 0.001f && rigidbody.angularVelocity.magnitude < 0.001f;
+    public bool IsReadyToYeet => IsStill && Vector3.Dot(transform.up, Vector3.up) >= 0.99f;
 
     private void Awake()
     {
