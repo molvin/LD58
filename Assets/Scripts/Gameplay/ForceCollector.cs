@@ -14,7 +14,7 @@ public class ForceCollector : MonoBehaviour
 
     public static ForceCollector Instance;
 
-    private List<Pawn> Pawns;
+    public List<Pawn> Pawns;
     private Dictionary<CollisionPair, float> forcePairs = new();
 
     private void Awake()
