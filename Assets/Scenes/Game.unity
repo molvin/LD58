@@ -668,10 +668,14 @@ MonoBehaviour:
   Team: 0
   Rarity: 0
   Name: 
+  AttackDamage: 1
+  CollisionDamage: 3
+  Mass: 1
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 1
+  beingYeeted: 0
   PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!54 &314821312
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -810,6 +814,74 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 328592457}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &331664560
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 109361931236335231, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.16962
+      objectReference: {fileID: 0}
+    - target: {fileID: 109361931236335231, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.81727
+      objectReference: {fileID: 0}
+    - target: {fileID: 109361931236335231, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 109361931236335231, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 109361931236335231, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 109361931236335231, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 109361931236335231, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 109361931236335231, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 109361931236335231, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 109361931236335231, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 363931399669930226, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: m_Name
+      value: GameMode
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+--- !u!114 &331664561 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3866838057361126070, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+  m_PrefabInstance: {fileID: 331664560}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 212df46af74a37b4bb39e5ab6297f755, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ForceYeet
 --- !u!1 &386305476
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,6 +1237,50 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 425072177}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &533109278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 533109280}
+  - component: {fileID: 533109279}
+  m_Layer: 0
+  m_Name: Database
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &533109279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533109278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a46ac14cdf1184a8d9a92b95355fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Database
+--- !u!4 &533109280
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533109278}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.1001, y: 2.79524, z: -6.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &570733534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1640,10 +1756,14 @@ MonoBehaviour:
   Team: 1
   Rarity: 0
   Name: 
+  AttackDamage: 1
+  CollisionDamage: 3
+  Mass: 1
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 4
+  beingYeeted: 0
   PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!54 &676969000
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2038,68 +2158,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 386305480}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &884012482
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 884012484}
-  - component: {fileID: 884012483}
-  - component: {fileID: 884012485}
-  m_Layer: 0
-  m_Name: GameMode
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &884012483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 884012482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 212df46af74a37b4bb39e5ab6297f755, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ForceYeet
-  YeetForce: 25
-  DistForMaxForce: 5
-  Deadzone: 1
-  Pawns: []
---- !u!4 &884012484
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 884012482}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &884012485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 884012482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75c747c354a7ef444a450fa8de284868, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ForceCollector
-  Pawns: []
 --- !u!114 &894193232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2116,10 +2174,14 @@ MonoBehaviour:
   Team: 0
   Rarity: 0
   Name: 
+  AttackDamage: 1
+  CollisionDamage: 3
+  Mass: 1
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 3
+  beingYeeted: 0
   PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!1 &934890142
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,10 +2656,14 @@ MonoBehaviour:
   Team: 1
   Rarity: 0
   Name: 
+  AttackDamage: 1
+  CollisionDamage: 3
+  Mass: 1
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 4
+  beingYeeted: 0
   PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!54 &1222084781
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3110,10 +3176,14 @@ MonoBehaviour:
   Team: 1
   Rarity: 0
   Name: 
+  AttackDamage: 1
+  CollisionDamage: 3
+  Mass: 1
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 3
+  beingYeeted: 0
   PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!135 &1727629881
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3732,10 +3802,14 @@ MonoBehaviour:
   Team: 0
   Rarity: 0
   Name: 
+  AttackDamage: 1
+  CollisionDamage: 3
+  Mass: 1
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
-  CollisionForce: 3
+  beingYeeted: 0
   PickupCollider: {fileID: 0}
+  Manager: {fileID: 0}
 --- !u!54 &2003377097
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4109,7 +4183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6393235678863739280, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.51
+      value: -29.3
       objectReference: {fileID: 0}
     - target: {fileID: 6393235678863739280, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4155,6 +4229,14 @@ PrefabInstance:
       propertyPath: Shoebox
       value: 
       objectReference: {fileID: 1345211870}
+    - target: {fileID: 8587081559325204640, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
+      propertyPath: Database
+      value: 
+      objectReference: {fileID: 533109279}
+    - target: {fileID: 8587081559325204640, guid: 246579a7eb4f54f46b2c0d13bf616782, type: 3}
+      propertyPath: GameManager
+      value: 
+      objectReference: {fileID: 331664561}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4219,10 +4301,11 @@ SceneRoots:
   m_Roots:
   - {fileID: 78065658}
   - {fileID: 386305480}
-  - {fileID: 884012484}
   - {fileID: 1013223168}
   - {fileID: 1143984175}
   - {fileID: 117769145}
   - {fileID: 629889141}
   - {fileID: 1345211869}
   - {fileID: 1448510717}
+  - {fileID: 331664560}
+  - {fileID: 533109280}

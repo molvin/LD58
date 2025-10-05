@@ -63,6 +63,8 @@ public class Pawn : MonoBehaviour
     public SphereCollider PickupCollider;
     public bool IsReadyToYeet => IsStill && Vector3.Dot(transform.up, Vector3.up) >= 0.99f;
 
+    public ForceYeet Manager;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -146,7 +148,7 @@ public class Pawn : MonoBehaviour
             float magnitude = collision.impulse.magnitude * 0.5f; // both will add
             if (magnitude > 0.01f)
             {
-                ForceYeet.Instance.AddForce(this, otherPawn, magnitude);
+                Manager.AddForce(this, otherPawn, magnitude);
 
                 if (beingYeeted)
                 {

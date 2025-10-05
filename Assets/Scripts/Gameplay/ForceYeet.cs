@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ForceYeet : MonoBehaviour
@@ -18,8 +19,6 @@ public class ForceYeet : MonoBehaviour
         public int SecondID;
         public float SecondDmg;
     }
-
-    public static ForceYeet Instance;
 
     public float YeetForce = 25.0f;
     public float DistForMaxForce = 5.0f;
@@ -41,48 +40,56 @@ public class ForceYeet : MonoBehaviour
 
     private void Awake()
     {
-        Initialize();
-
-        activeTeam = Random.Range(0, 2);
     }
 
-    private void Update()
+    public IEnumerator Play(List<Pawn> playerTeam, List<Pawn> opponentTeam)
     {
-        // NOTE: For hot-reloading
-        if (Instance == null)
+        activeTeam = 0;
+        foreach (Pawn pawn in playerTeam)
         {
-            Initialize();
+            pawn.Team = 0;
+        }
+        foreach(Pawn pawn in opponentTeam)
+        {
+            pawn.Team = 1;
         }
 
-        switch (activeState)
+        Initialize(playerTeam.Union(opponentTeam).ToList());
+
+        while (true)
         {
-            case ScuffedState.Upkeep:
+            switch (activeState)
             {
-                Upkeeep();
-            } break;
-            case ScuffedState.Playing:
-            {
-                HandlePlayerInput();
-            } break;
-            case ScuffedState.Yeeting:
-            {
-                ResolveCollisionResponses();
-            } break;
+                case ScuffedState.Upkeep:
+                    {
+                        Upkeeep();
+                    }
+                    break;
+                case ScuffedState.Playing:
+                    {
+                        HandlePlayerInput();
+                    }
+                    break;
+                case ScuffedState.Yeeting:
+                    {
+                        ResolveCollisionResponses();
+                    }
+                    break;
+            }
+
+            yield return null;
         }
     }
 
-    private void Initialize()
+    private void Initialize(List<Pawn> pawns)
     {
-        if (Instance != null)
+        // Pawns = new(FindObjectsByType<Pawn>(FindObjectsSortMode.None));
+        Pawns = pawns;
+        foreach(Pawn pawn in Pawns)
         {
-            Debug.LogError("Singelton");
+            pawn.enabled = true;
+            pawn.Manager = this;
         }
-
-        Instance = this;
-
-        Pawns = new(FindObjectsByType<Pawn>(FindObjectsSortMode.None));
-        Pawns.ForEach(pawn => { pawn.enabled = true; });
-
         forceArrowRend = GetComponent<LineRenderer>();
         forceArrowRend.enabled = false;
     }

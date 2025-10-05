@@ -22,7 +22,7 @@ public class Explosion : PawnPrototype
 {
     public override bool PrimaryYeet(Pawn owner, Pawn _, Vector3 impulse)
     {
-        foreach (Pawn p in ForceYeet.Instance.Pawns)
+        foreach (Pawn p in owner.Manager.Pawns)
         {
             if (p == null || p.Team == owner.Team)
             {

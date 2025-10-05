@@ -137,10 +137,9 @@ public class GachaMachine : MonoBehaviour
 
     public IEnumerator Inspect(Pawn prefab)
     {
-        GameObject go = Instantiate(prefab).gameObject;
-        DestroyImmediate(go.GetComponent<Pawn>());
-        DestroyImmediate(go.GetComponent<Rigidbody>());
-        yield return Inspector.Inspect(go, prefab);
+        Pawn pawn = Instantiate(prefab);
+        pawn.GetComponent<Rigidbody>().isKinematic = true;
+        yield return Inspector.Inspect(pawn);
 
         // TODO: add to collection and stuff
         ShoeBox.Collection.Add(prefab);
