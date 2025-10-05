@@ -75,6 +75,8 @@ public class Notepad : MonoBehaviour
         await Database.UpdatePlayer(playerData);
 
         InGame = true;
+        PlayerCard.Show(InGame);
+        PlayerCard.SetInteractable(!InGame);
         Anim.SetTrigger("ToGame");
         SetHidden(true);
 

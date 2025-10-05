@@ -11,15 +11,25 @@ public class PlayerCard : MonoBehaviour
 
     public List<Sprite> Stickers, Bordrers;
     public List<TMP_FontAsset> Fonts;
-    public SpriteRenderer Border;
+    public Image Border;
     public Transform StickerArea;
     public SpriteRenderer StickerPrefab;
     public Button StartButton;
     public Button QuitButton;
     public Button AbandonButton;
+    public Button RightBorderButton;
+    public Button LeftBorderButton;
     public Notepad Notepad;
     public GameObject Editor;
     public bool IsOpponent;
+
+    private int borderIndex;
+    
+    // TODO: stickers
+    // TODO: font
+    // TODO: lives
+    // TODO: coins
+
     private void Awake()
     {
         if (IsOpponent)
@@ -33,6 +43,8 @@ public class PlayerCard : MonoBehaviour
         StartButton.onClick.AddListener(StartGame);
         QuitButton.onClick.AddListener(QuitGame);
         AbandonButton.onClick.AddListener(Notepad.BackToMenu);
+        RightBorderButton.onClick.AddListener(() => SwitchBorder(1));
+        LeftBorderButton.onClick.AddListener(() => SwitchBorder(-1));
     }
 
     public void Init(PlayerCardDB card)
@@ -41,7 +53,8 @@ public class PlayerCard : MonoBehaviour
         InputField.fontAsset = Fonts[card.Font];
 
         //border
-        Border.sprite = Bordrers[card.Boarder];
+        borderIndex = card.Boarder;
+        Border.sprite = Bordrers[borderIndex];
 
         // TODO: set stickers
 
@@ -52,7 +65,7 @@ public class PlayerCard : MonoBehaviour
         return new PlayerCardDB()
         {
             Name = Name,
-            Boarder = 0,
+            Boarder = borderIndex,
             Font = 0,
             Stickers = new()
         };
@@ -74,13 +87,16 @@ public class PlayerCard : MonoBehaviour
 
     public void Show(bool inGame)
     {
+        AbandonButton.gameObject.SetActive(inGame);
+
         StartButton.gameObject.SetActive(!inGame);
         QuitButton.gameObject.SetActive(!inGame);
-        AbandonButton.gameObject.SetActive(inGame);
         Editor.SetActive(!inGame);
+        RightBorderButton.gameObject.SetActive(!inGame);
+        LeftBorderButton.gameObject.SetActive(!inGame);
     }
 
-    public void QuitGame()
+    private void QuitGame()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -89,8 +105,23 @@ public class PlayerCard : MonoBehaviour
 #endif
     }
 
-    public void StartGame()
+    private void StartGame()
     {
         Notepad.StartGame();
+    }
+
+    private void SwitchBorder(int direction)
+    {
+        borderIndex += direction;
+        if (borderIndex < 0)
+        {
+            borderIndex = Bordrers.Count - 1;
+        }
+        else if(borderIndex >= Bordrers.Count)
+        {
+            borderIndex = 0;
+        }
+
+        Border.sprite = Bordrers[borderIndex];
     }
 }
