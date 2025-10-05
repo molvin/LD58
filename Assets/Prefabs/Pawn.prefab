@@ -43,7 +43,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3015495788201396692}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 1.02
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -74,11 +74,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd70e47ad985b364eb23ad4addaf6c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pawn
-  Prototype: BasicPawn
+  Prototype: Basic
+  Team: 0
   Rarity: 0
   Name: 
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
   BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
+  CollisionForce: 3
 --- !u!1 &3706322370241117448
 GameObject:
   m_ObjectHideFlags: 0
