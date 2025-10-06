@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 
 public class GachaMachine : MonoBehaviour
 {
@@ -97,8 +98,10 @@ public class GachaMachine : MonoBehaviour
                         if (hit)
                         {
                             await Inspect(gacha);
-                            //gacha.Rolling
-                            //AudioManager.Stop(gacha.Rolling, this.transform.position);
+                            if(gacha.playah != null)
+                            {
+                                gacha.playah.Source.Stop();
+                            }
                             Destroy(gacha.gameObject);
 
                             break;
@@ -154,6 +157,14 @@ public class GachaMachine : MonoBehaviour
         ball.GetComponent<Rigidbody>().AddForce(SpawnPoint.forward * SpawnForce);
         ball.Prefab = prefab.Item1;
         ball.Rarity = prefab.Item2;
+        foreach(GachaBall gb in gachaBalls)
+        {
+            if(gb.playah != null)
+            {
+                gb.playah.Source.Stop();
+            }
+            
+        }
         gachaBalls.Add(ball);
         BallPresentationCelebration.Play();
     }

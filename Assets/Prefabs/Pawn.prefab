@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1664727357560236884
 RectTransform:
   m_ObjectHideFlags: 0
@@ -153,7 +153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2905685000165881876
 RectTransform:
   m_ObjectHideFlags: 0
@@ -481,6 +481,7 @@ MonoBehaviour:
   Charging: {fileID: 1672464517128791609}
   RarityMaterials: []
   MeshRenderer: {fileID: 0}
+  EffectRepository: {fileID: 0}
   rigidbody: {fileID: 0}
   beingYeeted: 0
   preYeetPosition: {x: 0, y: 0, z: 0}
