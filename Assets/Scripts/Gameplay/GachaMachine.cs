@@ -69,7 +69,7 @@ public class GachaMachine : MonoBehaviour
 
     public async Awaitable RunGacha()
     {
-
+        DoneButton.interactable = false;
         Anim.SetBool("Shown", true);
         await Awaitable.WaitForSecondsAsync(1);
 

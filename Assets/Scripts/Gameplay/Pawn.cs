@@ -45,6 +45,7 @@ public class Pawn : MonoBehaviour
     [SerializeField] private float Mass = 1;
     public float EffectiveMass => Mass * (RarityFactor * 0.5f + 0.5f);
     public float AttackMassRatio = 0.5f;
+    public float TimeOutsideShoebox;
 
     [Header("Audio")]
     public AudioEvent YeetSound;
@@ -75,6 +76,8 @@ public class Pawn : MonoBehaviour
     [HideInInspector] public Vector3 initialStartPosition;
     private float startYeetTime;
     private Coroutine flipRoutine;
+
+    public int CollectionIdRef;
 
     public float DamagePercentage => Mathf.Pow(1.0f + damageTaken, 1.45f);
     private float damageTaken = 0.0f;

@@ -176,6 +176,7 @@ public class Notepad : MonoBehaviour
     private async Awaitable GachamachineState()
     {
         await CameraManager.Gacha();
+        GameManager.ClearPawns();
         await Gacha.RunGacha();
         await CameraManager.Idle();
 
@@ -267,7 +268,7 @@ public class Notepad : MonoBehaviour
                 return;
             }
         }
-        Gacha.Tokens += 5;
+        Gacha.Tokens += 3;
         PlayerCard.UpdateCoins(Gacha.Tokens);
         currentLevel += 1;
 

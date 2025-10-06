@@ -153,16 +153,21 @@ public class ForceYeet : MonoBehaviour
             await Awaitable.NextFrameAsync();
         }
 
-        foreach(Pawn pawn in Pawns)
+
+
+        return state;
+    }
+
+    public void ClearPawns()
+    {
+        foreach (Pawn pawn in Pawns)
         {
-            if(pawn != null)
+            if (pawn != null)
             {
                 Destroy(pawn.gameObject);
             }
         }
         Pawns.Clear();
-
-        return state;
     }
 
     private void Initialize(List<Pawn> pawns)
@@ -393,6 +398,9 @@ public class ForceYeet : MonoBehaviour
 
         if (Input.GetMouseButton(0) && whoToYeet)
         {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.None;
+
             whoToYeet.GetComponent<Rigidbody>().isKinematic = true;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -428,6 +436,11 @@ public class ForceYeet : MonoBehaviour
             endPos.y = 0.1f;
             forceArrowRend.SetPosition(1, endPos);
             forceArrowRend.endColor = Color.Lerp(new Color(0.6f, 1.0f, 0.0f), new Color(1.0f, 0.0f, 0.6f), chargeFactor);
+        }
+        else
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         if (Input.GetMouseButtonUp(0) && whoToYeet)
