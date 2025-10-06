@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [System.Serializable]
@@ -65,9 +66,31 @@ public class Explosion : PawnPrototype
             p.prototype.ApplyAttackForce(p, owner, distanceToPawn.normalized * p.DamagePercentage * owner.EffectiveAttackForce * ratio);
 
             p.AddDamage(owner.EffectiveAttackDamage * ratio);
+
+            owner.StartCoroutine(ExplosionEffect(owner));
         }
 
         return true;
+    }
+
+    private IEnumerator ExplosionEffect(Pawn owner)
+    {
+        float radius = 8.0f * owner.RarityFactor;
+        owner.EffectRepository.ExplosionEffect.transform.localScale = Vector3.one * radius;
+
+        Vector3 pos = owner.transform.position;
+        pos.y = 0.11f;
+        owner.EffectRepository.ExplosionEffect.SetActive(true);
+        float timer = 0.3f;
+        while (timer > 0.0f)
+        {
+            timer -= Time.deltaTime;
+            owner.EffectRepository.ExplosionEffect.transform.position = pos;
+            owner.EffectRepository.ExplosionEffect.transform.rotation = Quaternion.identity;
+            yield return null;
+        }
+
+        owner.EffectRepository.ExplosionEffect.SetActive(false);
     }
 }
 
