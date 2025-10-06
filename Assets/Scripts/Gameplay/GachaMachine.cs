@@ -22,6 +22,13 @@ public class GachaMachine : MonoBehaviour
     public Button DoneButton;
     public Notepad Notepad;
 
+    [Header("Audio")]
+    public AudioEvent GachaSpinWheel;
+    public AudioEvent GachaBalls;
+    public AudioEvent GachaCelebration;
+    public AudioEvent GachaCoin;
+    public AudioEvent GachaHumming;
+
     private List<(Pawn, PawnRarity)> prefabPool;
     private List<GachaBall> gachaBalls = new();
 
@@ -162,5 +169,11 @@ public class GachaMachine : MonoBehaviour
             Rarity = (byte)pawn.Rarity,
             Color = (byte) pawn.ColorValue
         });
+    }
+
+    public void GachaSpinAudio()
+    {
+        if (GachaSpinWheel != null)
+            AudioManager.Play(GachaSpinWheel, this.transform.position);
     }
 }

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04f605dd691cf4545b400a3c299c08eb, type: 3}
+  m_Name: GachaCelebration
+  m_EditorClassIdentifier: Assembly-CSharp::AudioEvent
+  Clips:
+  - {fileID: 8300000, guid: 39c26cdbd78fcff4eae136c6748f9620, type: 3}
+  - {fileID: 8300000, guid: b091dc91f8f91f043bae6d3278474563, type: 3}
+  MinVolume: 1
+  MaxVolume: 1
+  MinPitch: 1
+  MaxPitch: 1
+  Looping: 0
+  Group: {fileID: 0}
