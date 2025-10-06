@@ -98,7 +98,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4271564279244616173}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 81994ba46637b6c41a8e67d8fc4afe7c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -188,6 +188,10 @@ PrefabInstance:
     - target: {fileID: 3015495788201396692, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: m_Name
       value: AstroDud
+      objectReference: {fileID: 0}
+    - target: {fileID: 6756621364697507328, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
