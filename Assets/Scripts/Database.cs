@@ -137,6 +137,7 @@ public class Database : MonoBehaviour
         PlayerDataDB playerData = new PlayerDataDB();
         playerData.PlayerCard = card;
         playerData.Box = new List<PawnDB>();
+        playerData.Collection = new List<byte>();
         playerData.Lives = 3;
         playerData.Level = 0;
         await playerDocRef?.SetAsync(playerData);
