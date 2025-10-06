@@ -242,9 +242,21 @@ public class Pawn : MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
-    public void AddDamage(float value)
+    public void AddDamage(float value, bool recursive = true)
     {
-        damageTaken += value / (RarityFactor * 0.5f + 0.5f);
+        float modifiedValue = value / (RarityFactor * 0.5f + 0.5f);
+        if (recursive)
+        {
+            foreach (Pawn p in Manager.Pawns)
+            {
+                if (p != null)
+                {
+                    modifiedValue = p.prototype.ModidyReceiveDamage(p, this, modifiedValue);
+                }
+            }    
+        }
+
+        damageTaken += modifiedValue;
         rigidbody.mass = EffectiveMass;
         OnDamageTaken?.Invoke(damageTaken);
     }

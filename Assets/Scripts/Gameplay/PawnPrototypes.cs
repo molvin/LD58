@@ -30,6 +30,10 @@ public abstract class PawnPrototype
     {
         return incomingForce;
     }
+    public virtual float ModidyReceiveDamage(Pawn self, Pawn target, float incomingDamage)
+    {
+        return incomingDamage;
+    }
 }
 public class Basic : PawnPrototype { }
 
@@ -136,3 +140,43 @@ public class HomeSick : PawnPrototype
         return true;
     }
 }
+
+public class Tether : PawnPrototype
+{
+    public override Vector3 ModidyReceiveForce(Pawn self, Pawn target, Vector3 incomingForce)
+    {
+        if (self.Team == target.Team)
+        {
+            float dist = Vector3.Distance(self.transform.position, target.transform.position);
+
+            float radius = 5.0f * self.RarityFactor;
+
+            if (dist < radius)
+            {
+                self.rigidbody.AddForce(incomingForce, ForceMode.Impulse);
+                incomingForce = Vector3.zero;
+            }
+        }
+
+        return incomingForce;
+    }
+
+    public override float ModidyReceiveDamage(Pawn self, Pawn target, float incomingDamage)
+    {
+        if (self.Team == target.Team)
+        {
+            float dist = Vector3.Distance(self.transform.position, target.transform.position);
+
+            float radius = 5.0f * self.RarityFactor;
+
+            if (dist < radius)
+            {
+                self.AddDamage(incomingDamage, false);
+                incomingDamage = 0.0f;
+            }
+        }
+
+        return incomingDamage;
+    }
+}
+
