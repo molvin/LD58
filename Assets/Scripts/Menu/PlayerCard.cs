@@ -13,7 +13,6 @@ public class PlayerCard : MonoBehaviour
     public List<TMP_FontAsset> Fonts;
     public Image Border;
     public Transform StickerArea;
-    public SpriteRenderer StickerPrefab;
     public Button StartButton;
     public Button QuitButton;
     public Button AbandonButton;
@@ -61,7 +60,17 @@ public class PlayerCard : MonoBehaviour
     public void Init(PlayerCardDB card)
     {
         InputField.text = card.Name;
-        InputField.fontAsset = Fonts[card.Font];
+
+        if(card.Font < 0 || card.Font >= Fonts.Count)
+        {
+            Debug.LogError($"Server gave wrong font {card.Font}");
+            InputField.fontAsset = Fonts[0];
+        }
+        else
+        {
+            InputField.fontAsset = Fonts[card.Font];
+        }
+
 
         //border
         borderIndex = card.Boarder;

@@ -111,7 +111,7 @@ public class ForceYeet : MonoBehaviour
                     {
                         if (await DoInspect())
                         {
-                            await Inspector.Inspect(pawn, false);
+                            await Inspector.Inspect(pawn, false, false);
                             clicked = false;
                             break;
                         }
@@ -344,8 +344,11 @@ public class ForceYeet : MonoBehaviour
                 }
             }
             canTriggerPlayerTurn = true;
-            TurnText.text = "Enemy Turn";
-            GameAnimator.SetTrigger("TurnChange");
+            if (GameAnimator)
+            {
+                TurnText.text = "Enemy Turn";
+                GameAnimator.SetTrigger("TurnChange");
+            }
 
             await Awaitable.WaitForSecondsAsync(Random.Range(EnemyMinThinkTime, EnemyMaxThinkTime));
 
@@ -356,8 +359,11 @@ public class ForceYeet : MonoBehaviour
 
         if(canTriggerPlayerTurn)
         {
-            TurnText.text = "Your Turn!";
-            GameAnimator.SetTrigger("TurnChange");
+            if (GameAnimator)
+            {
+                TurnText.text = "Your Turn!";
+                GameAnimator.SetTrigger("TurnChange");
+            }
             canTriggerPlayerTurn = false;
         }
 
