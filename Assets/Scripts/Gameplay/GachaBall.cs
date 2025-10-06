@@ -9,6 +9,7 @@ public class GachaBall : MonoBehaviour
     public AudioEvent Rolling;
 
     private bool doSound;
+    public AudioPlayer playah;
 
     public async void Start()
     {
@@ -17,7 +18,7 @@ public class GachaBall : MonoBehaviour
             AudioManager.Play(BonkNoise, this.transform.position);
         await Awaitable.WaitForSecondsAsync(0.1f);
         if (Rolling != null)
-            AudioManager.Play(Rolling, this.transform.position);
+            playah = AudioManager.Play(Rolling, this.transform.position);
 
         
     }
