@@ -310,7 +310,7 @@ public class Switcharoo : PawnPrototype
         Pawn newTarget = null;
         foreach (Pawn pawn in target.Manager.Pawns)
         {
-            if (pawn != null && pawn != target && pawn.Team == target.Team)
+            if (pawn != null && pawn != target && pawn.Team == target.Team && !pawn.pendingDestroy)
             {
                 if (newTarget == null || Vector3.Distance(target.transform.position, pawn.transform.position) < Vector3.Distance(target.transform.position, newTarget.transform.position))
                 {
