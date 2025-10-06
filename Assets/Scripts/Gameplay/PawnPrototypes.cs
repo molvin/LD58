@@ -38,6 +38,7 @@ public abstract class PawnPrototype
     public virtual void OnDamageTagen(Pawn self) { }
 
     public virtual void OnDeath(Pawn self) { }
+    public virtual void GlobalAura(Pawn self) { }
 }
 public class Basic : PawnPrototype { }
 
@@ -244,3 +245,34 @@ public class Resetter : PawnPrototype
         }
     }
 }
+
+public class CatcherAura : PawnPrototype
+{
+    public override void GlobalAura(Pawn self)
+    {
+        if (self.Manager.activeTeam == self.Team)
+            return;
+
+        float reach = 4.0f * self.RarityFactor;
+
+        foreach (Pawn pawn in self.Manager.Pawns)
+        {
+            if (pawn != null && pawn.Team == self.Team && pawn != self)
+            {
+                if (Vector3.Distance(self.transform.position, pawn.transform.position) < reach)
+                {
+                    Vector3 projection = Vector3.Project(pawn.transform.position, self.transform.position.normalized);
+                    if (Vector3.Distance(projection, self.transform.position) < 1.0f)
+                    {
+                        if (Vector3.Dot(pawn.rigidbody.linearVelocity, self.transform.position) > 0.0f)
+                        {
+                            pawn.rigidbody.linearVelocity *= 0.5f;
+                            pawn.rigidbody.angularVelocity *= 0.5f;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

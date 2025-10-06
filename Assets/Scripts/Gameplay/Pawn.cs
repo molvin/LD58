@@ -168,6 +168,8 @@ public class Pawn : MonoBehaviour
 
     private void FixedUpdate()
     {
+        prototype.GlobalAura(this);
+
         if (transform.position.y < -2.0f)
         {
             prototype.OnDeath(this);
