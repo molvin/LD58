@@ -257,7 +257,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 35ae42bee69c53241bb301913239b0b0, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 913b974074e504845b6a568a420a1be9, type: 2}
+      objectReference: {fileID: 2100000, guid: 1be5f583f8a7bf848920885af1d1ef50, type: 2}
     - target: {fileID: 919132149155446097, guid: 35ae42bee69c53241bb301913239b0b0, type: 3}
       propertyPath: m_Name
       value: Lama
