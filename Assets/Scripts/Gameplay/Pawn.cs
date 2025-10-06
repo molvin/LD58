@@ -45,6 +45,7 @@ public class Pawn : MonoBehaviour
     [SerializeField] private float Mass = 1;
     public float EffectiveMass => Mass * (RarityFactor * 0.5f + 0.5f);
     public float AttackMassRatio = 0.5f;
+    public float TimeOutsideShoebox;
 
     [Header("Audio")]
     public AudioEvent YeetSound;

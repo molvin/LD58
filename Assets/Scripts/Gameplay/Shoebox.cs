@@ -20,6 +20,7 @@ public class Shoebox : MonoBehaviour
 
     public GachaMachine GachaMachine;
     public Button ReadyButton;
+    public BoxCollider Bounds;
 
     public Collider TrashCan;
     public int MaxPawns = 10;
@@ -61,6 +62,31 @@ public class Shoebox : MonoBehaviour
             pawn.transform.localScale = Vector3.one * PawnScale;
             pawn.CollectionIdRef = i;
             spawned.Add(pawn);
+        }
+    }
+
+    private void ReturnIfOutside()
+    {
+        foreach(Pawn pawn in spawned)
+        {
+            if (Team.Contains(pawn))
+                continue;
+            if (!Bounds.bounds.Contains(pawn.transform.position))
+            {
+                if(pawn.TimeOutsideShoebox > 3)
+                {
+                    pawn.transform.position = HoverPlanePoint.position;
+                    pawn.Drop();
+                    pawn.rigidbody.angularVelocity = Vector3.zero;
+                    pawn.rigidbody.linearVelocity = Vector3.zero;
+                    pawn.TimeOutsideShoebox = 0.0f;
+                }
+                pawn.TimeOutsideShoebox += Time.deltaTime;
+            }
+            else
+            {
+                pawn.TimeOutsideShoebox = 0.0f;
+            }
         }
     }
         
@@ -118,6 +144,8 @@ public class Shoebox : MonoBehaviour
                 }
             }
 
+            ReturnIfOutside();
+
             await Awaitable.NextFrameAsync();
         }
 
@@ -154,25 +182,13 @@ public class Shoebox : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Plane plane = new Plane(Vector3.up, HoverPlanePoint.position);
 
-            foreach(Pawn pawn in spawned)
-            {
-                if (Team.Contains(pawn) || pawn == pickup)
-                    continue;
-
-                if(Vector3.Distance(pawn.transform.position, HoverPlanePoint.position) > 15)
-                {
-                    pawn.transform.position = HoverPlanePoint.position;
-                    pawn.Drop();
-                    pawn.rigidbody.angularVelocity = Vector3.zero;
-                    pawn.rigidbody.linearVelocity = Vector3.zero;
-                }
-            }
-
             if (pickup)
             {
-                if(!Input.GetMouseButton(0))
+                (bool valid, Vector3 point) = PlaceableAreas.Valid(pickup.transform.position);
+                pickup.GetComponentInChildren<DropShadow>().Renderer.enabled = valid;
+
+                if (!Input.GetMouseButton(0))
                 {
-                    (bool valid, Vector3 point) = PlaceableAreas.Valid(pickup.transform.position);
                     if(valid)
                     {
                         // Make sure you dont place teammates too close to eachother
@@ -198,6 +214,7 @@ public class Shoebox : MonoBehaviour
                         pickup.Drop();
                         pickup.rigidbody.linearVelocity = velocity;
                     }
+                    pickup.GetComponentInChildren<DropShadow>().Renderer.enabled = false;
                     pickup = null;
                 }
                 else
@@ -222,6 +239,9 @@ public class Shoebox : MonoBehaviour
                     }
                 }
             }
+
+            ReturnIfOutside();
+
             await Awaitable.NextFrameAsync();
         }
 

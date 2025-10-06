@@ -267,7 +267,7 @@ public class Notepad : MonoBehaviour
                 return;
             }
         }
-        Gacha.Tokens += 5;
+        Gacha.Tokens += 3;
         PlayerCard.UpdateCoins(Gacha.Tokens);
         currentLevel += 1;
 
