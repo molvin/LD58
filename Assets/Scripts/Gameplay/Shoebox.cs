@@ -26,10 +26,6 @@ public class Shoebox : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            RespawnAll();
-        }
     }
 
     public void RespawnAll()
@@ -71,6 +67,17 @@ public class Shoebox : MonoBehaviour
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Plane plane = new Plane(Vector3.up, HoverPlanePoint.position);
+
+            foreach(Pawn pawn in spawned)
+            {
+                if(pawn.transform.position.y < -10)
+                {
+                    pawn.transform.position = HoverPlanePoint.position;
+                    pawn.Drop();
+                    pawn.rigidbody.angularVelocity = Vector3.zero;
+                    pawn.rigidbody.linearVelocity = Vector3.zero;
+                }
+            }
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -141,6 +148,7 @@ public class Shoebox : MonoBehaviour
 
         Anim.SetBool("Shown", false);
         await Awaitable.WaitForSecondsAsync(1.0f);
+        spawned.Clear();
     }
 }
 
