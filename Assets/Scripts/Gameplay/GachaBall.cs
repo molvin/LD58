@@ -26,10 +26,6 @@ public class GachaBall : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log("Angular X : " + BallBody.angularVelocity.x);
-        Debug.Log("Angular Y : " + BallBody.angularVelocity.y);
-        Debug.Log("Angular X : " + BallBody.linearVelocity.x);
-        Debug.Log("Angular Y : " + BallBody.linearVelocity.y);
         if (BallBody.angularVelocity.x == 0f && doSound == false)
         {
             playah.Source.Stop();
