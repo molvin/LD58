@@ -96,6 +96,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PopeHat
       objectReference: {fileID: 0}
+    - target: {fileID: 3123612706670721429, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.246
+      objectReference: {fileID: 0}
+    - target: {fileID: 4528637466480584727, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3706322370241117448, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
