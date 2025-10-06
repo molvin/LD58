@@ -26,7 +26,7 @@ public class GachaBall : MonoBehaviour
 
     public void Update()
     {
-        if (BallBody.angularVelocity.x == 0f && doSound == false)
+        if (BallBody.angularVelocity.x == 0f && doSound == false && playah != null)
         {
             playah.Source.Stop();
         }

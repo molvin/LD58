@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class PawnInspector : MonoBehaviour
 {
@@ -13,8 +14,10 @@ public class PawnInspector : MonoBehaviour
     public TextMeshProUGUI Description;
     public GameObject NewTag;
 
-    public Image DamageFill, ForceFill, MassFill;
+    public List<GameObject> KillProfiles;
+    public GameObject MyProfile;
 
+    public Image DamageFill, ForceFill, MassFill;
     public bool Inspecting { get; private set; }
 
     public float MaxDamage;
@@ -46,6 +49,11 @@ public class PawnInspector : MonoBehaviour
         pawn.transform.localPosition = Vector3.zero;
         pawn.transform.localRotation = Quaternion.identity;
 
+        //Profiles
+        foreach(GameObject profile in KillProfiles)
+            profile.SetActive(false);
+        MyProfile.SetActive(true);
+
         InspectRoot.localRotation = Quaternion.Euler(0, 180, 0);
         await Awaitable.NextFrameAsync();
         while (!Input.GetMouseButtonDown(0))
@@ -53,6 +61,11 @@ public class PawnInspector : MonoBehaviour
             InspectRoot.Rotate(Vector3.up, RotationSpeed * Time.deltaTime);
             await Awaitable.NextFrameAsync();
         }
+
+        //Profiles
+        foreach (GameObject profile in KillProfiles)
+            profile.SetActive(true);
+        MyProfile.SetActive(false);
 
         Destroy(pawn.gameObject);
         Root.gameObject.SetActive(false);
