@@ -32,6 +32,7 @@ public class TeamIndicator : MonoBehaviour
             transform.position = groundPlane.ClosestPointOnPlane(owner.transform.position);
             transform.rotation = Quaternion.identity;
 
+            DamageIndicator.enabled = owner.enabled;
             DamageIndicator.fillAmount = Mathf.Clamp01((owner.DamagePercentage - 1.0f) / 5.0f );
         }
     }
