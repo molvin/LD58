@@ -96,6 +96,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Man
       objectReference: {fileID: 0}
+    - target: {fileID: 3123612706670721429, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.49004143
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594080467324383283, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 97cea86cb6b4f13429355faec0ce9964, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3706322370241117448, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}

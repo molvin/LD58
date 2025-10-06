@@ -102,7 +102,7 @@ public class Pawn : MonoBehaviour
         }
     }
     public SphereCollider PickupCollider;
-    public bool IsReadyToYeet => IsStill && Vector3.Dot(transform.up, Vector3.up) >= 0.99f;
+    public bool IsReadyToYeet => IsStill && Vector3.Dot(transform.up, Vector3.up) >= 0.985f;
     public ForceYeet Manager;
     public int PrefabId;
 
@@ -153,7 +153,7 @@ public class Pawn : MonoBehaviour
             TriggerPrimaryYeet();
         }
 
-        Indisposed.transform.position = IndisposedOrientationPoint.position + (Vector3.up * 2);
+        Indisposed.transform.position = IndisposedOrientationPoint.position + (Vector3.up * 1.1f);
         Indisposed.transform.rotation = Quaternion.Euler(90, 0, 0);
 
         if (!IsReadyToYeet && IsStill && !Indisposed.isPlaying)
@@ -350,7 +350,7 @@ public class Pawn : MonoBehaviour
 
         while (timer > 0.0f)
         {
-            if (Vector3.Dot(transform.up, Vector3.up) > 0.99f)
+            if (Vector3.Dot(transform.up, Vector3.up) > 0.985f)
             {
                 break;
             }    
