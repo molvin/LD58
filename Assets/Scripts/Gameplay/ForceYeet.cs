@@ -153,16 +153,21 @@ public class ForceYeet : MonoBehaviour
             await Awaitable.NextFrameAsync();
         }
 
-        foreach(Pawn pawn in Pawns)
+
+
+        return state;
+    }
+
+    public void ClearPawns()
+    {
+        foreach (Pawn pawn in Pawns)
         {
-            if(pawn != null)
+            if (pawn != null)
             {
                 Destroy(pawn.gameObject);
             }
         }
         Pawns.Clear();
-
-        return state;
     }
 
     private void Initialize(List<Pawn> pawns)

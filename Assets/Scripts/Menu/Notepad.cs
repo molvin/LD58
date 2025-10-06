@@ -176,6 +176,7 @@ public class Notepad : MonoBehaviour
     private async Awaitable GachamachineState()
     {
         await CameraManager.Gacha();
+        GameManager.ClearPawns();
         await Gacha.RunGacha();
         await CameraManager.Idle();
 
