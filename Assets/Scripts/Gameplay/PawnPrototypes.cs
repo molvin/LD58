@@ -6,16 +6,32 @@ public abstract class PawnPrototype
     public virtual bool PrimaryYeet(Pawn owner, Pawn target, Vector3 impulse)
     {
         float attackForce = target.DamagePercentage * owner.EffectiveAttackForce;
-        target.rigidbody.AddForce(impulse.normalized * attackForce, ForceMode.Impulse);
+        target.prototype.ApplyAttackForce(target, owner, impulse.normalized * attackForce);
 
         target.AddDamage(impulse.magnitude * 0.1f * owner.EffectiveAttackDamage);
 
         return true;
     }
+
+    public virtual void ApplyAttackForce(Pawn owner, Pawn instigator, Vector3 force)
+    {
+        Vector3 modifiedForce = force;
+        foreach (Pawn pawn in owner.Manager.Pawns)
+        {
+            if (pawn != null)
+            {
+                modifiedForce = pawn.prototype.ModidyReceiveForce(pawn, owner, modifiedForce);
+            }
+        }
+        owner.rigidbody.AddForce(modifiedForce, ForceMode.Impulse);
+    }
+
+    public virtual Vector3 ModidyReceiveForce(Pawn self, Pawn target, Vector3 incomingForce)
+    {
+        return incomingForce;
+    }
 }
-public class Basic : PawnPrototype
-{
-}
+public class Basic : PawnPrototype { }
 
 public class Explosion : PawnPrototype
 {
@@ -29,13 +45,14 @@ public class Explosion : PawnPrototype
             }
 
             float radius = 8.0f * owner.RarityFactor;
-            float distanceToPawn = Vector3.Distance(owner.transform.position, p.transform.position);
-            if (distanceToPawn > radius)
+            Vector3 distanceToPawn = p.transform.position - owner.transform.position;
+            if (distanceToPawn.magnitude > radius)
                 continue;
 
-            float ratio = 1.0f - Mathf.Clamp01(distanceToPawn / radius);
+            float ratio = 1.0f - Mathf.Clamp01(distanceToPawn.magnitude / radius);
 
-            p.GetComponent<Rigidbody>().AddExplosionForce(p.DamagePercentage * owner.EffectiveAttackForce, owner.transform.position, radius);
+            p.prototype.ApplyAttackForce(p, owner, distanceToPawn.normalized * p.DamagePercentage * owner.EffectiveAttackForce * ratio);
+
             p.AddDamage(owner.EffectiveAttackDamage * ratio);
         }
 

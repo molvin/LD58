@@ -23,7 +23,7 @@ public class Pawn : MonoBehaviour
     }
 
     [HideInInspector] public string Prototype;
-    private PawnPrototype prototype;
+    [HideInInspector] public PawnPrototype prototype;
 
     public int Team;
 
@@ -120,10 +120,9 @@ public class Pawn : MonoBehaviour
         }
 
         Indisposed.transform.position = IndisposedOrientationPoint.position + (Vector3.up * 2);
-        //Indisposed.transform.rotation = Quaternion.identity;
         Indisposed.transform.rotation = Quaternion.Euler(90, 0, 0);
-        Debug.Log("gkkgkg");
-        if (!IsReadyToYeet && !Indisposed.isPlaying)
+
+        if (!IsReadyToYeet && IsStill && !Indisposed.isPlaying)
         {
             Indisposed.Play();
         }

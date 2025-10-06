@@ -412,7 +412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Pawn
   Prototype: Basic
   Team: 0
-  Rarity: 0
+  Rarity: 1
   Name: 
   Description: 
   ColorValue: 0
