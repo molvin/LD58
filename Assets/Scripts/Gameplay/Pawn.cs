@@ -149,6 +149,7 @@ public class Pawn : MonoBehaviour
     private void TriggerPrimaryYeet()
     {
         Instantiate(YeetParticle, this.transform.position, Quaternion.identity);
+        AudioManager.Play(BonkHitSound, transform.position);
 
         Vector3 impulseDir2D = new(primaryYeet.impulse.x, 0.0f, primaryYeet.impulse.z);
         impulseDir2D.Normalize();
