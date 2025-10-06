@@ -556,7 +556,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -703,7 +703,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -4152,14 +4152,54 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 303108999773963228}
     m_Modifications:
+    - target: {fileID: 307565633213420820, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091232373206889012, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1371824744610035041, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
       propertyPath: m_Name
       value: PlayerCardSprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 2822164906269305398, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2875833008310390531, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
       propertyPath: Notepad
       value: 
       objectReference: {fileID: 8587081559325204640}
+    - target: {fileID: 3387694918709410617, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3717420877707550359, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4206615857352898239, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684260076352680194, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4740302200916719768, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6841133982098455490, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6916432528183102535, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7533854039115035689, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4199,6 +4239,10 @@ PrefabInstance:
     - target: {fileID: 7533854039115035689, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277480701634130855, guid: a6b494e1bf76f0049b2184a437de0fd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

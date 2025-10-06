@@ -28,6 +28,14 @@ public class GachaMachine : MonoBehaviour
     private void Start()
     {
         InitPool();
+
+        foreach(Pawn p in Prefabs)
+        {
+            p.Rarity = PawnRarity.Epic;
+            Inspector.MaxDamage = Mathf.Max(Inspector.MaxDamage, p.EffectiveAttackDamage);
+            Inspector.MaxForce = Mathf.Max(Inspector.MaxForce, p.EffectiveAttackForce);
+            Inspector.MaxMass = Mathf.Max(Inspector.MaxMass, p.EffectiveMass);
+        }
     }
 
     private void InitPool()
@@ -139,13 +147,17 @@ public class GachaMachine : MonoBehaviour
         pawn.ColorValue = Random.Range(0, 256);
         pawn.InitializeVisuals();
         await Inspector.Inspect(pawn);
-
-        // TODO: add to collection and stuff
+        Destroy(pawn.gameObject);
 
         bool newEntry = Notepad.AddToCollection(Prefabs.IndexOf(ball.Prefab), (int)ball.Rarity);
         // TODO: do something with this?
 
-        ShoeBox.Collection.Add(Prefabs.IndexOf(ball.Prefab));
+        int index = Prefabs.IndexOf(ball.Prefab);
+        ShoeBox.Collection.Add(new Database.PawnDB()
+        {
+            PawnType = index,
+            Rarity = (byte)pawn.Rarity,
+            Color = (byte) pawn.ColorValue
+        });
     }
-
 }

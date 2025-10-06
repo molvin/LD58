@@ -4,13 +4,15 @@ using UnityEngine.UI;
 
 public class Shoebox : MonoBehaviour
 {
-    public List<int> Collection = new();
+    public List<Database.PawnDB> Collection = new();
     public float PawnScale = 0.05f;
 
     public BoxCollider SpawnArea;
     public Animator Anim;
     public Transform HoverPlanePoint;
     public PlaceableAreas PlaceableAreas;
+    public float InspectMaxHoldTime = 0.1f;
+    public PawnInspector Inspector;
 
     private List<Pawn> spawned = new();
 
@@ -18,14 +20,12 @@ public class Shoebox : MonoBehaviour
 
     public GachaMachine GachaMachine;
     public Button ReadyButton;
+    public float SmoothTime = 0.05f;
+    private Vector3 velocity;
 
     private void Start()
     {
         ReadyButton.gameObject.SetActive(false);
-    }
-
-    private void Update()
-    {
     }
 
     public void RespawnAll()
@@ -39,11 +39,16 @@ public class Shoebox : MonoBehaviour
         }
         spawned = new();
 
-        foreach(int index in Collection)
+        foreach(Database.PawnDB dbPawn in Collection)
         {
-            Pawn prefab = GachaMachine.Prefabs[index];
+            Pawn prefab = GachaMachine.Prefabs[dbPawn.PawnType];
             Pawn pawn = Instantiate(prefab, transform);
-            pawn.PrefabId = index;
+            pawn.PrefabId = dbPawn.PawnType;
+
+            pawn.Rarity = (PawnRarity)dbPawn.Rarity;
+            pawn.ColorValue = dbPawn.Color;
+            pawn.InitializeVisuals();
+
             pawn.enabled = false;
             pawn.transform.position = SpawnArea.bounds.RandomPointInBounds();
             pawn.transform.rotation = Random.rotation;
@@ -70,7 +75,10 @@ public class Shoebox : MonoBehaviour
 
             foreach(Pawn pawn in spawned)
             {
-                if(pawn.transform.position.y < -10)
+                if (Team.Contains(pawn) || pawn == pickup)
+                    continue;
+
+                if(Vector3.Distance(pawn.transform.position, HoverPlanePoint.position) > 15)
                 {
                     pawn.transform.position = HoverPlanePoint.position;
                     pawn.Drop();
@@ -86,14 +94,7 @@ public class Shoebox : MonoBehaviour
                     bool hit = pawn.PickupCollider.Raycast(ray, out RaycastHit hitInfo, 1000.0f);
                     if(hit)
                     {
-                        pickup = pawn;
-
-                        pickup.PickUp();
-                        if (Team.Contains(pickup))
-                        {
-                            Team.Remove(pickup);
-                            pickup.transform.SetParent(transform);
-                        }
+                        pickup = await PickupOrInspect(pawn, plane, ray);
                         break;
                     }
                 }
@@ -126,8 +127,8 @@ public class Shoebox : MonoBehaviour
                     }
                     else
                     {
-                        pickup.transform.position = HoverPlanePoint.position;
                         pickup.Drop();
+                        pickup.rigidbody.linearVelocity = velocity;
                     }
                     pickup = null;
                 }
@@ -135,8 +136,7 @@ public class Shoebox : MonoBehaviour
                 {
                     plane.Raycast(ray, out float enter);
                     Vector3 pos = ray.GetPoint(enter);
-
-                    pickup.transform.position = pos;
+                    pickup.transform.position = Vector3.SmoothDamp(pickup.transform.position, pos, ref velocity, SmoothTime);
                 }
             }
 
@@ -149,6 +149,32 @@ public class Shoebox : MonoBehaviour
         Anim.SetBool("Shown", false);
         await Awaitable.WaitForSecondsAsync(1.0f);
         spawned.Clear();
+    }
+
+    private async Awaitable<Pawn> PickupOrInspect(Pawn pawn, Plane plane, Ray ray)
+    {
+        float t = 0.0f;
+        while (t < InspectMaxHoldTime)
+        {
+            if(!Input.GetMouseButton(0))
+            {
+                await Inspector.Inspect(pawn);
+                return null;
+            }
+            t += Time.deltaTime;
+            await Awaitable.NextFrameAsync();
+        }
+        pawn.PickUp();
+        velocity = Vector3.zero;
+        plane.Raycast(ray, out float enter);
+        pawn.transform.position = ray.GetPoint(enter);
+
+        if (Team.Contains(pawn))
+        {
+            Team.Remove(pawn);
+            pawn.transform.SetParent(transform);
+        }
+        return pawn;
     }
 }
 

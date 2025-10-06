@@ -23,7 +23,7 @@ public class Pawn : MonoBehaviour
     }
 
     [HideInInspector] public string Prototype;
-    private PawnPrototype prototype;
+    [HideInInspector] public PawnPrototype prototype;
 
     public int Team;
 
@@ -31,6 +31,8 @@ public class Pawn : MonoBehaviour
     public PawnRarity Rarity;
     public float RarityFactor => 0.8f * (1.0f + (int)Rarity * 0.25f);
     public string Name;
+    [Multiline]
+    public string Description;
     public int ColorValue;
 
     [Header("Pawn stats")]
@@ -52,6 +54,7 @@ public class Pawn : MonoBehaviour
     public ParticleSystem YeetParticle;
     public ParticleSystem HitTrail;
     public ParticleSystem Indisposed;
+    public Transform IndisposedOrientationPoint;
     public ParticleSystem InFlight;
     public ParticleSystem Charging;
 
@@ -116,7 +119,10 @@ public class Pawn : MonoBehaviour
             TriggerPrimaryYeet();
         }
 
-        if (!IsReadyToYeet && !Indisposed.isPlaying)
+        Indisposed.transform.position = IndisposedOrientationPoint.position + (Vector3.up * 2);
+        Indisposed.transform.rotation = Quaternion.Euler(90, 0, 0);
+
+        if (!IsReadyToYeet && IsStill && !Indisposed.isPlaying)
         {
             Indisposed.Play();
         }
@@ -162,6 +168,10 @@ public class Pawn : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if(!Manager)
+        {
+            return;
+        }
         var otherPawn = collision.gameObject.GetComponent<Pawn>();
         if (otherPawn != null)
         {
@@ -197,6 +207,9 @@ public class Pawn : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (!enabled)
+            return;
+
         Boundaries bounds = FindFirstObjectByType<Boundaries>();
 
         if (bounds != null)
@@ -321,7 +334,13 @@ public class Pawn : MonoBehaviour
         System.Random ran = new System.Random(ColorValue);
         Color c1 = Color.HSVToRGB(ran.Next(255) / 255f, (ran.Next(100) / 200f) + 0.5f, (ran.Next(100) / 200f) + 0.5f);
         MeshRenderer.material = RarityMaterials[(int)Rarity];
-        MeshRenderer.material.SetColor("_Color1", c1);
+
+        if (Rarity == PawnRarity.Common)
+            MeshRenderer.material.SetColor("_Color", c1);
+        else
+            MeshRenderer.material.SetColor("_Color1", c1);
+        
+        
         if (Rarity != PawnRarity.Common)
         {
             Color c2 = Color.HSVToRGB(ran.Next(255) / 255f, (ran.Next(100) / 200f) + 0.5f, (ran.Next(100) / 200f) + 0.5f);

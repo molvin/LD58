@@ -116,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -751,7 +751,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 2
+      value: 1.5
       mode: 0
       spread: 0
       speed:
@@ -870,7 +870,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 2
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -1325,8 +1325,8 @@ ParticleSystem:
         ctime6: 52814
         ctime7: 65535
         atime0: 0
-        atime1: 2236
-        atime2: 58827
+        atime1: 3624
+        atime2: 57594
         atime3: 65535
         atime4: 65535
         atime5: 0

@@ -269,6 +269,7 @@ public class ForceYeet : MonoBehaviour
     private void HandlePlayerInput()
     {
         bool canPlay = false;
+        bool shouldPlayChargeEffect = false;
         foreach (Pawn pawn in Pawns)
         {
             if (pawn != null && pawn.Team == activeTeam && (!pawn.IsStill || pawn.IsReadyToYeet))
@@ -305,7 +306,6 @@ public class ForceYeet : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 whoToYeet = hit.transform.GetComponentInParent<Pawn>();
-
                 if (whoToYeet && whoToYeet.Team == activeTeam && whoToYeet.IsReadyToYeet)
                 {
                     originalYeetPos = whoToYeet.transform.position;
@@ -332,9 +332,17 @@ public class ForceYeet : MonoBehaviour
             Vector3 yeetToPawn = originalYeetPos - lastYeetPoint;
             yeetToPawn.y = 0.0f;
             float dist = yeetToPawn.magnitude;
-
+            
             float chargeFactor = Mathf.Clamp01((dist - Deadzone) / DistForMaxForce);
-
+            if (!whoToYeet.Charging.isPlaying && whoToYeet != null && chargeFactor>0.1f)
+            {
+                whoToYeet.Charging.Play();
+            }
+            else if (whoToYeet.Charging.isPlaying && whoToYeet != null && chargeFactor < 0.1f)
+            {
+                whoToYeet.Charging.Stop();
+            }
+            shouldPlayChargeEffect = true;
             Vector3 randomDir = Random.insideUnitSphere;
             randomDir.y = Mathf.Abs(randomDir.y);
             whoToYeet.transform.position = originalYeetPos + randomDir * chargeFactor * 0.2f;
@@ -355,11 +363,13 @@ public class ForceYeet : MonoBehaviour
             whoToYeet.transform.rotation = originalYeetRot;
 
             whoToYeet.GetComponent<Rigidbody>().isKinematic = false;
-
+            if (whoToYeet.Charging.isPlaying && whoToYeet != null)
+            {
+                whoToYeet.Charging.Stop();
+            }
             Vector3 yeetDirection = whoToYeet.transform.position - lastYeetPoint;
             yeetDirection.y = 0.0f;
             float forceFactor = Mathf.Clamp01((yeetDirection.magnitude - Deadzone) / DistForMaxForce);
-            whoToYeet.Charging.Play();
 
             if (forceFactor > 0.01f)
             {
