@@ -77,6 +77,8 @@ public class Pawn : MonoBehaviour
     private float startYeetTime;
     private Coroutine flipRoutine;
 
+    [HideInInspector] public bool pendingDestroy = false;
+
     public int CollectionIdRef;
 
     public float DamagePercentage => Mathf.Pow(1.0f + damageTaken, 1.5f);
@@ -193,6 +195,7 @@ public class Pawn : MonoBehaviour
 
         if (transform.position.y < -2.0f)
         {
+            pendingDestroy = true;
             prototype.OnDeath(this);
             Destroy(gameObject);
         }
@@ -270,6 +273,7 @@ public class Pawn : MonoBehaviour
 
     private IEnumerator DestroySoon()
     {
+        pendingDestroy = true;
         rigidbody.linearDamping = 0.5f;
         rigidbody.angularDamping = 0.5f;
         yield return new WaitForSeconds(0.8f);

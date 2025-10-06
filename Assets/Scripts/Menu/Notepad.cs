@@ -24,6 +24,9 @@ public class Notepad : MonoBehaviour
     public CameraManager CameraManager;
     public PlaceableAreas PlaceableAreas;
 
+    public AudioEvent PageTurning;
+    public AudioEvent PenScribble;
+
     public OpponentNotepad OpponentNotepad;
     public PlayerDataDB PlayerData { get; private set; }
 
@@ -80,6 +83,8 @@ public class Notepad : MonoBehaviour
         PlayerData.PlayerCard = PlayerCard.GetPlayerCard();
         await Database.UpdatePlayer(PlayerData);
 
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         InGame = true;
         PlayerCard.Show(InGame);
         PlayerCard.SetInteractable(!InGame);
@@ -107,6 +112,8 @@ public class Notepad : MonoBehaviour
 
     public void ToMain()
     {
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         PlayerCard.gameObject.SetActive(true);
         Cover.SetActive(true);
         PlayerCard.Show(InGame);
@@ -119,6 +126,8 @@ public class Notepad : MonoBehaviour
 
     public void ToSettings()
     {
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         PlayerCard.gameObject.SetActive(false);
         Cover.SetActive(false);
         PlayerCard.Show(InGame);
@@ -130,6 +139,8 @@ public class Notepad : MonoBehaviour
 
     public void ToCollection()
     {
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         PlayerCard.gameObject.SetActive(false);
         Cover.SetActive(false);
         PlayerCard.Show(InGame);
@@ -141,6 +152,8 @@ public class Notepad : MonoBehaviour
 
     public void BackToMenu()
     {
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         SceneManager.LoadScene(0);
     }
 

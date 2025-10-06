@@ -486,15 +486,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92863af9f565c004dbb250517232a179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  NameInput: {fileID: 7583404312116005708}
   Name: 
   InputField: {fileID: 0}
-  NameText: {fileID: 0}
   Stickers: []
   Bordrers: []
   Fonts: []
   Border: {fileID: 0}
-  StickerPrefab: {fileID: 0}
+  StickerArea: {fileID: 0}
+  StartButton: {fileID: 0}
+  QuitButton: {fileID: 0}
+  AbandonButton: {fileID: 0}
+  RightBorderButton: {fileID: 0}
+  LeftBorderButton: {fileID: 0}
+  Notepad: {fileID: 0}
+  Editor: {fileID: 0}
+  IsOpponent: 0
+  CoinText: {fileID: 0}
+  Hearts: []
+  StickerAreaCollider: {fileID: 0}
+  StickerDiscardArea: {fileID: 0}
+  StickerSpawners: []
+  CollectionText: {fileID: 0}
+  PageTurning: {fileID: 11400000, guid: 91da70c90fbaf264fbae0491663a95e4, type: 2}
+  PenScribble: {fileID: 11400000, guid: 26b75d3def7e37d46ae53d380154a703, type: 2}
 --- !u!1 &4206369720013743784
 GameObject:
   m_ObjectHideFlags: 0

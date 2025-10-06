@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04f605dd691cf4545b400a3c299c08eb, type: 3}
+  m_Name: MenuPenScriibble
+  m_EditorClassIdentifier: Assembly-CSharp::AudioEvent
+  Clips:
+  - {fileID: 8300000, guid: cb3ac813d47ddc44f929657260485d64, type: 3}
+  - {fileID: 8300000, guid: 55db460507439ae468aa4fa3c27ff95e, type: 3}
+  - {fileID: 8300000, guid: 5dc2f3314e3415749a173adaad478a63, type: 3}
+  MinVolume: 1
+  MaxVolume: 1
+  MinPitch: 1
+  MaxPitch: 1
+  Looping: 0
+  Group: {fileID: 0}

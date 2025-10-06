@@ -12,6 +12,9 @@ public class Collection : MonoBehaviour
     public CollectionEntry EntryPrefab;
     public CollectionEntry[] DiscoveredEntryPrefabs;
 
+    public AudioEvent PageTurning;
+    public AudioEvent PenScribble;
+
     public Notepad Notepad;
 
     public const int EntriesPerPage = 3;
@@ -38,7 +41,9 @@ public class Collection : MonoBehaviour
         {
             return;
         }
-        
+
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         currentPage += direction;
         if (currentPage < 0)
         {
