@@ -46,10 +46,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceYeet
   Debugging: 0
+  BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
+  ManyBonkHitSound: {fileID: 11400000, guid: eb01bb191fc0dc843871ec240c10cb85, type: 2}
   YeetForce: 20
   DistForMaxForce: 5
   Deadzone: 1
+  GroundCollider: {fileID: 0}
+  Inspector: {fileID: 0}
+  GameAnimator: {fileID: 0}
+  TurnText: {fileID: 0}
+  EnemyMinThinkTime: 0.5
+  EnemyMaxThinkTime: 1.5
   Pawns: []
+  activeTeam: 0
 --- !u!120 &7573127650791761155
 LineRenderer:
   serializedVersion: 2
