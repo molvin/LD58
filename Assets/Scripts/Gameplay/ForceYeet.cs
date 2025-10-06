@@ -122,6 +122,7 @@ public class ForceYeet : MonoBehaviour
             pawn.rigidbody.isKinematic = false;
             pawn.rigidbody.angularVelocity = Vector3.zero;
             pawn.rigidbody.linearVelocity = Vector3.zero;
+            pawn.initialStartPosition = pawn.transform.position;
             if(GroundCollider != null)
             {
                 Ray ray = new Ray(pawn.transform.position + Vector3.up, Vector3.down);
