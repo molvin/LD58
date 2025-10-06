@@ -74,6 +74,8 @@ public class Pawn : MonoBehaviour
     private float startYeetTime;
     private Coroutine flipRoutine;
 
+    public int CollectionIdRef;
+
     public float DamagePercentage => Mathf.Pow(1.0f + damageTaken, 1.45f);
     private float damageTaken = 0.0f;
     public Action<float> OnDamageTaken;
