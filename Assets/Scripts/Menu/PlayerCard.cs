@@ -9,7 +9,7 @@ public class PlayerCard : MonoBehaviour
     public string Name;
     public TMP_InputField InputField;
 
-    public List<Sprite> Stickers, Bordrers;
+    public List<Sprite> Bordrers;
     public List<TMP_FontAsset> Fonts;
     public Image Border;
     public Transform StickerArea;
