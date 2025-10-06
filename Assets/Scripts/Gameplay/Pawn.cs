@@ -79,7 +79,7 @@ public class Pawn : MonoBehaviour
 
     public int CollectionIdRef;
 
-    public float DamagePercentage => Mathf.Pow(1.0f + damageTaken, 1.45f);
+    public float DamagePercentage => Mathf.Pow(1.0f + damageTaken, 1.5f);
     private float damageTaken = 0.0f;
     public Action<float> OnDamageTaken;
 
