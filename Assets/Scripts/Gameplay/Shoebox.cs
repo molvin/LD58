@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Shoebox : MonoBehaviour
 {
-    public List<int> Collection = new();
+    public List<Database.PawnDB> Collection = new();
     public float PawnScale = 0.05f;
 
     public BoxCollider SpawnArea;
@@ -18,14 +18,12 @@ public class Shoebox : MonoBehaviour
 
     public GachaMachine GachaMachine;
     public Button ReadyButton;
+    public float SmoothTime = 0.05f;
+    private Vector3 velocity;
 
     private void Start()
     {
         ReadyButton.gameObject.SetActive(false);
-    }
-
-    private void Update()
-    {
     }
 
     public void RespawnAll()
@@ -39,11 +37,16 @@ public class Shoebox : MonoBehaviour
         }
         spawned = new();
 
-        foreach(int index in Collection)
+        foreach(Database.PawnDB dbPawn in Collection)
         {
-            Pawn prefab = GachaMachine.Prefabs[index];
+            Pawn prefab = GachaMachine.Prefabs[dbPawn.PawnType];
             Pawn pawn = Instantiate(prefab, transform);
-            pawn.PrefabId = index;
+            pawn.PrefabId = dbPawn.PawnType;
+
+            pawn.Rarity = (PawnRarity)dbPawn.Rarity;
+            pawn.ColorValue = dbPawn.Color;
+            pawn.InitializeVisuals();
+
             pawn.enabled = false;
             pawn.transform.position = SpawnArea.bounds.RandomPointInBounds();
             pawn.transform.rotation = Random.rotation;
@@ -70,7 +73,10 @@ public class Shoebox : MonoBehaviour
 
             foreach(Pawn pawn in spawned)
             {
-                if(pawn.transform.position.y < -10)
+                if (Team.Contains(pawn) || pawn == pickup)
+                    continue;
+
+                if(Vector3.Distance(pawn.transform.position, HoverPlanePoint.position) > 15)
                 {
                     pawn.transform.position = HoverPlanePoint.position;
                     pawn.Drop();
@@ -89,6 +95,10 @@ public class Shoebox : MonoBehaviour
                         pickup = pawn;
 
                         pickup.PickUp();
+                        velocity = Vector3.zero;
+                        plane.Raycast(ray, out float enter);
+                        pickup.transform.position = ray.GetPoint(enter);
+
                         if (Team.Contains(pickup))
                         {
                             Team.Remove(pickup);
@@ -126,8 +136,8 @@ public class Shoebox : MonoBehaviour
                     }
                     else
                     {
-                        pickup.transform.position = HoverPlanePoint.position;
                         pickup.Drop();
+                        pickup.rigidbody.linearVelocity = velocity;
                     }
                     pickup = null;
                 }
@@ -135,8 +145,7 @@ public class Shoebox : MonoBehaviour
                 {
                     plane.Raycast(ray, out float enter);
                     Vector3 pos = ray.GetPoint(enter);
-
-                    pickup.transform.position = pos;
+                    pickup.transform.position = Vector3.SmoothDamp(pickup.transform.position, pos, ref velocity, SmoothTime);
                 }
             }
 

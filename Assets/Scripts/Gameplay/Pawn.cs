@@ -31,6 +31,8 @@ public class Pawn : MonoBehaviour
     public PawnRarity Rarity;
     public float RarityFactor => 0.8f * (1.0f + (int)Rarity * 0.25f);
     public string Name;
+    [Multiline]
+    public string Description;
     public int ColorValue;
 
     [Header("Pawn stats")]
@@ -166,6 +168,10 @@ public class Pawn : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if(!Manager)
+        {
+            return;
+        }
         var otherPawn = collision.gameObject.GetComponent<Pawn>();
         if (otherPawn != null)
         {
@@ -201,6 +207,9 @@ public class Pawn : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (!enabled)
+            return;
+
         Boundaries bounds = FindFirstObjectByType<Boundaries>();
 
         if (bounds != null)
@@ -325,7 +334,13 @@ public class Pawn : MonoBehaviour
         System.Random ran = new System.Random(ColorValue);
         Color c1 = Color.HSVToRGB(ran.Next(255) / 255f, (ran.Next(100) / 200f) + 0.5f, (ran.Next(100) / 200f) + 0.5f);
         MeshRenderer.material = RarityMaterials[(int)Rarity];
-        MeshRenderer.material.SetColor("_Color1", c1);
+
+        if (Rarity == PawnRarity.Common)
+            MeshRenderer.material.SetColor("_Color", c1);
+        else
+            MeshRenderer.material.SetColor("_Color1", c1);
+        
+        
         if (Rarity != PawnRarity.Common)
         {
             Color c2 = Color.HSVToRGB(ran.Next(255) / 255f, (ran.Next(100) / 200f) + 0.5f, (ran.Next(100) / 200f) + 0.5f);
