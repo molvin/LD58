@@ -398,9 +398,6 @@ public class ForceYeet : MonoBehaviour
 
         if (Input.GetMouseButton(0) && whoToYeet)
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.None;
-
             whoToYeet.GetComponent<Rigidbody>().isKinematic = true;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -439,8 +436,6 @@ public class ForceYeet : MonoBehaviour
         }
         else
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
         }
 
         if (Input.GetMouseButtonUp(0) && whoToYeet)

@@ -1,13 +1,14 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SplashScreen : MonoBehaviour
 {
+    public GameObject Splash;
+
     private void Update()
     {
         if(Input.anyKeyDown)
         {
-            SceneManager.LoadScene(1);
+            Splash.SetActive(false);
         }
     }
 }
