@@ -36,6 +36,8 @@ public abstract class PawnPrototype
     }
 
     public virtual void OnDamageTagen(Pawn self) { }
+
+    public virtual void OnDeath(Pawn self) { }
 }
 public class Basic : PawnPrototype { }
 
@@ -208,6 +210,36 @@ public class Monarch : PawnPrototype
             if (p != null && p != self && p.Team == self.Team && !p.IsReadyToYeet)
             {
                 p.FlipUp();
+            }
+        }
+    }
+}
+
+public class Healer : PawnPrototype
+{
+    public override void OnDeath(Pawn self)
+    {
+        foreach (Pawn pawn in self.Manager.Pawns)
+        {
+            if (pawn != null && pawn != self && pawn.Team == self.Team)
+            {
+                pawn.FullyHeal((1.0f + (int)self.Rarity) / 4.0f);
+            }
+        }
+    }
+}
+public class Resetter : PawnPrototype
+{
+    public override void OnDeath(Pawn self)
+    {
+        foreach (Pawn pawn in self.Manager.Pawns)
+        {
+            if (pawn != null && pawn != self && pawn.Team == self.Team)
+            {
+                float factor = (1.0f + (int)self.Rarity) / 4.0f;
+
+                Vector3 toOriginalPoint = pawn.initialStartPosition - pawn.transform.position;
+                pawn.transform.position += toOriginalPoint * factor + Vector3.up * 2.0f;
             }
         }
     }
