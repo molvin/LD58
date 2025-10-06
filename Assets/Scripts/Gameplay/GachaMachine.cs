@@ -56,13 +56,13 @@ public class GachaMachine : MonoBehaviour
         foreach(Pawn pawn in Prefabs)
         {
             //Add all rarities to pool
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 18; i++)
                 prefabPool.Add((pawn, PawnRarity.Common));
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 9; i++)
                 prefabPool.Add((pawn, PawnRarity.Uncommon));
-            for (int i = 0; i < 5; i++)
-                prefabPool.Add((pawn, PawnRarity.Rare));
             for (int i = 0; i < 3; i++)
+                prefabPool.Add((pawn, PawnRarity.Rare));
+            for (int i = 0; i < 1; i++)
                 prefabPool.Add((pawn, PawnRarity.Epic));  
         }
     }
