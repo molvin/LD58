@@ -3,11 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public abstract class PawnPrototype
 {
-    public virtual bool PrimaryYeet(Pawn owner, Pawn target, Vector3 impulse) { return true; }
-}
-public class Basic : PawnPrototype
-{
-    public override bool PrimaryYeet(Pawn owner, Pawn target, Vector3 impulse)
+    public virtual bool PrimaryYeet(Pawn owner, Pawn target, Vector3 impulse)
     {
         float attackForce = target.DamagePercentage * owner.EffectiveAttackForce;
         target.rigidbody.AddForce(impulse.normalized * attackForce, ForceMode.Impulse);
@@ -16,6 +12,9 @@ public class Basic : PawnPrototype
 
         return true;
     }
+}
+public class Basic : PawnPrototype
+{
 }
 
 public class Explosion : PawnPrototype
@@ -48,10 +47,7 @@ public class Chain : PawnPrototype
 {
     public override bool PrimaryYeet(Pawn owner, Pawn target, Vector3 impulse)
     {
-        float attackForce = target.DamagePercentage * owner.EffectiveAttackForce;
-        target.rigidbody.AddForce(impulse.normalized * attackForce, ForceMode.Impulse);
-
-        target.AddDamage(impulse.magnitude * 0.1f * owner.EffectiveAttackDamage);
+        base.PrimaryYeet(owner, target, impulse);
 
         // Find new target
         Pawn newTarget = null;
@@ -83,11 +79,43 @@ public class Chain : PawnPrototype
             owner.rigidbody.linearVelocity = (newTarget.transform.position - owner.transform.position).normalized * (impulse.magnitude + owner.rigidbody.linearVelocity.magnitude);
         }
 
-        return newTarget != null;
+        return newTarget == null;
     }
 }
 
 public class Libero : PawnPrototype
 {
+    public override bool PrimaryYeet(Pawn owner, Pawn target, Vector3 impulse)
+    {
+        return base.PrimaryYeet(owner, target, impulse);
+    }
 }
 
+public class Boomerang : PawnPrototype
+{
+    public override bool PrimaryYeet(Pawn owner, Pawn target, Vector3 impulse)
+    {
+        base.PrimaryYeet(owner, target, impulse);
+
+        Vector3 toPreYeet = owner.preYeetPosition - owner.transform.position;
+        float yeetForce = Mathf.Clamp01(toPreYeet.magnitude / 6.0f) * 0.7f;
+        Vector3 velocity = (toPreYeet * yeetForce) - owner.rigidbody.linearVelocity * 0.4f;
+        owner.rigidbody.AddForce(velocity * owner.EffectiveMass, ForceMode.Impulse);
+
+        return true;
+    }
+}
+public class HomeSick : PawnPrototype
+{
+    public override bool PrimaryYeet(Pawn owner, Pawn target, Vector3 impulse)
+    {
+        base.PrimaryYeet(owner, target, impulse);
+
+        Vector3 toPreYeet = owner.initialStartPosition - owner.transform.position;
+        float yeetForce = Mathf.Clamp01(toPreYeet.magnitude / 6.0f) * 0.6f;
+        Vector3 velocity = (toPreYeet * yeetForce) - owner.rigidbody.linearVelocity * 0.4f;
+        owner.rigidbody.AddForce(velocity * owner.EffectiveMass, ForceMode.Impulse);
+
+        return true;
+    }
+}

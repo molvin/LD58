@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public enum PawnRarity
 {
@@ -65,8 +65,9 @@ public class Pawn : MonoBehaviour
     private Vector3 baseCoM;
 
     [HideInInspector] public bool beingYeeted = false;
-    private Vector3 preYeetPosition;
+    [HideInInspector] public Vector3 preYeetPosition;
     private Quaternion preYeetOrientation;
+    [HideInInspector] public Vector3 initialStartPosition;
     private float startYeetTime;
     private Coroutine flipRoutine;
 
@@ -130,9 +131,11 @@ public class Pawn : MonoBehaviour
         AudioManager.Play(BonkHitSound, this.transform.position);
         Instantiate(YeetParticle, this.transform.position, Quaternion.identity);
 
-        rigidbody.linearVelocity *= 0.6f;
+        Vector3 impulseDir2D = new(primaryYeet.impulse.x, 0.0f, primaryYeet.impulse.z);
+        impulseDir2D.Normalize();
         rigidbody.angularVelocity *= 0.7f;
-        rigidbody.linearVelocity -= primaryYeet.impulse.normalized * rigidbody.linearVelocity.magnitude * 0.5f;
+        rigidbody.linearVelocity -= impulseDir2D * rigidbody.linearVelocity.magnitude * 0.6f;
+        rigidbody.linearVelocity *= 0.7f;
 
         yeetCollider.enabled = false;
 
@@ -148,18 +151,7 @@ public class Pawn : MonoBehaviour
     {
         if (transform.position.y < -2.0f)
         {
-            rigidbody.linearVelocity = new();
-            rigidbody.angularVelocity = new();
-
-            if (beingYeeted)
-            {
-                //StopYeet(true);
-                Destroy(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
 
         if (IsStill && beingYeeted && startYeetTime + 1.0f < Time.time)
@@ -201,6 +193,33 @@ public class Pawn : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Boundaries bounds = FindFirstObjectByType<Boundaries>();
+
+        if (bounds != null)
+        {
+            foreach (Collider bound in bounds.BoundaryColliders)
+            {
+                if (bound == other)
+                {
+                    if (Vector3.Dot(bound.transform.position - transform.position, bound.transform.right) > 0)
+                    {
+                        StartCoroutine(DestroySoon());
+                    }
+                }
+            }
+        }
+    }
+
+    private IEnumerator DestroySoon()
+    {
+        rigidbody.linearDamping = 0.5f;
+        rigidbody.angularDamping = 0.5f;
+        yield return new WaitForSeconds(1.0f);
+        Destroy(gameObject);
     }
 
     public IEnumerator HitTimerJuice()

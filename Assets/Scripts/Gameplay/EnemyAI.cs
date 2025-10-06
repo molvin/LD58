@@ -135,7 +135,7 @@ public static class EnemyAI
 
         foreach (Pawn p in team)
         {
-            float baseScore = Mathf.Lerp(0.5f, 1.0f, p.EffectiveAttackDamage / Strongest);
+            float baseScore = Mathf.Lerp(0.75f, 1.0f, p.EffectiveAttackDamage / Strongest);
 
             foreach (Pawn target in targets)
             {
