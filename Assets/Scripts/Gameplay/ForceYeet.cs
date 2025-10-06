@@ -36,6 +36,7 @@ public class ForceYeet : MonoBehaviour
     public TextMeshProUGUI TurnText;
     public float EnemyMinThinkTime = 0.5f;
     public float EnemyMaxThinkTime = 1.5f;
+    public GameObject LineHead;
 
     [HideInInspector] public List<Pawn> Pawns;
     private Dictionary<CollisionPair, (float time, float impact)> forcePairs = new();
@@ -103,6 +104,8 @@ public class ForceYeet : MonoBehaviour
         GameState state = GameState.Playing;
         while (state == GameState.Playing)
         {
+            LineHead.SetActive(false);
+
             bool clicked = Input.GetMouseButtonDown(1);
             if (Inspector != null && clicked)
             {
@@ -433,9 +436,13 @@ public class ForceYeet : MonoBehaviour
             endPos.y = 0.1f;
             forceArrowRend.SetPosition(1, endPos);
             forceArrowRend.endColor = Color.Lerp(new Color(0.6f, 1.0f, 0.0f), new Color(1.0f, 0.0f, 0.6f), chargeFactor);
+            LineHead.SetActive(true);
+            LineHead.transform.position = endPos;
+            LineHead.transform.forward = (endPos - startPos).normalized;
         }
         else
         {
+            LineHead.SetActive(false);
         }
 
         if (Input.GetMouseButtonUp(0) && whoToYeet)
