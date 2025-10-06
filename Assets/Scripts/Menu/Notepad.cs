@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
 using static Database;
 
@@ -36,7 +35,9 @@ public class Notepad : MonoBehaviour
         PlayerCard.UpdateCoins(0);
         PlayerCard.UpdateHealth(0);
 
+        PlayerCard.gameObject.SetActive(false);
         await InitGame();
+
 
         MainButton.onClick.AddListener(ToMain);
         SettingsButton.onClick.AddListener(ToSettings);
@@ -68,6 +69,7 @@ public class Notepad : MonoBehaviour
         }
 
         PlayerCard.Init(PlayerData.PlayerCard);
+        PlayerCard.gameObject.SetActive(true);
 
         ToMain();
     }
