@@ -48,10 +48,17 @@ public class ForceYeet : MonoBehaviour
         {
             List<Pawn> pawns = new(FindObjectsByType<Pawn>(FindObjectsSortMode.None));
 
-            debugPlaying = StartCoroutine(Play(pawns.Where(p => p.Team == 0).ToList(), pawns.Where(p => p.Team == 1).ToList()));
+            debugPlaying = StartCoroutine(DebugPlay(pawns.Where(p => p.Team == 0).ToList(), pawns.Where(p => p.Team == 1).ToList()));
         }
     }
-    public async Awaitable Play(List<Pawn> playerTeam, List<Pawn> opponentTeam)
+
+    public async Awaitable DebugPlay(List<Pawn> playerTeam, List<Pawn> opponentTeam)
+    {
+        await Play(playerTeam, opponentTeam);
+    }
+
+
+    public async Awaitable<GameState> Play(List<Pawn> playerTeam, List<Pawn> opponentTeam)
     {
         activeTeam = Random.Range(0, 2);
 
@@ -66,7 +73,8 @@ public class ForceYeet : MonoBehaviour
 
         Initialize(playerTeam.Union(opponentTeam).ToList());
 
-        while (!GameOver())
+        GameState state = GameState.Playing;
+        while (state == GameState.Playing)
         {
             ResolveForces();
 
@@ -88,7 +96,7 @@ public class ForceYeet : MonoBehaviour
                     }
                     break;
             }
-
+            state = GetGameState();
             await Awaitable.NextFrameAsync();
         }
 
@@ -101,6 +109,7 @@ public class ForceYeet : MonoBehaviour
         }
         Pawns.Clear();
 
+        return state;
     }
 
     private void Initialize(List<Pawn> pawns)
@@ -131,7 +140,15 @@ public class ForceYeet : MonoBehaviour
         forceArrowRend.enabled = false;
     }
 
-    private bool GameOver()
+    public enum GameState
+    {
+        Playing,
+        Draw,
+        PlayerWon,
+        OpponentWon
+    }
+
+    private GameState GetGameState()
     {
         bool teamOneHas = false;
         bool teamTwoHas = false;
@@ -144,8 +161,19 @@ public class ForceYeet : MonoBehaviour
                 teamTwoHas = teamTwoHas || pawn.Team == 1;
             }
         }
-
-        return !teamOneHas || !teamTwoHas;
+        if (teamOneHas && teamTwoHas)
+        {
+            return GameState.Playing;
+        }
+        if (!teamOneHas && !teamTwoHas)
+        {
+            return GameState.Draw;
+        }
+        if(teamOneHas)
+        {
+            return GameState.PlayerWon;
+        }
+        return GameState.OpponentWon;
     }
 
     private void ResolveForces()

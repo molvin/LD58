@@ -6,6 +6,7 @@ using TMPro;
 public class GachaMachine : MonoBehaviour
 {
     public int Tokens = 5;
+
     public int Cost = 1;
 
     public float SpawnForce = 250;
@@ -13,7 +14,6 @@ public class GachaMachine : MonoBehaviour
     public GachaBall GachaPrefab;
     public Transform SpawnPoint;
     public PawnInspector Inspector;
-    public TextMeshProUGUI TokensText;
     public Shoebox ShoeBox;
     public Animator Anim;
     public float SpinAnimationDuration;
@@ -50,7 +50,6 @@ public class GachaMachine : MonoBehaviour
 
     public async Awaitable RunGacha()
     {
-        TokensText.text = $"Tokens: {Tokens}";
 
         Anim.SetBool("Shown", true);
         await Awaitable.WaitForSecondsAsync(1);
@@ -61,7 +60,6 @@ public class GachaMachine : MonoBehaviour
         while(!done)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            TokensText.text = $"Tokens: {Tokens}";
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -95,6 +93,12 @@ public class GachaMachine : MonoBehaviour
         }
         DoneButton.onClick.RemoveAllListeners();
 
+        foreach(GachaBall gachaBall in gachaBalls)
+        {
+            Destroy(gachaBall.gameObject);
+        }
+        gachaBalls.Clear();
+
         Anim.SetBool("Shown", false);
         await Awaitable.WaitForSecondsAsync(1);
     }
@@ -106,6 +110,7 @@ public class GachaMachine : MonoBehaviour
             return;
         }
         Tokens -= Cost;
+        Notepad.PlayerCard.UpdateCoins(Tokens);
 
         if(prefabPool.Count == 0)
         {

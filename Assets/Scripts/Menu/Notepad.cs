@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,6 +38,9 @@ public class Notepad : MonoBehaviour
         CollectionButton.onClick.AddListener(ToCollection);
 
         await InitGame();
+
+        PlayerCard.UpdateCoins(0);
+        PlayerCard.UpdateHealth(0);
     }
 
     private async Awaitable InitGame()
@@ -70,7 +74,7 @@ public class Notepad : MonoBehaviour
 
     public async void StartGame()
     {
-        // TODO: set playerdata in server
+        playerData = await Database.NewGame();
         playerData.PlayerCard = PlayerCard.GetPlayerCard();
         await Database.UpdatePlayer(playerData);
 
@@ -79,6 +83,11 @@ public class Notepad : MonoBehaviour
         PlayerCard.SetInteractable(!InGame);
         Anim.SetTrigger("ToGame");
         SetHidden(true);
+
+        Gacha.Tokens = 5;
+        playerData.Lives = 3;
+        PlayerCard.UpdateCoins(Gacha.Tokens);
+        PlayerCard.UpdateHealth(playerData.Lives);
 
         StartCoroutine(GachamachineState());
     }
@@ -130,12 +139,7 @@ public class Notepad : MonoBehaviour
 
     public void BackToMenu()
     {
-        // TODO: reset state and stuff
-
-        InGame = false;
-        Anim.SetTrigger("ToMenu");
-
-        ToMain();
+        SceneManager.LoadScene(0);
     }
 
     public bool AddToCollection(int prefabIndex, int rarity)
@@ -235,19 +239,31 @@ public class Notepad : MonoBehaviour
         }
         await Database.CreateOpponent(currentLevel, playerData.PlayerCard, dbPawns);
 
-        await GameManager.Play(Shoebox.Team, opponentTeam);
+        ForceYeet.GameState result = await GameManager.Play(Shoebox.Team, opponentTeam);
 
         // TODO: show result of game
+        
         await Awaitable.WaitForSecondsAsync(1.0f);
 
-        playerData.Lives = 3; // TODO: lives
         playerData.Level = currentLevel;
         playerData.Box = new List<PawnDB>();
         await Database.UpdatePlayer(playerData);
 
-        // Next level
-        // TODO: rewards
-        Gacha.Tokens = 5;
+        if (result == ForceYeet.GameState.OpponentWon)
+        {
+            playerData.Lives--;
+            PlayerCard.UpdateHealth(playerData.Lives);
+
+            if (playerData.Lives == 0)
+            {
+                Debug.Log("GAME OVER");
+                await Awaitable.WaitForSecondsAsync(1.0f);
+                SceneManager.LoadScene(0);
+                return;
+            }
+        }
+        Gacha.Tokens += 5;
+        PlayerCard.UpdateCoins(Gacha.Tokens);
         currentLevel += 1;
 
         StartCoroutine(GachamachineState());

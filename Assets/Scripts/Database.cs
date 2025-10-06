@@ -69,8 +69,8 @@ public class Database : MonoBehaviour
     {
         [FirestoreProperty]
         public int StickerType { get; set; }
-        [FirestoreProperty(ConverterType = typeof(Vector2Converter))]
-        public Vector2 Location { get; set; }
+        [FirestoreProperty(ConverterType = typeof(Vector3Converter))]
+        public Vector3 Location { get; set; }
         [FirestoreProperty]
         public int Rotation { get; set; }
     }
@@ -199,13 +199,14 @@ public class Database : MonoBehaviour
         return playerSnap.Exists;
     }
 
-    public async Awaitable NewGame()
+    public async Awaitable<PlayerDataDB> NewGame()
     {
         PlayerDataDB player = await GetPlayer();
         player.Box = new List<PawnDB>();
         player.Lives = 3;
         player.Level = 0;
         await playerDocRef.SetAsync(player);
+        return player;
     }
 
     private void AuthStateChanged(object sender, EventArgs eventArgs)
