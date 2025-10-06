@@ -15,6 +15,7 @@ public class Notepad : MonoBehaviour
     public GameObject Cover;
 
     public Animator Anim;
+    public Animator VersusAnim;
     public BoxCollider SelectionCollider;
     public GachaMachine Gacha;
     public Shoebox Shoebox;
@@ -197,11 +198,13 @@ public class Notepad : MonoBehaviour
         OpponentNotepad.PlayerCard.Init(opponent.PlayerCard);
         Anim.SetBool("Versus", true);
         OpponentNotepad.Anim.SetBool("Versus", true);
+        VersusAnim.SetBool("Versus", true);
 
         await Awaitable.WaitForSecondsAsync(1.5f);
 
         Anim.SetBool("Versus", false);
         OpponentNotepad.Anim.SetBool("Versus", false);
+        VersusAnim.SetBool("Versus", false);
 
 
         List<Pawn> opponentTeam = new();
