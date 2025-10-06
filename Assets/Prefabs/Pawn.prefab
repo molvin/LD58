@@ -368,6 +368,7 @@ Transform:
   - {fileID: 5728574812320232861}
   - {fileID: 8743198044252715615}
   - {fileID: 4336502932012558523}
+  - {fileID: 3123612706670721429}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1763937129188362571
@@ -411,7 +412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Pawn
   Prototype: Basic
   Team: 0
-  Rarity: 0
+  Rarity: 1
   Name: 
   ColorValue: 0
   AttackDamage: 1
