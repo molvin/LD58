@@ -808,7 +808,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1482643041855211669, guid: f12edd2ed15bbd549b9327d562f0be0d, type: 3}
       propertyPath: Mass
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1482643041855211669, guid: f12edd2ed15bbd549b9327d562f0be0d, type: 3}
       propertyPath: Team
@@ -1740,7 +1740,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1482643041855211669, guid: f12edd2ed15bbd549b9327d562f0be0d, type: 3}
       propertyPath: Mass
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1482643041855211669, guid: f12edd2ed15bbd549b9327d562f0be0d, type: 3}
       propertyPath: Team
@@ -3610,7 +3610,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1482643041855211669, guid: f12edd2ed15bbd549b9327d562f0be0d, type: 3}
       propertyPath: Mass
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1482643041855211669, guid: f12edd2ed15bbd549b9327d562f0be0d, type: 3}
       propertyPath: Prototype

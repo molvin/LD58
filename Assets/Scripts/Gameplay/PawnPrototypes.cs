@@ -145,7 +145,7 @@ public class Tether : PawnPrototype
 {
     public override Vector3 ModidyReceiveForce(Pawn self, Pawn target, Vector3 incomingForce)
     {
-        if (self.Team == target.Team)
+        if (self.Team == target.Team && self != target)
         {
             float dist = Vector3.Distance(self.transform.position, target.transform.position);
 
@@ -163,7 +163,7 @@ public class Tether : PawnPrototype
 
     public override float ModidyReceiveDamage(Pawn self, Pawn target, float incomingDamage)
     {
-        if (self.Team == target.Team)
+        if (self.Team == target.Team && self != target)
         {
             float dist = Vector3.Distance(self.transform.position, target.transform.position);
 
