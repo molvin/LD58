@@ -25,7 +25,10 @@ public abstract class PawnPrototype
             }
         }
         float rarityMod = owner.RarityFactor * 0.4f + 0.6f;
-        owner.rigidbody.AddForce(modifiedForce / rarityMod, ForceMode.Impulse);
+
+        Vector3 liftForce = (modifiedForce * 0.95f) + (Vector3.up * modifiedForce.magnitude * 0.05f);
+
+        owner.rigidbody.AddForce(liftForce / rarityMod, ForceMode.Impulse);
     }
 
     public virtual Vector3 ModidyReceiveForce(Pawn self, Pawn target, Vector3 incomingForce)
