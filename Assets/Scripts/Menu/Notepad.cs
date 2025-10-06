@@ -25,22 +25,22 @@ public class Notepad : MonoBehaviour
     public PlaceableAreas PlaceableAreas;
 
     public OpponentNotepad OpponentNotepad;
+    public PlayerDataDB PlayerData { get; private set; }
 
     public bool InGame;
     private bool hidden = true;
-    private PlayerDataDB playerData = null;
     private int currentLevel;
 
     private async void Awake()
     {
-        MainButton.onClick.AddListener(ToMain);
-        SettingsButton.onClick.AddListener(ToSettings);
-        CollectionButton.onClick.AddListener(ToCollection);
+        PlayerCard.UpdateCoins(0);
+        PlayerCard.UpdateHealth(0);
 
         await InitGame();
 
-        PlayerCard.UpdateCoins(0);
-        PlayerCard.UpdateHealth(0);
+        MainButton.onClick.AddListener(ToMain);
+        SettingsButton.onClick.AddListener(ToSettings);
+        CollectionButton.onClick.AddListener(ToCollection);
     }
 
     private async Awaitable InitGame()
@@ -51,8 +51,8 @@ public class Notepad : MonoBehaviour
 
         if (hasPlayer)
         {
-            playerData = await Database.GetPlayer();
-            Debug.Log($"Got player: {playerData.PlayerCard.Name}");
+            PlayerData = await Database.GetPlayer();
+            Debug.Log($"Got player: {PlayerData.PlayerCard.Name}");
         }
         else
         {
@@ -67,16 +67,16 @@ public class Notepad : MonoBehaviour
             Debug.Log($"Created Player: {playerData.PlayerCard.Name}");
         }
 
-        PlayerCard.Init(playerData.PlayerCard);
+        PlayerCard.Init(PlayerData.PlayerCard);
 
         ToMain();
     }
 
     public async void StartGame()
     {
-        playerData = await Database.NewGame();
-        playerData.PlayerCard = PlayerCard.GetPlayerCard();
-        await Database.UpdatePlayer(playerData);
+        PlayerData = await Database.NewGame();
+        PlayerData.PlayerCard = PlayerCard.GetPlayerCard();
+        await Database.UpdatePlayer(PlayerData);
 
         InGame = true;
         PlayerCard.Show(InGame);
@@ -85,9 +85,9 @@ public class Notepad : MonoBehaviour
         SetHidden(true);
 
         Gacha.Tokens = 5;
-        playerData.Lives = 3;
+        PlayerData.Lives = 3;
         PlayerCard.UpdateCoins(Gacha.Tokens);
-        PlayerCard.UpdateHealth(playerData.Lives);
+        PlayerCard.UpdateHealth(PlayerData.Lives);
 
         StartCoroutine(GachamachineState());
     }
@@ -142,17 +142,19 @@ public class Notepad : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public bool AddToCollection(int prefabIndex, int rarity)
+    public async Awaitable<bool> AddToCollection(int prefabIndex, int rarity)
     {
         byte id = (byte)(prefabIndex * 4 + rarity);
-        if(playerData.Collection == null)
+        if(PlayerData.Collection == null)
         {
-            playerData.Collection = new();
+            PlayerData.Collection = new();
         }
-        if(playerData.Collection.Contains(id))
+        if(PlayerData.Collection.Contains(id))
             return false;
 
-        playerData.Collection.Add(id);
+        PlayerData.Collection.Add(id);
+        await Database.UpdatePlayer(PlayerData);
+
         return true;
     }
 
@@ -240,7 +242,7 @@ public class Notepad : MonoBehaviour
 
             });
         }
-        await Database.CreateOpponent(currentLevel, playerData.PlayerCard, dbPawns);
+        await Database.CreateOpponent(currentLevel, PlayerData.PlayerCard, dbPawns);
 
         ForceYeet.GameState result = await GameManager.Play(Shoebox.Team, opponentTeam);
 
@@ -248,16 +250,16 @@ public class Notepad : MonoBehaviour
         
         await Awaitable.WaitForSecondsAsync(1.0f);
 
-        playerData.Level = currentLevel;
-        playerData.Box = new List<PawnDB>();
-        await Database.UpdatePlayer(playerData);
+        PlayerData.Level = currentLevel;
+        PlayerData.Box = new List<PawnDB>();
+        await Database.UpdatePlayer(PlayerData);
 
         if (result == ForceYeet.GameState.OpponentWon)
         {
-            playerData.Lives--;
-            PlayerCard.UpdateHealth(playerData.Lives);
+            PlayerData.Lives--;
+            PlayerCard.UpdateHealth(PlayerData.Lives);
 
-            if (playerData.Lives == 0)
+            if (PlayerData.Lives == 0)
             {
                 Debug.Log("GAME OVER");
                 await Awaitable.WaitForSecondsAsync(1.0f);
