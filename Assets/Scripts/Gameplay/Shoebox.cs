@@ -147,7 +147,17 @@ public class Shoebox : MonoBehaviour
         ReadyButton.gameObject.SetActive(false);
 
         Anim.SetBool("Shown", false);
+
         await Awaitable.WaitForSecondsAsync(1.0f);
+
+        foreach(Pawn pawn in spawned)
+        {
+            if(pawn != null && !Team.Contains(pawn))
+            {
+                Destroy(pawn.gameObject);
+            }
+        }
+
         spawned.Clear();
     }
 
@@ -158,7 +168,7 @@ public class Shoebox : MonoBehaviour
         {
             if(!Input.GetMouseButton(0))
             {
-                await Inspector.Inspect(pawn);
+                await Inspector.Inspect(pawn, false, false);
                 return null;
             }
             t += Time.deltaTime;

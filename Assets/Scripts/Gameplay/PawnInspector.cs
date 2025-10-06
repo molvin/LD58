@@ -11,6 +11,7 @@ public class PawnInspector : MonoBehaviour
     public TextMeshProUGUI Title;
     public TextMeshProUGUI RarityText;
     public TextMeshProUGUI Description;
+    public GameObject NewTag;
 
     public Image DamageFill, ForceFill, MassFill;
 
@@ -20,8 +21,10 @@ public class PawnInspector : MonoBehaviour
     public float MaxForce;
     public float MaxMass;
     
-    public async Awaitable Inspect(Pawn orig, bool disableOrig = true)
+    public async Awaitable Inspect(Pawn orig, bool isNew, bool disableOrig)
     {
+        NewTag.SetActive(isNew);
+
         Pawn pawn = Instantiate(orig);
         orig.gameObject.SetActive(!disableOrig);
         pawn.rigidbody.isKinematic = true;
