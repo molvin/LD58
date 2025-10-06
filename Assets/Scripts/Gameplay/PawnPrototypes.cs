@@ -34,6 +34,10 @@ public abstract class PawnPrototype
     {
         return incomingDamage;
     }
+
+    public virtual void OnDamageTagen(Pawn self) { }
+
+    public virtual void OnDeath(Pawn self) { }
 }
 public class Basic : PawnPrototype { }
 
@@ -179,4 +183,64 @@ public class Tether : PawnPrototype
         return incomingDamage;
     }
 }
+public class Edging : PawnPrototype
+{
+    public override bool PrimaryYeet(Pawn owner, Pawn target, Vector3 impulse)
+    {
+        float attackForce = target.DamagePercentage * owner.EffectiveAttackForce;
 
+        Boundaries bounds = GameObject.FindFirstObjectByType<Boundaries>();
+        float boundsDist = bounds.CheckBoundary(Vector3.zero, target.transform.position);
+        float distFactor = Mathf.Clamp01(target.transform.position.magnitude / boundsDist);
+
+        target.prototype.ApplyAttackForce(target, owner, impulse.normalized * attackForce * distFactor);
+
+        target.AddDamage(impulse.magnitude * 0.1f * owner.EffectiveAttackDamage);
+
+        return true;
+    }
+}
+
+public class Monarch : PawnPrototype
+{
+    public override void OnDamageTagen(Pawn self)
+    {
+        foreach (Pawn p in self.Manager.Pawns)
+        {
+            if (p != null && p != self && p.Team == self.Team && !p.IsReadyToYeet)
+            {
+                p.FlipUp();
+            }
+        }
+    }
+}
+
+public class Healer : PawnPrototype
+{
+    public override void OnDeath(Pawn self)
+    {
+        foreach (Pawn pawn in self.Manager.Pawns)
+        {
+            if (pawn != null && pawn != self && pawn.Team == self.Team)
+            {
+                pawn.FullyHeal((1.0f + (int)self.Rarity) / 4.0f);
+            }
+        }
+    }
+}
+public class Resetter : PawnPrototype
+{
+    public override void OnDeath(Pawn self)
+    {
+        foreach (Pawn pawn in self.Manager.Pawns)
+        {
+            if (pawn != null && pawn != self && pawn.Team == self.Team)
+            {
+                float factor = (1.0f + (int)self.Rarity) / 4.0f;
+
+                Vector3 toOriginalPoint = pawn.initialStartPosition - pawn.transform.position;
+                pawn.transform.position += toOriginalPoint * factor + Vector3.up * 2.0f;
+            }
+        }
+    }
+}

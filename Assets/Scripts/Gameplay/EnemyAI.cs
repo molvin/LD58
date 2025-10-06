@@ -45,7 +45,7 @@ public static class EnemyAI
         {
             Vector3 orig = team[i].transform.position;
 
-            float dist = orig.magnitude / 42.0f;
+            float dist = orig.magnitude / 46.0f;
 
             RaycastHit hit;
             if (Physics.Raycast(orig, -orig.normalized, out hit, orig.magnitude * 0.9f))

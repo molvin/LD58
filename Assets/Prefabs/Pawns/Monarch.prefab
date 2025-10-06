@@ -122,12 +122,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: Mass
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: Name
       value: Roocky
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: Prototype
+      value: Monarch
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: AttackForce
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: Description
-      value: Will not back down.
+      value: Rise up team when damaged
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: AttackDamage
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: MeshRenderer
@@ -196,6 +212,10 @@ PrefabInstance:
     - target: {fileID: 3015495788201396692, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: m_Name
       value: Monarch
+      objectReference: {fileID: 0}
+    - target: {fileID: 3123612706670721429, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

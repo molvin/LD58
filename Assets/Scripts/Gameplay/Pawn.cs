@@ -80,7 +80,20 @@ public class Pawn : MonoBehaviour
 
     YeetData primaryYeet;
 
-    public bool IsStill => rigidbody.linearVelocity.magnitude < 0.003f && rigidbody.angularVelocity.magnitude < 0.003f;
+    public bool IsStill
+    {
+        get
+        {
+            if (flipRoutine != null)
+            {
+                return rigidbody.linearVelocity.magnitude < 0.003f && rigidbody.angularVelocity.magnitude < 0.003f;
+            }
+            else
+            {
+                return rigidbody.linearVelocity.magnitude < 0.1f && rigidbody.angularVelocity.magnitude < 0.1f;
+            }
+        }
+    }
     public SphereCollider PickupCollider;
     public bool IsReadyToYeet => IsStill && Vector3.Dot(transform.up, Vector3.up) >= 0.99f;
     public ForceYeet Manager;
@@ -157,6 +170,7 @@ public class Pawn : MonoBehaviour
     {
         if (transform.position.y < -2.0f)
         {
+            prototype.OnDeath(this);
             Destroy(gameObject);
         }
 
@@ -231,7 +245,9 @@ public class Pawn : MonoBehaviour
     {
         rigidbody.linearDamping = 0.5f;
         rigidbody.angularDamping = 0.5f;
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.8f);
+        prototype.OnDeath(this);
+        yield return new WaitForSeconds(0.2f);
         Destroy(gameObject);
     }
 
@@ -242,6 +258,12 @@ public class Pawn : MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
+    public void FullyHeal(float percentage) 
+    {
+        damageTaken *= 1.0f - percentage;
+        rigidbody.mass = EffectiveMass;
+        OnDamageTaken?.Invoke(damageTaken);
+    }
     public void AddDamage(float value, bool recursive = true)
     {
         float modifiedValue = value / (RarityFactor * 0.5f + 0.5f);
@@ -255,6 +277,8 @@ public class Pawn : MonoBehaviour
                 }
             }    
         }
+
+        prototype.OnDamageTagen(this);
 
         damageTaken += modifiedValue;
         rigidbody.mass = EffectiveMass;
@@ -325,7 +349,7 @@ public class Pawn : MonoBehaviour
         transform.position += Vector3.up * 0.1f;
         
         rigidbody.mass = EffectiveMass * AttackMassRatio;
-        rigidbody.AddForce((force * RarityFactor) / EffectiveMass, ForceMode.VelocityChange);
+        rigidbody.AddForce((force * (RarityFactor * 0.4f + 0.6f)), ForceMode.VelocityChange);
     }
 
     public void PickUp()
