@@ -45,6 +45,7 @@ public class Pawn : MonoBehaviour
     [SerializeField] private float Mass = 1;
     public float EffectiveMass => Mass * (RarityFactor * 0.5f + 0.5f);
     public float AttackMassRatio = 0.5f;
+    public float TimeOutsideShoebox;
 
     [Header("Audio")]
     public AudioEvent YeetSound;
@@ -62,6 +63,7 @@ public class Pawn : MonoBehaviour
     [Header("Visuals")]
     public List<Material> RarityMaterials;
     public MeshRenderer MeshRenderer;
+    public EffectRepository EffectRepository;
 
     private SphereCollider yeetCollider;
     private float YeetSphereRadius = 1.15f;
@@ -74,6 +76,8 @@ public class Pawn : MonoBehaviour
     [HideInInspector] public Vector3 initialStartPosition;
     private float startYeetTime;
     private Coroutine flipRoutine;
+
+    public int CollectionIdRef;
 
     public float DamagePercentage => Mathf.Pow(1.0f + damageTaken, 1.45f);
     private float damageTaken = 0.0f;
@@ -123,6 +127,20 @@ public class Pawn : MonoBehaviour
             prototype = (PawnPrototype)System.Activator.CreateInstance(System.Type.GetType(Prototype));
         }
 
+        if (prototype is Tether || prototype is CatcherAura)
+        {
+            GameObject effect = prototype is Tether ? EffectRepository.TetherEffect : EffectRepository.CatcherEffect;
+            float radius = prototype is Tether ? 10.0f : 4.0f;
+
+            effect.SetActive(true);
+            effect.transform.localScale = Vector3.one * radius * RarityFactor;
+            Quaternion rotation = Quaternion.Euler(0, Time.time % 36.0f * 10.0f, 0);
+            effect.transform.rotation = rotation;
+            Vector3 pos = transform.position;
+            pos.y = 0.1f;
+            effect.transform.position = pos;
+        }    
+
         if (beingYeeted)
         {
             yeetCollider.radius = Mathf.Clamp01(rigidbody.linearVelocity.magnitude * 0.08f) * YeetSphereRadius;
@@ -171,7 +189,7 @@ public class Pawn : MonoBehaviour
 
     private void FixedUpdate()
     {
-        prototype.GlobalAura(this);
+        prototype?.GlobalAura(this);
 
         if (transform.position.y < -2.0f)
         {

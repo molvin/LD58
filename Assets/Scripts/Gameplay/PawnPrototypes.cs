@@ -156,7 +156,7 @@ public class Tether : PawnPrototype
         {
             float dist = Vector3.Distance(self.transform.position, target.transform.position);
 
-            float radius = 5.0f * self.RarityFactor;
+            float radius = 10.0f * self.RarityFactor;
 
             if (dist < radius)
             {
@@ -174,7 +174,7 @@ public class Tether : PawnPrototype
         {
             float dist = Vector3.Distance(self.transform.position, target.transform.position);
 
-            float radius = 5.0f * self.RarityFactor;
+            float radius = 10.0f * self.RarityFactor;
 
             if (dist < radius)
             {

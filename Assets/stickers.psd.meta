@@ -135,10 +135,17 @@ TextureImporter:
       name: stickers_1
       rect:
         serializedVersion: 2
+<<<<<<< HEAD
         x: 897
         y: 592
         width: 256
         height: 199
+=======
+        x: 728
+        y: 762
+        width: 265
+        height: 186
+>>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,9 +164,15 @@ TextureImporter:
       name: stickers_2
       rect:
         serializedVersion: 2
+<<<<<<< HEAD
         x: 1174
         y: 610
         width: 313
+=======
+        x: 1093
+        y: 741
+        width: 297
+>>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
         height: 249
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -201,10 +214,17 @@ TextureImporter:
       name: stickers_4
       rect:
         serializedVersion: 2
+<<<<<<< HEAD
         x: 736
         y: 332
         width: 207
         height: 185
+=======
+        x: 718
+        y: 279
+        width: 189
+        height: 172
+>>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -223,10 +243,17 @@ TextureImporter:
       name: stickers_5
       rect:
         serializedVersion: 2
+<<<<<<< HEAD
         x: 1002
         y: 380
         width: 250
         height: 179
+=======
+        x: 1103
+        y: 510
+        width: 271
+        height: 171
+>>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -289,10 +316,17 @@ TextureImporter:
       name: stickers_8
       rect:
         serializedVersion: 2
+<<<<<<< HEAD
         x: 1028
         y: 203
         width: 247
         height: 161
+=======
+        x: 965
+        y: 278
+        width: 255
+        height: 166
+>>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -311,10 +345,17 @@ TextureImporter:
       name: stickers_9
       rect:
         serializedVersion: 2
+<<<<<<< HEAD
         x: 1279
         y: 273
         width: 179
         height: 197
+=======
+        x: 726
+        y: 516
+        width: 197
+        height: 179
+>>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -333,10 +374,17 @@ TextureImporter:
       name: stickers_10
       rect:
         serializedVersion: 2
+<<<<<<< HEAD
         x: 748
         y: 116
         width: 199
         height: 179
+=======
+        x: 722
+        y: 46
+        width: 186
+        height: 183
+>>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -355,10 +403,17 @@ TextureImporter:
       name: stickers_11
       rect:
         serializedVersion: 2
+<<<<<<< HEAD
         x: 1044
         y: 29
         width: 174
         height: 176
+=======
+        x: 994
+        y: 39
+        width: 196
+        height: 189
+>>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -377,10 +432,17 @@ TextureImporter:
       name: stickers_12
       rect:
         serializedVersion: 2
+<<<<<<< HEAD
         x: 1245
         y: 49
         width: 191
         height: 187
+=======
+        x: 1269
+        y: 36
+        width: 176
+        height: 193
+>>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
