@@ -151,8 +151,12 @@ public class GachaMachine : MonoBehaviour
         await Inspector.Inspect(pawn);
         Destroy(pawn.gameObject);
 
-        bool newEntry = Notepad.AddToCollection(Prefabs.IndexOf(ball.Prefab), (int)ball.Rarity);
-        // TODO: do something with this?
+        bool newEntry = await Notepad.AddToCollection(Prefabs.IndexOf(ball.Prefab), (int)ball.Rarity);
+        if(newEntry)
+        {
+            Debug.Log("Got a new entry");
+            // TODO: do something with this?
+        }
 
         int index = Prefabs.IndexOf(ball.Prefab);
         ShoeBox.Collection.Add(new Database.PawnDB()

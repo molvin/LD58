@@ -19,7 +19,7 @@ PrefabInstance:
     - target: {fileID: 1394090634684379350, guid: a102b7391ae310c42a292fcb0e9072ae, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 1168874874, guid: 72f5a87dd2600cb4db04e2611c06d3a1, type: 3}
     - target: {fileID: 2085246422539939788, guid: a102b7391ae310c42a292fcb0e9072ae, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -1.21
@@ -31,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 2617177864324777455, guid: a102b7391ae310c42a292fcb0e9072ae, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 1168874874, guid: 72f5a87dd2600cb4db04e2611c06d3a1, type: 3}
     - target: {fileID: 3567296710751541719, guid: a102b7391ae310c42a292fcb0e9072ae, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -1.211
@@ -131,7 +131,7 @@ PrefabInstance:
     - target: {fileID: 4862923959971271394, guid: a102b7391ae310c42a292fcb0e9072ae, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 1168874874, guid: 72f5a87dd2600cb4db04e2611c06d3a1, type: 3}
     - target: {fileID: 5388656303725710119, guid: a102b7391ae310c42a292fcb0e9072ae, type: 3}
       propertyPath: m_Name
       value: Acorn
@@ -163,7 +163,7 @@ PrefabInstance:
     - target: {fileID: 8463201246666378145, guid: a102b7391ae310c42a292fcb0e9072ae, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 1168874874, guid: 72f5a87dd2600cb4db04e2611c06d3a1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

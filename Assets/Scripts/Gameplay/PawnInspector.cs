@@ -23,7 +23,7 @@ public class PawnInspector : MonoBehaviour
     public async Awaitable Inspect(Pawn orig, bool disableOrig = true)
     {
         Pawn pawn = Instantiate(orig);
-        orig.gameObject.SetActive(false);
+        orig.gameObject.SetActive(!disableOrig);
         pawn.rigidbody.isKinematic = true;
 
         Root.gameObject.SetActive(true);

@@ -29,6 +29,7 @@ public class PlayerCard : MonoBehaviour
     public Collider StickerAreaCollider;
     public Collider StickerDiscardArea;
     public Sticker[] StickerSpawners;
+    public TextMeshProUGUI CollectionText;
 
     private Sticker heldSticker;
 
@@ -85,10 +86,18 @@ public class PlayerCard : MonoBehaviour
 
     private void Update()
     {
-        if (Notepad == null || Notepad.InGame)
+        if (Notepad == null)
             return;
 
-        if(heldSticker == null)
+        if (Notepad.PlayerData != null && Notepad.PlayerData.Collection != null)
+        {
+            CollectionText.text = $"Collected: {Notepad.PlayerData.Collection.Count}/84";
+        }
+
+        if (Notepad.InGame)
+            return;
+
+        if (heldSticker == null)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -158,7 +167,7 @@ public class PlayerCard : MonoBehaviour
         {
             Name = Name,
             Boarder = borderIndex,
-            Font = 0,
+            Font = borderIndex,
             Stickers = dbStickers
         };
     }
@@ -214,6 +223,7 @@ public class PlayerCard : MonoBehaviour
             borderIndex = 0;
         }
 
+        InputField.fontAsset = Fonts[borderIndex];
         Border.sprite = Bordrers[borderIndex];
     }
 
