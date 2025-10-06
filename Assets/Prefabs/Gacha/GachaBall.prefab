@@ -72,8 +72,10 @@ MonoBehaviour:
   Prefab: {fileID: 0}
   Rarity: 0
   ClickCollider: {fileID: 6569931292835527280}
+  BallBody: {fileID: 8573569989814134894}
   BonkNoise: {fileID: 11400000, guid: 5c46ee0e3fc4cbf43900f59d3b3de131, type: 2}
   Rolling: {fileID: 11400000, guid: d05321c05616361409ca3904f61f8f46, type: 2}
+  playah: {fileID: 0}
 --- !u!54 &8573569989814134894
 Rigidbody:
   m_ObjectHideFlags: 0
