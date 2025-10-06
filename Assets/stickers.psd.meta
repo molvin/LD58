@@ -126,7 +126,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 86b2d2ecefd492e439a6c76729b33f09
-      internalID: -94336293
+      internalID: 7988843990719953864
       vertices: []
       indices: 
       edges: []
@@ -135,324 +135,20 @@ TextureImporter:
       name: stickers_1
       rect:
         serializedVersion: 2
-<<<<<<< HEAD
-        x: 897
-        y: 592
-        width: 256
-        height: 199
-=======
-        x: 728
-        y: 762
-        width: 265
-        height: 186
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
+        x: 0
+        y: 0
+        width: 0
+        height: 0
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 82bd699d323605d499a45d242f9e343a
-      internalID: 302670924
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stickers_2
-      rect:
-        serializedVersion: 2
-<<<<<<< HEAD
-        x: 1174
-        y: 610
-        width: 313
-=======
-        x: 1093
-        y: 741
-        width: 297
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
-        height: 249
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d6a21099988fc7d418dbb8f311e26597
-      internalID: -882323556
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stickers_3
-      rect:
-        serializedVersion: 2
-        x: 55
-        y: 386
-        width: 522
-        height: 260
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cea12c8a1337380418ed11e6869b40ff
-      internalID: 372114720
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stickers_4
-      rect:
-        serializedVersion: 2
-<<<<<<< HEAD
-        x: 736
-        y: 332
-        width: 207
-        height: 185
-=======
-        x: 718
-        y: 279
-        width: 189
-        height: 172
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9e274a4fd915a8348aae82172ecbb549
-      internalID: -930061214
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stickers_5
-      rect:
-        serializedVersion: 2
-<<<<<<< HEAD
-        x: 1002
-        y: 380
-        width: 250
-        height: 179
-=======
-        x: 1103
-        y: 510
-        width: 271
-        height: 171
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 99f7a23ac46610b4c90aecfc70ffe187
-      internalID: 1162387154
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stickers_6
-      rect:
-        serializedVersion: 2
-        x: 1334
-        y: 458
-        width: 28
-        height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1f185e97d69875345833f758b4a2e784
-      internalID: 2007118042
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stickers_7
-      rect:
-        serializedVersion: 2
-        x: 71
-        y: 33
-        width: 502
-        height: 288
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1e0eb83e530e75b4c9aa464df6a0238f
-      internalID: -379739781
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stickers_8
-      rect:
-        serializedVersion: 2
-<<<<<<< HEAD
-        x: 1028
-        y: 203
-        width: 247
-        height: 161
-=======
-        x: 965
-        y: 278
-        width: 255
-        height: 166
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 18250b8a7bfcfdb478a0141161d10693
-      internalID: -2119364633
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stickers_9
-      rect:
-        serializedVersion: 2
-<<<<<<< HEAD
-        x: 1279
-        y: 273
-        width: 179
-        height: 197
-=======
-        x: 726
-        y: 516
-        width: 197
-        height: 179
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fb24db3921e9b064a94bd92d9df6aaf3
-      internalID: 68461842
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stickers_10
-      rect:
-        serializedVersion: 2
-<<<<<<< HEAD
-        x: 748
-        y: 116
-        width: 199
-        height: 179
-=======
-        x: 722
-        y: 46
-        width: 186
-        height: 183
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ecc4d7a74151ece4ea8168c4d8de59c5
-      internalID: -1027359031
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stickers_11
-      rect:
-        serializedVersion: 2
-<<<<<<< HEAD
-        x: 1044
-        y: 29
-        width: 174
-        height: 176
-=======
-        x: 994
-        y: 39
-        width: 196
-        height: 189
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cd2d73687ce4c27409041dce127e1aca
-      internalID: -87996590
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stickers_12
-      rect:
-        serializedVersion: 2
-<<<<<<< HEAD
-        x: 1245
-        y: 49
-        width: 191
-        height: 187
-=======
-        x: 1269
-        y: 36
-        width: 176
-        height: 193
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ae08876f7f4d1a34f9544be6e07f8844
-      internalID: -398046280
+      spriteID: 5f29425bf8016d1d0800000000000000
+      internalID: -3326453065361091851
       vertices: []
       indices: 
       edges: []
@@ -461,7 +157,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 570b6fbf166638f4cac023ee12d62b98
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -469,23 +165,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      stickers_0: -94336293
-      stickers_1: 302670924
-      stickers_10: -1027359031
-      stickers_11: -87996590
-      stickers_12: -398046280
-      stickers_2: -882323556
-      stickers_3: 372114720
-      stickers_4: -930061214
-      stickers_5: 1162387154
-      stickers_6: 2007118042
-      stickers_7: -379739781
-      stickers_8: -2119364633
-      stickers_9: 68461842
+      stickers_0: 7988843990719953864
+      stickers_1: -3326453065361091851
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -329,7 +329,6 @@ Transform:
   - {fileID: 8623660571102944298}
   - {fileID: 684242066}
   - {fileID: 1617153789}
-  - {fileID: 1175476414}
   - {fileID: 306619523}
   - {fileID: 381555297}
   m_Father: {fileID: 0}
@@ -2551,7 +2550,7 @@ PrefabInstance:
     - target: {fileID: 7382339853612336484, guid: b2594306f1221d145bb74556c1919238, type: 3}
       propertyPath: 'KillProfiles.Array.data[1]'
       value: 
-      objectReference: {fileID: 1175476413}
+      objectReference: {fileID: 0}
     - target: {fileID: 7382339853612336484, guid: b2594306f1221d145bb74556c1919238, type: 3}
       propertyPath: 'KillProfiles.Array.data[2]'
       value: 
@@ -3449,8 +3448,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Ready
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c423939848035114fa6eed225b767bec, type: 2}
-  m_sharedMaterial: {fileID: 6111341653876419224, guid: c423939848035114fa6eed225b767bec, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3953,11 +3952,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-<<<<<<< HEAD
---- !u!1 &1175476413
-=======
 --- !u!1 &1167875243
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3965,47 +3960,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
-  - component: {fileID: 1175476414}
-  - component: {fileID: 1175476415}
-  m_Layer: 0
-  m_Name: PrepVolume
-=======
   - component: {fileID: 1167875244}
   - component: {fileID: 1167875247}
   - component: {fileID: 1167875246}
   - component: {fileID: 1167875245}
   m_Layer: 0
   m_Name: TrashCan
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< HEAD
---- !u!4 &1175476414
-=======
 --- !u!4 &1167875244
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 1175476413}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 78065658}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1175476415
-MonoBehaviour:
-=======
   m_GameObject: {fileID: 1167875243}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -4017,24 +3988,10 @@ MonoBehaviour:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1167875245
 BoxCollider:
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 1175476413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
-  m_IsGlobal: 1
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: 3310df9173b1aab43907038ee966b7b0, type: 2}
-=======
   m_GameObject: {fileID: 1167875243}
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -4106,7 +4063,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1167875243}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
 --- !u!1 &1337724600
 GameObject:
   m_ObjectHideFlags: 0
@@ -4730,13 +4686,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enemys Turn
   m_isRightToLeft: 0
-<<<<<<< HEAD
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-=======
-  m_fontAsset: {fileID: 11400000, guid: c423939848035114fa6eed225b767bec, type: 2}
-  m_sharedMaterial: {fileID: 6111341653876419224, guid: c423939848035114fa6eed225b767bec, type: 2}
->>>>>>> fdf719dc903c661c24a56064ef8544fe5934edd0
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5255,7 +5206,7 @@ Transform:
   m_GameObject: {fileID: 2144599980}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5766975, y: 0.028714463, z: -0.09268437, w: 0.8111751}
-  m_LocalPosition: {x: -89.5, y: 10.66, z: -3.57}
+  m_LocalPosition: {x: -148.4, y: 6.9, z: -24.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
