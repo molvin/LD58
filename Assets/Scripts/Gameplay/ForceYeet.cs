@@ -435,7 +435,6 @@ public class ForceYeet : MonoBehaviour
             Vector3 endPos = originalYeetPos + yeetToPawn.normalized * chargeFactor * DistForMaxForce;
             endPos.y = 0.1f;
             forceArrowRend.SetPosition(1, endPos);
-            forceArrowRend.endColor = Color.Lerp(new Color(0.6f, 1.0f, 0.0f), new Color(1.0f, 0.0f, 0.6f), chargeFactor);
             LineHead.SetActive(true);
             LineHead.transform.position = endPos;
             LineHead.transform.forward = (endPos - startPos).normalized;
