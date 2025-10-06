@@ -62,6 +62,7 @@ public class Pawn : MonoBehaviour
     [Header("Visuals")]
     public List<Material> RarityMaterials;
     public MeshRenderer MeshRenderer;
+    public EffectRepository EffectRepository;
 
     private SphereCollider yeetCollider;
     private float YeetSphereRadius = 1.15f;
@@ -122,6 +123,16 @@ public class Pawn : MonoBehaviour
         {
             prototype = (PawnPrototype)System.Activator.CreateInstance(System.Type.GetType(Prototype));
         }
+
+        if (prototype is Tether)
+        {
+            EffectRepository.AuraEffect.SetActive(true);
+            EffectRepository.AuraEffect.transform.localScale = Vector3.one * 10.0f * RarityFactor;
+            EffectRepository.AuraEffect.transform.rotation = Quaternion.identity;
+            Vector3 pos = EffectRepository.AuraEffect.transform.position;
+            pos.y = 0.1f;
+            EffectRepository.AuraEffect.transform.position = pos;
+        }    
 
         if (beingYeeted)
         {
