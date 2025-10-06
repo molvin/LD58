@@ -21,6 +21,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4829929683389411827}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: AttackMassRatio
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: RarityMaterials.Array.size
       value: 4
       objectReference: {fileID: 0}

@@ -45,7 +45,7 @@ public static class EnemyAI
         {
             Vector3 orig = team[i].transform.position;
 
-            float dist = orig.magnitude / 42.0f;
+            float dist = orig.magnitude / 46.0f;
 
             RaycastHit hit;
             if (Physics.Raycast(orig, -orig.normalized, out hit, orig.magnitude * 0.9f))
@@ -67,7 +67,7 @@ public static class EnemyAI
         ActionUtility utility = new()
         {
             pawn = team[pawn],
-            vector = -team[pawn].transform.position.normalized * Mathf.Clamp01(score * 2.3f),
+            vector = -team[pawn].transform.position.normalized * Mathf.Clamp(0.2f, 0.9f, score * 2.3f),
             score = score,
         };
         return utility;

@@ -30,6 +30,14 @@ public abstract class PawnPrototype
     {
         return incomingForce;
     }
+    public virtual float ModidyReceiveDamage(Pawn self, Pawn target, float incomingDamage)
+    {
+        return incomingDamage;
+    }
+
+    public virtual void OnDamageTagen(Pawn self) { }
+
+    public virtual void OnDeath(Pawn self) { }
 }
 public class Basic : PawnPrototype { }
 
@@ -134,5 +142,105 @@ public class HomeSick : PawnPrototype
         owner.rigidbody.AddForce(velocity * owner.EffectiveMass, ForceMode.Impulse);
 
         return true;
+    }
+}
+
+public class Tether : PawnPrototype
+{
+    public override Vector3 ModidyReceiveForce(Pawn self, Pawn target, Vector3 incomingForce)
+    {
+        if (self.Team == target.Team && self != target)
+        {
+            float dist = Vector3.Distance(self.transform.position, target.transform.position);
+
+            float radius = 5.0f * self.RarityFactor;
+
+            if (dist < radius)
+            {
+                self.rigidbody.AddForce(incomingForce, ForceMode.Impulse);
+                incomingForce = Vector3.zero;
+            }
+        }
+
+        return incomingForce;
+    }
+
+    public override float ModidyReceiveDamage(Pawn self, Pawn target, float incomingDamage)
+    {
+        if (self.Team == target.Team && self != target)
+        {
+            float dist = Vector3.Distance(self.transform.position, target.transform.position);
+
+            float radius = 5.0f * self.RarityFactor;
+
+            if (dist < radius)
+            {
+                self.AddDamage(incomingDamage, false);
+                incomingDamage = 0.0f;
+            }
+        }
+
+        return incomingDamage;
+    }
+}
+public class Edging : PawnPrototype
+{
+    public override bool PrimaryYeet(Pawn owner, Pawn target, Vector3 impulse)
+    {
+        float attackForce = target.DamagePercentage * owner.EffectiveAttackForce;
+
+        Boundaries bounds = GameObject.FindFirstObjectByType<Boundaries>();
+        float boundsDist = bounds.CheckBoundary(Vector3.zero, target.transform.position);
+        float distFactor = Mathf.Clamp01(target.transform.position.magnitude / boundsDist);
+
+        target.prototype.ApplyAttackForce(target, owner, impulse.normalized * attackForce * distFactor);
+
+        target.AddDamage(impulse.magnitude * 0.1f * owner.EffectiveAttackDamage);
+
+        return true;
+    }
+}
+
+public class Monarch : PawnPrototype
+{
+    public override void OnDamageTagen(Pawn self)
+    {
+        foreach (Pawn p in self.Manager.Pawns)
+        {
+            if (p != null && p != self && p.Team == self.Team && !p.IsReadyToYeet)
+            {
+                p.FlipUp();
+            }
+        }
+    }
+}
+
+public class Healer : PawnPrototype
+{
+    public override void OnDeath(Pawn self)
+    {
+        foreach (Pawn pawn in self.Manager.Pawns)
+        {
+            if (pawn != null && pawn != self && pawn.Team == self.Team)
+            {
+                pawn.FullyHeal((1.0f + (int)self.Rarity) / 4.0f);
+            }
+        }
+    }
+}
+public class Resetter : PawnPrototype
+{
+    public override void OnDeath(Pawn self)
+    {
+        foreach (Pawn pawn in self.Manager.Pawns)
+        {
+            if (pawn != null && pawn != self && pawn.Team == self.Team)
+            {
+                float factor = (1.0f + (int)self.Rarity) / 4.0f;
+
+                Vector3 toOriginalPoint = pawn.initialStartPosition - pawn.transform.position;
+                pawn.transform.position += toOriginalPoint * factor + Vector3.up * 2.0f;
+            }
+        }
     }
 }
