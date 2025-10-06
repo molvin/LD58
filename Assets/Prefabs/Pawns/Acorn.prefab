@@ -108,6 +108,11 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 6622222389644278242, guid: 4feee0d1aa7e08f449c77569c9848793, type: 3}
+--- !u!23 &3549238629587930370 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 4feee0d1aa7e08f449c77569c9848793, type: 3}
+  m_PrefabInstance: {fileID: 2774490166533575046}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6628927478232766640
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -121,17 +126,21 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: Name
+      value: Seedling
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: Charging
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5533630871250927241}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: HitTrail
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6109478959036016762}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: InFlight
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3292454720216313355}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: Prototype
       value: Chain
@@ -139,7 +148,7 @@ PrefabInstance:
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: YeetSound
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -147,10 +156,14 @@ PrefabInstance:
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: Indisposed
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1839242723525297442}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: AttackForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: Description
+      value: Spring is here, time to spread.
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: AttackDamage
@@ -159,26 +172,26 @@ PrefabInstance:
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: BonkHitSound
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: MeshRenderer
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3549238629587930370}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: YeetParticle
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6109478959036016762}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: PickupCollider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4280063482411555529}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: IndisposedOrientationPoint
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7480747380614082571}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: RarityMaterials.Array.size
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: 'RarityMaterials.Array.data[0]'
@@ -258,8 +271,38 @@ PrefabInstance:
       addedObject: {fileID: 2380787260295558765}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+--- !u!198 &1839242723525297442 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4789828790799916434, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+  m_PrefabInstance: {fileID: 6628927478232766640}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3292454720216313355 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8525182654795937467, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+  m_PrefabInstance: {fileID: 6628927478232766640}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &4280063482411555529 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 6961291119445459577, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+  m_PrefabInstance: {fileID: 6628927478232766640}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5533630871250927241 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1672464517128791609, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+  m_PrefabInstance: {fileID: 6628927478232766640}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6015054060505001752 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 614580442360199080, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+  m_PrefabInstance: {fileID: 6628927478232766640}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6109478959036016762 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1096508677138116810, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+  m_PrefabInstance: {fileID: 6628927478232766640}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7480747380614082571 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4336502932012558523, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
   m_PrefabInstance: {fileID: 6628927478232766640}
   m_PrefabAsset: {fileID: 0}

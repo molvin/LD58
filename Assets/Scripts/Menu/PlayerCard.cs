@@ -34,6 +34,7 @@ public class PlayerCard : MonoBehaviour
 
     private int borderIndex;
     private List<Sticker> stickers = new();
+
     
     // TODO: stickers
     // TODO: font
@@ -74,7 +75,8 @@ public class PlayerCard : MonoBehaviour
         foreach(StickerDB stickerDb in card.Stickers)
         {
             Sticker sticker = Instantiate(StickerSpawners[stickerDb.StickerType], StickerArea);
-            sticker.transform.position = stickerDb.Location;
+            sticker.gameObject.SetActive(true);
+            sticker.transform.localPosition = stickerDb.Location;
             sticker.IsSpawner = false;
             sticker.GetComponentInChildren<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
             stickers.Add(sticker);
@@ -83,6 +85,9 @@ public class PlayerCard : MonoBehaviour
 
     private void Update()
     {
+        if (Notepad == null || Notepad.InGame)
+            return;
+
         if(heldSticker == null)
         {
             if (Input.GetMouseButtonDown(0))
@@ -142,7 +147,7 @@ public class PlayerCard : MonoBehaviour
         {
             StickerDB stickerDB = new StickerDB()
             {
-                Location = sticker.transform.position,
+                Location = sticker.transform.localPosition,
                 Rotation = 0,
                 StickerType = sticker.Index
             };

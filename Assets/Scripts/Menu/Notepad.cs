@@ -203,9 +203,12 @@ public class Notepad : MonoBehaviour
         foreach(PawnDB pawnDb in opponent.Board)
         {
             Pawn prefab = Gacha.Prefabs[pawnDb.PawnType];
-            Vector3 playerCenter = PlaceableAreas.GetCenter(true);
-            Vector3 opponentCenter = PlaceableAreas.GetCenter(false);
-            Pawn pawn = Instantiate(prefab, (pawnDb.Location - playerCenter) + opponentCenter, Quaternion.identity);
+
+            // Transform location from player field to opponent field
+            Vector3 localPoint = PlaceableAreas.PlayerSide[0].transform.InverseTransformPoint(pawnDb.Location);
+            Vector3 worldPoint = PlaceableAreas.OpponentSide[0].transform.TransformPoint(localPoint);
+
+            Pawn pawn = Instantiate(prefab, worldPoint, Quaternion.Euler(0, 180, 0));
             pawn.Team = 1;
             pawn.enabled = false;
             pawn.rigidbody.isKinematic = true;

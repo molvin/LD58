@@ -4410,6 +4410,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 270
       objectReference: {fileID: 0}
+    - target: {fileID: -3247313938292755297, guid: 523c847ff5106dc4da88057420576579, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7fbb999bd6207884186a0d38c3c304e4, type: 2}
     - target: {fileID: 919132149155446097, guid: 523c847ff5106dc4da88057420576579, type: 3}
       propertyPath: m_Name
       value: Notebook
@@ -4421,6 +4425,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 523c847ff5106dc4da88057420576579, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816210388215862242, guid: 523c847ff5106dc4da88057420576579, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2816210388215862242, guid: 523c847ff5106dc4da88057420576579, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4453,11 +4461,11 @@ PrefabInstance:
     - target: {fileID: 6038123027901853879, guid: 523c847ff5106dc4da88057420576579, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 70b2ea4e85b459c43b6b5d9d8d1da95b, type: 2}
+      objectReference: {fileID: 2100000, guid: fc631b41ef21c6c4cb2294fc5a9fe227, type: 2}
     - target: {fileID: 7054144470096349240, guid: 523c847ff5106dc4da88057420576579, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 64506e2ec1ba5644bb180069591ed68c, type: 2}
+      objectReference: {fileID: 2100000, guid: 9927638dd850d074288b6fb15a506e8d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
