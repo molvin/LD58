@@ -52,6 +52,7 @@ public class Pawn : MonoBehaviour
     public ParticleSystem YeetParticle;
     public ParticleSystem HitTrail;
     public ParticleSystem Indisposed;
+    public Transform IndisposedOrientationPoint;
     public ParticleSystem InFlight;
     public ParticleSystem Charging;
 
@@ -115,6 +116,10 @@ public class Pawn : MonoBehaviour
             TriggerPrimaryYeet();
         }
 
+        Indisposed.transform.position = IndisposedOrientationPoint.position + (Vector3.up * 2);
+        //Indisposed.transform.rotation = Quaternion.identity;
+        Indisposed.transform.rotation = Quaternion.Euler(90, 0, 0);
+        Debug.Log("gkkgkg");
         if (!IsReadyToYeet && !Indisposed.isPlaying)
         {
             Indisposed.Play();
