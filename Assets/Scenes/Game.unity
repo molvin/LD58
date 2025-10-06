@@ -1958,6 +1958,30 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.66
       objectReference: {fileID: 0}
+    - target: {fileID: 1235229704005365223, guid: b2594306f1221d145bb74556c1919238, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235229704005365223, guid: b2594306f1221d145bb74556c1919238, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235229704005365223, guid: b2594306f1221d145bb74556c1919238, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235229704005365223, guid: b2594306f1221d145bb74556c1919238, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235229704005365223, guid: b2594306f1221d145bb74556c1919238, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235229704005365223, guid: b2594306f1221d145bb74556c1919238, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1505066387913840714, guid: b2594306f1221d145bb74556c1919238, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2029,6 +2053,10 @@ PrefabInstance:
     - target: {fileID: 2741320895324245369, guid: b2594306f1221d145bb74556c1919238, type: 3}
       propertyPath: m_VerticalAlignment
       value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890664287687281140, guid: b2594306f1221d145bb74556c1919238, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3783734245512539381, guid: b2594306f1221d145bb74556c1919238, type: 3}
       propertyPath: m_IsActive
@@ -3801,6 +3829,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShoeBox
       objectReference: {fileID: 0}
+    - target: {fileID: 8139946358127506678, guid: 0e31d5bc7fb15fe46aa10d44871378de, type: 3}
+      propertyPath: Inspector
+      value: 
+      objectReference: {fileID: 684242067}
     - target: {fileID: 8139946358127506678, guid: 0e31d5bc7fb15fe46aa10d44871378de, type: 3}
       propertyPath: ReadyButton
       value: 
