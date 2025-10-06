@@ -67,7 +67,7 @@ public static class EnemyAI
         ActionUtility utility = new()
         {
             pawn = team[pawn],
-            vector = -team[pawn].transform.position.normalized * Mathf.Clamp01(score * 2.3f),
+            vector = -team[pawn].transform.position.normalized * Mathf.Clamp(0.2f, 0.9f, score * 2.3f),
             score = score,
         };
         return utility;

@@ -32,7 +32,7 @@ public class ForceYeet : MonoBehaviour
     private Dictionary<CollisionPair, (float time, float impact)> forcePairs = new();
 
     private ScuffedState activeState = ScuffedState.Upkeep;
-    private int activeTeam;
+    [HideInInspector] public int activeTeam;
 
     private Pawn whoToYeet;
     private Vector3 lastYeetPoint;
