@@ -373,6 +373,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: stickers_12
+      rect:
+        serializedVersion: 2
+        x: 1241
+        y: 296
+        width: 200
+        height: 187
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b017ee2cc90463459e5cf58991c8313
+      internalID: -245295719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -393,6 +415,7 @@ TextureImporter:
       stickers_1: -3326453065361091851
       stickers_10: 163700401
       stickers_11: 2129820549
+      stickers_12: -245295719
       stickers_2: -244426832
       stickers_3: 1908130102
       stickers_4: 98680744
