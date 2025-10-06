@@ -62,6 +62,7 @@ public class PlayerCard : MonoBehaviour
 
     public void Init(PlayerCardDB card)
     {
+        UpdateName(card.Name);
         InputField.text = card.Name;
 
         if(card.Font < 0 || card.Font >= Fonts.Count)
