@@ -128,6 +128,10 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: MeshRenderer
+      value: 
+      objectReference: {fileID: 4337781972810269031}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: AttackMassRatio
       value: 0.6
       objectReference: {fileID: 0}
@@ -135,6 +139,26 @@ PrefabInstance:
       propertyPath: CollisionDamage
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: RarityMaterials.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: 'RarityMaterials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1be5f583f8a7bf848920885af1d1ef50, type: 2}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: 'RarityMaterials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ce7083f2dc4ce934eb7dda739dc189b0, type: 2}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: 'RarityMaterials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 913b974074e504845b6a568a420a1be9, type: 2}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: 'RarityMaterials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1fd2157d35846b946b66465e72bd0957, type: 2}
     - target: {fileID: 614580442360199080, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -257,7 +281,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 35ae42bee69c53241bb301913239b0b0, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 913b974074e504845b6a568a420a1be9, type: 2}
+      objectReference: {fileID: 2100000, guid: 1be5f583f8a7bf848920885af1d1ef50, type: 2}
     - target: {fileID: 919132149155446097, guid: 35ae42bee69c53241bb301913239b0b0, type: 3}
       propertyPath: m_Name
       value: Lama
@@ -303,5 +327,10 @@ MeshCollider:
 --- !u!4 &3204814043037366792 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 35ae42bee69c53241bb301913239b0b0, type: 3}
+  m_PrefabInstance: {fileID: 3166998215930256867}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &4337781972810269031 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 35ae42bee69c53241bb301913239b0b0, type: 3}
   m_PrefabInstance: {fileID: 3166998215930256867}
   m_PrefabAsset: {fileID: 0}

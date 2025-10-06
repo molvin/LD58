@@ -6,6 +6,7 @@ using TMPro;
 public class GachaMachine : MonoBehaviour
 {
     public int Tokens = 5;
+
     public int Cost = 1;
 
     public float SpawnForce = 250;
@@ -13,13 +14,13 @@ public class GachaMachine : MonoBehaviour
     public GachaBall GachaPrefab;
     public Transform SpawnPoint;
     public PawnInspector Inspector;
-    public TextMeshProUGUI TokensText;
     public Shoebox ShoeBox;
     public Animator Anim;
     public float SpinAnimationDuration;
     public ParticleSystem BallPresentationCelebration;
     public SphereCollider LeverInteractionCollider;
     public Button DoneButton;
+    public Notepad Notepad;
 
     private List<(Pawn, PawnRarity)> prefabPool;
     private List<GachaBall> gachaBalls = new();
@@ -49,7 +50,6 @@ public class GachaMachine : MonoBehaviour
 
     public async Awaitable RunGacha()
     {
-        TokensText.text = $"Tokens: {Tokens}";
 
         Anim.SetBool("Shown", true);
         await Awaitable.WaitForSecondsAsync(1);
@@ -60,7 +60,6 @@ public class GachaMachine : MonoBehaviour
         while(!done)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            TokensText.text = $"Tokens: {Tokens}";
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -94,6 +93,12 @@ public class GachaMachine : MonoBehaviour
         }
         DoneButton.onClick.RemoveAllListeners();
 
+        foreach(GachaBall gachaBall in gachaBalls)
+        {
+            Destroy(gachaBall.gameObject);
+        }
+        gachaBalls.Clear();
+
         Anim.SetBool("Shown", false);
         await Awaitable.WaitForSecondsAsync(1);
     }
@@ -105,6 +110,7 @@ public class GachaMachine : MonoBehaviour
             return;
         }
         Tokens -= Cost;
+        Notepad.PlayerCard.UpdateCoins(Tokens);
 
         if(prefabPool.Count == 0)
         {
@@ -135,6 +141,10 @@ public class GachaMachine : MonoBehaviour
         await Inspector.Inspect(pawn);
 
         // TODO: add to collection and stuff
+
+        bool newEntry = Notepad.AddToCollection(Prefabs.IndexOf(ball.Prefab), (int)ball.Rarity);
+        // TODO: do something with this?
+
         ShoeBox.Collection.Add(Prefabs.IndexOf(ball.Prefab));
     }
 
