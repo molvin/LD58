@@ -93,6 +93,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -101,9 +114,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 720
+        y: 684
         width: 496
-        height: 209
+        height: 245
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -122,10 +135,10 @@ TextureImporter:
       name: stickers_1
       rect:
         serializedVersion: 2
-        x: 919
-        y: 615
-        width: 210
-        height: 156
+        x: 897
+        y: 592
+        width: 256
+        height: 199
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,10 +157,10 @@ TextureImporter:
       name: stickers_2
       rect:
         serializedVersion: 2
-        x: 1205
-        y: 632
-        width: 260
-        height: 206
+        x: 1174
+        y: 610
+        width: 313
+        height: 249
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,9 +180,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 55
-        y: 429
+        y: 386
         width: 522
-        height: 217
+        height: 260
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -188,10 +201,10 @@ TextureImporter:
       name: stickers_4
       rect:
         serializedVersion: 2
-        x: 766
-        y: 354
-        width: 156
-        height: 141
+        x: 736
+        y: 332
+        width: 207
+        height: 185
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,10 +223,10 @@ TextureImporter:
       name: stickers_5
       rect:
         serializedVersion: 2
-        x: 1021
-        y: 407
-        width: 271
-        height: 131
+        x: 1002
+        y: 380
+        width: 250
+        height: 179
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -254,10 +267,10 @@ TextureImporter:
       name: stickers_7
       rect:
         serializedVersion: 2
-        x: 70
-        y: 99
+        x: 71
+        y: 33
         width: 502
-        height: 222
+        height: 288
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -276,10 +289,10 @@ TextureImporter:
       name: stickers_8
       rect:
         serializedVersion: 2
-        x: 1041
-        y: 216
-        width: 217
-        height: 123
+        x: 1028
+        y: 203
+        width: 247
+        height: 161
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -298,10 +311,10 @@ TextureImporter:
       name: stickers_9
       rect:
         serializedVersion: 2
-        x: 1296
-        y: 298
-        width: 126
-        height: 147
+        x: 1279
+        y: 273
+        width: 179
+        height: 197
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -320,10 +333,10 @@ TextureImporter:
       name: stickers_10
       rect:
         serializedVersion: 2
-        x: 778
-        y: 140
-        width: 145
-        height: 134
+        x: 748
+        y: 116
+        width: 199
+        height: 179
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -342,10 +355,10 @@ TextureImporter:
       name: stickers_11
       rect:
         serializedVersion: 2
-        x: 1067
-        y: 55
-        width: 138
-        height: 139
+        x: 1044
+        y: 29
+        width: 174
+        height: 176
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -364,10 +377,10 @@ TextureImporter:
       name: stickers_12
       rect:
         serializedVersion: 2
-        x: 1274
-        y: 76
-        width: 137
-        height: 143
+        x: 1245
+        y: 49
+        width: 191
+        height: 187
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
