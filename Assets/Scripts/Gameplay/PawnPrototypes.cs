@@ -60,7 +60,7 @@ public class Explosion : PawnPrototype
                 continue;
             }
 
-            float radius = 8.0f * owner.RarityFactor;
+            float radius = 7.0f * owner.RarityFactor;
             Vector3 distanceToPawn = p.transform.position - owner.transform.position;
             if (distanceToPawn.magnitude > radius)
                 continue;
@@ -79,8 +79,8 @@ public class Explosion : PawnPrototype
 
     private IEnumerator ExplosionEffect(Pawn owner)
     {
-        float radius = 8.0f * owner.RarityFactor;
-        owner.EffectRepository.ExplosionEffect.transform.localScale = Vector3.one * radius;
+        float radius = 7.0f * owner.RarityFactor;
+        owner.EffectRepository.ExplosionEffect.transform.localScale = Vector3.one * radius * 2.0f;
 
         Vector3 pos = owner.transform.position;
         pos.y = 0.11f;
@@ -183,7 +183,7 @@ public class Tether : PawnPrototype
         {
             float dist = Vector3.Distance(self.transform.position, target.transform.position);
 
-            float radius = 10.0f * self.RarityFactor;
+            float radius = 6.0f * self.RarityFactor;
 
             if (dist < radius)
             {
@@ -202,7 +202,7 @@ public class Tether : PawnPrototype
         {
             float dist = Vector3.Distance(self.transform.position, target.transform.position);
 
-            float radius = 10.0f * self.RarityFactor;
+            float radius = 6.0f * self.RarityFactor;
 
             if (dist < radius)
             {

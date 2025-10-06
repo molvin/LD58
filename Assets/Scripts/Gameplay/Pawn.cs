@@ -132,7 +132,7 @@ public class Pawn : MonoBehaviour
         if (prototype is Tether || prototype is CatcherAura)
         {
             GameObject effect = prototype is Tether ? EffectRepository.TetherEffect : EffectRepository.CatcherEffect;
-            float radius = prototype is Tether ? 10.0f : 4.0f;
+            float radius = prototype is Tether ? 12.0f : 8.0f;
 
             effect.SetActive(true);
             effect.transform.localScale = Vector3.one * radius * RarityFactor;
