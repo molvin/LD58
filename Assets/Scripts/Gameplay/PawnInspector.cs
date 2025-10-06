@@ -44,7 +44,8 @@ public class PawnInspector : MonoBehaviour
         pawn.transform.localRotation = Quaternion.identity;
 
         InspectRoot.localRotation = Quaternion.Euler(0, 180, 0);
-        while (!Input.GetMouseButtonDown(1))
+        await Awaitable.NextFrameAsync();
+        while (!Input.GetMouseButtonDown(0))
         {
             InspectRoot.Rotate(Vector3.up, RotationSpeed * Time.deltaTime);
             await Awaitable.NextFrameAsync();
