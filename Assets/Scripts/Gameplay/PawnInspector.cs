@@ -20,7 +20,7 @@ public class PawnInspector : MonoBehaviour
     public float MaxForce;
     public float MaxMass;
     
-    public async Awaitable Inspect(Pawn orig)
+    public async Awaitable Inspect(Pawn orig, bool disableOrig = true)
     {
         Pawn pawn = Instantiate(orig);
         orig.gameObject.SetActive(false);

@@ -2756,6 +2756,7 @@ MonoBehaviour:
   - {fileID: 8365877596836378211}
   EntryPrefab: {fileID: -4687842464551929799, guid: a102b7391ae310c42a292fcb0e9072ae, type: 3}
   Notepad: {fileID: 8587081559325204640}
+  EntryPrefabs: {fileID: 0}
 --- !u!1 &5883961047734159326
 GameObject:
   m_ObjectHideFlags: 0
@@ -4452,7 +4453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3732412489461408951, guid: 523c847ff5106dc4da88057420576579, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3982486219131330239, guid: 523c847ff5106dc4da88057420576579, type: 3}
       propertyPath: m_Layer

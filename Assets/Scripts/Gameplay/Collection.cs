@@ -11,6 +11,7 @@ public class Collection : MonoBehaviour
     public CollectionEntry EntryPrefab;
     public Notepad Notepad;
 
+
     public const int EntriesPerPage = 3;
     public const int Pages = 7;
     private List<CollectionEntry> entries = new();

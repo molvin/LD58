@@ -26,6 +26,7 @@ public class ForceYeet : MonoBehaviour
     public float DistForMaxForce = 5.0f;
     public float Deadzone = 1.0f;
     public Collider GroundCollider;
+    public PawnInspector Inspector;
 
     [HideInInspector] public List<Pawn> Pawns;
     private Dictionary<CollisionPair, (float time, float impact)> forcePairs = new();
@@ -76,6 +77,20 @@ public class ForceYeet : MonoBehaviour
         GameState state = GameState.Playing;
         while (state == GameState.Playing)
         {
+            if(Inspector != null && Input.GetMouseButtonDown(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                foreach (Pawn pawn in Pawns)
+                {
+                    if (pawn.PickupCollider.Raycast(ray, out RaycastHit _, 10000.0f))
+                    {
+                        await Inspector.Inspect(pawn, false);
+                        break;
+                    }
+                }
+            }
+
+
             ResolveForces();
 
             switch (activeState)

@@ -911,6 +911,10 @@ PrefabInstance:
       value: GameMode
       objectReference: {fileID: 0}
     - target: {fileID: 3866838057361126070, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
+      propertyPath: Inspector
+      value: 
+      objectReference: {fileID: 684242067}
+    - target: {fileID: 3866838057361126070, guid: 11098e229c40eb54ab3d38d082e5cab1, type: 3}
       propertyPath: GroundCollider
       value: 
       objectReference: {fileID: 1937599625}
