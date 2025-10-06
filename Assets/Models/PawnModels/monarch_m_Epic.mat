@@ -95,7 +95,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _Alpha: 0
+    - _Alpha: 100
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 0
@@ -109,7 +109,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _Emission: 7
+    - _Emission: 10
     - _EnvironmentReflections: 1
     - _Gloss: 0.8
     - _GlossMapScale: 0
