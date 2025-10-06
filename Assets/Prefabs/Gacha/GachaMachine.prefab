@@ -4384,6 +4384,11 @@ MonoBehaviour:
   LeverInteractionCollider: {fileID: 7547988792334202095}
   DoneButton: {fileID: 8649239662747476829}
   Notepad: {fileID: 0}
+  GachaSpinWheel: {fileID: 11400000, guid: 714ec72a98062b8428f6b3a88342152b, type: 2}
+  GachaBalls: {fileID: 11400000, guid: 5c46ee0e3fc4cbf43900f59d3b3de131, type: 2}
+  GachaCelebration: {fileID: 11400000, guid: 7b335a7ca1212954d9f1a45a11890cc4, type: 2}
+  GachaCoin: {fileID: 11400000, guid: 8a18813b405e112408c7cf112eb7d572, type: 2}
+  GachaHumming: {fileID: 11400000, guid: c7a10d93cc13f494784d842670202580, type: 2}
 --- !u!95 &6886583189877937649
 Animator:
   serializedVersion: 7
