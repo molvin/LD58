@@ -11,6 +11,8 @@ public class Shoebox : MonoBehaviour
     public Animator Anim;
     public Transform HoverPlanePoint;
     public PlaceableAreas PlaceableAreas;
+    public float InspectMaxHoldTime = 0.1f;
+    public PawnInspector Inspector;
 
     private List<Pawn> spawned = new();
 
@@ -92,18 +94,7 @@ public class Shoebox : MonoBehaviour
                     bool hit = pawn.PickupCollider.Raycast(ray, out RaycastHit hitInfo, 1000.0f);
                     if(hit)
                     {
-                        pickup = pawn;
-
-                        pickup.PickUp();
-                        velocity = Vector3.zero;
-                        plane.Raycast(ray, out float enter);
-                        pickup.transform.position = ray.GetPoint(enter);
-
-                        if (Team.Contains(pickup))
-                        {
-                            Team.Remove(pickup);
-                            pickup.transform.SetParent(transform);
-                        }
+                        pickup = await PickupOrInspect(pawn, plane, ray);
                         break;
                     }
                 }
@@ -158,6 +149,32 @@ public class Shoebox : MonoBehaviour
         Anim.SetBool("Shown", false);
         await Awaitable.WaitForSecondsAsync(1.0f);
         spawned.Clear();
+    }
+
+    private async Awaitable<Pawn> PickupOrInspect(Pawn pawn, Plane plane, Ray ray)
+    {
+        float t = 0.0f;
+        while (t < InspectMaxHoldTime)
+        {
+            if(!Input.GetMouseButton(0))
+            {
+                await Inspector.Inspect(pawn);
+                return null;
+            }
+            t += Time.deltaTime;
+            await Awaitable.NextFrameAsync();
+        }
+        pawn.PickUp();
+        velocity = Vector3.zero;
+        plane.Raycast(ray, out float enter);
+        pawn.transform.position = ray.GetPoint(enter);
+
+        if (Team.Contains(pawn))
+        {
+            Team.Remove(pawn);
+            pawn.transform.SetParent(transform);
+        }
+        return pawn;
     }
 }
 
