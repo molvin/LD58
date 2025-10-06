@@ -111,7 +111,7 @@ public class ForceYeet : MonoBehaviour
                     {
                         if (await DoInspect())
                         {
-                            await Inspector.Inspect(pawn, false);
+                            await Inspector.Inspect(pawn, false, false);
                             clicked = false;
                             break;
                         }
