@@ -256,6 +256,8 @@ public class Pawn : MonoBehaviour
             }    
         }
 
+        prototype.OnDamageTagen(this);
+
         damageTaken += modifiedValue;
         rigidbody.mass = EffectiveMass;
         OnDamageTaken?.Invoke(damageTaken);
@@ -325,7 +327,7 @@ public class Pawn : MonoBehaviour
         transform.position += Vector3.up * 0.1f;
         
         rigidbody.mass = EffectiveMass * AttackMassRatio;
-        rigidbody.AddForce((force * RarityFactor) / EffectiveMass, ForceMode.VelocityChange);
+        rigidbody.AddForce((force * (RarityFactor * 0.4f + 0.6f)), ForceMode.VelocityChange);
     }
 
     public void PickUp()

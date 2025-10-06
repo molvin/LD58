@@ -126,8 +126,22 @@ PrefabInstance:
       value: Lucy
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: Prototype
+      value: Edging
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: AttackForce
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: Description
-      value: Will take your lunch.
+      value: 'Push hard when close to edge
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: AttackDamage
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: MeshRenderer
