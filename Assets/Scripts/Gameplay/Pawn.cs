@@ -153,7 +153,7 @@ public class Pawn : MonoBehaviour
             TriggerPrimaryYeet();
         }
 
-        Indisposed.transform.position = IndisposedOrientationPoint.position + (Vector3.up * 2);
+        Indisposed.transform.position = IndisposedOrientationPoint.position + (Vector3.up * 1.1f);
         Indisposed.transform.rotation = Quaternion.Euler(90, 0, 0);
 
         if (!IsReadyToYeet && IsStill && !Indisposed.isPlaying)
