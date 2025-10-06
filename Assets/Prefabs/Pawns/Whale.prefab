@@ -123,7 +123,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: Mass
-      value: 1.7
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: Name
@@ -151,7 +151,7 @@ PrefabInstance:
       objectReference: {fileID: 3880622329549391081}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: AttackMassRatio
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -3204066915502390269, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
       propertyPath: CollisionDamage

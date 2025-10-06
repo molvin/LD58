@@ -39,6 +39,8 @@ public abstract class PawnPrototype
 
     public virtual void OnDeath(Pawn self) { }
     public virtual void GlobalAura(Pawn self) { }
+
+    public virtual Pawn ModifyTarget(Pawn target) { return target; }
 }
 public class Basic : PawnPrototype { }
 
@@ -276,3 +278,39 @@ public class CatcherAura : PawnPrototype
     }
 }
 
+public class Switcharoo : PawnPrototype
+{
+    public override Pawn ModifyTarget(Pawn target)
+    {
+        Pawn newTarget = null;
+        foreach (Pawn pawn in target.Manager.Pawns)
+        {
+            if (pawn != null && pawn != target && pawn.Team == target.Team)
+            {
+                if (newTarget == null || Vector3.Distance(target.transform.position, pawn.transform.position) < Vector3.Distance(target.transform.position, newTarget.transform.position))
+                {
+                    newTarget = pawn;
+                }
+            }
+        }
+
+        if (newTarget != null)
+        {
+            Vector3 swapPos = newTarget.transform.position;
+            Vector3 swapLin = newTarget.rigidbody.linearVelocity;
+            Vector3 swapAng = newTarget.rigidbody.angularVelocity;
+
+            newTarget.transform.position = target.transform.position + Vector3.up * 0.1f;
+            newTarget.rigidbody.linearVelocity = target.rigidbody.linearVelocity;
+            newTarget.rigidbody.angularVelocity = target.rigidbody.angularVelocity;
+
+            target.transform.position = swapPos + Vector3.up * 0.1f;
+            target.rigidbody.linearVelocity = swapLin;
+            target.rigidbody.angularVelocity = swapAng;
+
+            return newTarget;
+        }
+
+        return target;
+    }
+}
