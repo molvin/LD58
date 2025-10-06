@@ -49,9 +49,6 @@ public class PlayerCard : MonoBehaviour
         if (IsOpponent)
             return;
 
-        // TODO read name from playerprefs, or server
-        UpdateName("");
-
         InputField.onValueChanged.AddListener(UpdateName);
         StartButton.onClick.AddListener(StartGame);
         QuitButton.onClick.AddListener(QuitGame);
@@ -62,6 +59,7 @@ public class PlayerCard : MonoBehaviour
 
     public void Init(PlayerCardDB card)
     {
+        UpdateName(card.Name);
         InputField.text = card.Name;
 
         if(card.Font < 0 || card.Font >= Fonts.Count)
