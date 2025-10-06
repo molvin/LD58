@@ -108,6 +108,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 3123612706670721429, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.50832
+      objectReference: {fileID: 0}
+    - target: {fileID: 3123612706670721429, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.0192237
+      objectReference: {fileID: 0}
+    - target: {fileID: 3123612706670721429, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.50832
+      objectReference: {fileID: 0}
+    - target: {fileID: 3123612706670721429, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4528637466480584727, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3706322370241117448, guid: 5645b52a6872086418fbe562bd2c3022, type: 3}
