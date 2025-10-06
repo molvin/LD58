@@ -39,7 +39,6 @@ public class Notepad : MonoBehaviour
         PlayerCard.gameObject.SetActive(false);
         await InitGame();
 
-
         MainButton.onClick.AddListener(ToMain);
         SettingsButton.onClick.AddListener(ToSettings);
         CollectionButton.onClick.AddListener(ToCollection);
