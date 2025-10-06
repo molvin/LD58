@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TeamIndicator : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class TeamIndicator : MonoBehaviour
     public Color PlayerColor;
     public Color OpponentColor;
     public SpriteRenderer Renderer;
+    public Image DamageIndicator;
 
     private Pawn owner;
     private static Plane groundPlane;
@@ -29,6 +31,8 @@ public class TeamIndicator : MonoBehaviour
             Renderer.enabled = owner.enabled;
             transform.position = groundPlane.ClosestPointOnPlane(owner.transform.position);
             transform.rotation = Quaternion.identity;
+
+            DamageIndicator.fillAmount = Mathf.Clamp01((owner.DamagePercentage - 1.0f) / 5.0f );
         }
     }
 }
