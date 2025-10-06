@@ -6,6 +6,8 @@ public class AudioManager : MonoBehaviour
 
     public AudioPlayer PlayerPrefab;
 
+    //private AudioPlayer player;
+
     private void Awake()
     {
         if(instance == null)
@@ -29,7 +31,9 @@ public class AudioManager : MonoBehaviour
 
     public static void Play(AudioEvent settings, Vector3 position)
     {
-        AudioPlayer player = Instantiate(instance.PlayerPrefab, instance.transform);
+
+        AudioPlayer player;
+        player = Instantiate(instance.PlayerPrefab, instance.transform);
         player.transform.position = position;
         player.Play(settings);
     }
