@@ -158,7 +158,9 @@ public class Pawn : MonoBehaviour
 
         yeetCollider.enabled = false;
 
-        primaryYeet.consumed = prototype.PrimaryYeet(this, primaryYeet.other, primaryYeet.impulse);
+        Pawn target = primaryYeet.other.prototype.ModifyTarget(primaryYeet.other);
+
+        primaryYeet.consumed = prototype.PrimaryYeet(this, target, primaryYeet.impulse);
 
         if (!primaryYeet.consumed)
         {
