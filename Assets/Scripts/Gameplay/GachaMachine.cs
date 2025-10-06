@@ -67,6 +67,8 @@ public class GachaMachine : MonoBehaviour
 
         while(!done)
         {
+            DoneButton.interactable = ShoeBox.Collection.Count >= 5;
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Input.GetMouseButtonDown(0))

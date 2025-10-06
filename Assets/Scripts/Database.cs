@@ -159,13 +159,14 @@ public class Database : MonoBehaviour
             if(!found)
             {
                 currentOpponentCount = 1;
+                Debug.LogError($"Did not find level in database, creating: {level}");
             }
             else
             {
                 currentOpponentCount += 1;
             }
 
-            Dictionary<string, int> opponentRefUpdate = new Dictionary<string, int> { { level.ToString(), currentOpponentCount } };
+            Dictionary<string, object> opponentRefUpdate = new (){ { level.ToString(), currentOpponentCount } };
 
             //Add the table
             DocumentReference opRef = opponentCollection.Document($"opponent_{level}:{currentOpponentCount}");
@@ -175,14 +176,14 @@ public class Database : MonoBehaviour
 
             //Set dataA§1qaAA
             transaction.Set(opRef, op);
-            transaction.Set(opponentReferenceRef, opponentRefUpdate);
+            transaction.Update(opponentReferenceRef, opponentRefUpdate);
         });
     }
     public async Task<OpponentDB> GetOpponent(int level)
     {
         DocumentSnapshot snap = await opponentReferenceRef.GetSnapshotAsync();
         bool found = snap.TryGetValue(level.ToString(), out int currentOpponentCount);
-        if(!found)
+        if(!found || currentOpponentCount == 0)
         {
             return null;
         }
