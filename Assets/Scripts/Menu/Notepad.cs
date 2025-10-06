@@ -64,8 +64,8 @@ public class Notepad : MonoBehaviour
                 Boarder = 0,
                 Stickers = new()
             };
-            PlayerDataDB playerData = await Database.CreatePlayer(playerCard);
-            Debug.Log($"Created Player: {playerData.PlayerCard.Name}");
+            PlayerData = await Database.CreatePlayer(playerCard);
+            Debug.Log($"Created Player: {PlayerData.PlayerCard.Name}");
         }
 
         PlayerCard.Init(PlayerData.PlayerCard);
