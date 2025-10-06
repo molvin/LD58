@@ -469,7 +469,8 @@ MonoBehaviour:
   Mass: 1
   AttackMassRatio: 0.5
   YeetSound: {fileID: 11400000, guid: b817995bd39a12446b4009b96baf39d3, type: 2}
-  BonkHitSound: {fileID: 11400000, guid: 3880a57b8cea3e448a9e9888edeab72e, type: 2}
+  BonkHitSound: {fileID: 11400000, guid: 0d62eaae7180ed745ba1ac6ad8f64421, type: 2}
+  GroundHitSound: {fileID: 11400000, guid: 267a6ad649416ef45a71dcaec46c87a7, type: 2}
   YeetParticle: {fileID: 5429061315470699741, guid: 21138a0b12957ca49885ed9d5cf8a52f, type: 3}
   HitTrail: {fileID: 1096508677138116810}
   Indisposed: {fileID: 4789828790799916434}

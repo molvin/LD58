@@ -16,7 +16,10 @@ public class GachaMachine : MonoBehaviour
     public PawnInspector Inspector;
     public Shoebox ShoeBox;
     public Animator Anim;
+    public Animator AnimProcessing;
     public float SpinAnimationDuration;
+    public float GachaAnimationDuration;
+    public ParticleSystem GachaProcessing;
     public ParticleSystem BallPresentationCelebration;
     public SphereCollider LeverInteractionCollider;
     public Button DoneButton;
@@ -94,6 +97,8 @@ public class GachaMachine : MonoBehaviour
                         if (hit)
                         {
                             await Inspect(gacha);
+                            //gacha.Rolling
+                            //AudioManager.Stop(gacha.Rolling, this.transform.position);
                             Destroy(gacha.gameObject);
 
                             break;
@@ -136,6 +141,11 @@ public class GachaMachine : MonoBehaviour
 
         Anim.SetTrigger("Spin");
         await Awaitable.WaitForSecondsAsync(SpinAnimationDuration);
+        AnimProcessing.SetTrigger("Processing");
+        GachaProcessing.Play();
+        if (GachaHumming != null)
+            AudioManager.Play(GachaHumming, this.transform.position);
+        await Awaitable.WaitForSecondsAsync(GachaAnimationDuration);
         int index = Random.Range(0, prefabPool.Count);
         (Pawn, PawnRarity) prefab = prefabPool[index];
         prefabPool.RemoveAt(index);

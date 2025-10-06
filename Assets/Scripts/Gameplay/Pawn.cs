@@ -50,6 +50,7 @@ public class Pawn : MonoBehaviour
     [Header("Audio")]
     public AudioEvent YeetSound;
     public AudioEvent BonkHitSound;
+    public AudioEvent GroundHitSound;
 
     [Header("VFX")]
     public ParticleSystem YeetParticle;
@@ -150,8 +151,8 @@ public class Pawn : MonoBehaviour
 
     private void TriggerPrimaryYeet()
     {
-        AudioManager.Play(BonkHitSound, this.transform.position);
         Instantiate(YeetParticle, this.transform.position, Quaternion.identity);
+        AudioManager.Play(BonkHitSound, transform.position);
 
         Vector3 impulseDir2D = new(primaryYeet.impulse.x, 0.0f, primaryYeet.impulse.z);
         impulseDir2D.Normalize();
@@ -198,7 +199,7 @@ public class Pawn : MonoBehaviour
         {
             float magnitude = collision.impulse.magnitude;
             InFlight.Stop();
-            if (magnitude > 0.01f)
+            if (magnitude > 0.1f)
             {
                 Manager.AddForce(this, otherPawn, magnitude);
 
@@ -223,6 +224,10 @@ public class Pawn : MonoBehaviour
                     }
                 }
             }
+        }
+        else if (collision.impulse.magnitude > 0.6f)
+        {
+            AudioManager.Play(GroundHitSound, transform.position);
         }
     }
 

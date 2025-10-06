@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04f605dd691cf4545b400a3c299c08eb, type: 3}
+  m_Name: HitGroundEvent
+  m_EditorClassIdentifier: Assembly-CSharp::AudioEvent
+  Clips:
+  - {fileID: 8300000, guid: 7b9d315254ece42418b9ff63a691ec07, type: 3}
+  MinVolume: 0.2
+  MaxVolume: 0.6
+  MinPitch: 0.7
+  MaxPitch: 1.3
+  Looping: 0
+  Group: {fileID: -2090296592342866554, guid: 9d7bcdfc1cdb1cf43a8d641d17db2791, type: 2}

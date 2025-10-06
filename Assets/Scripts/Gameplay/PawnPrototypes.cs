@@ -300,11 +300,11 @@ public class Switcharoo : PawnPrototype
             Vector3 swapLin = newTarget.rigidbody.linearVelocity;
             Vector3 swapAng = newTarget.rigidbody.angularVelocity;
 
-            newTarget.transform.position = target.transform.position + Vector3.up * 0.1f;
+            newTarget.transform.position = target.transform.position + Vector3.up * 0.2f;
             newTarget.rigidbody.linearVelocity = target.rigidbody.linearVelocity;
             newTarget.rigidbody.angularVelocity = target.rigidbody.angularVelocity;
 
-            target.transform.position = swapPos + Vector3.up * 0.1f;
+            target.transform.position = swapPos + Vector3.up * 0.2f;
             target.rigidbody.linearVelocity = swapLin;
             target.rigidbody.angularVelocity = swapAng;
 
