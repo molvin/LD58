@@ -122,10 +122,10 @@ TextureImporter:
       name: stickers_1
       rect:
         serializedVersion: 2
-        x: 919
-        y: 615
-        width: 210
-        height: 156
+        x: 728
+        y: 762
+        width: 265
+        height: 186
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,10 +144,10 @@ TextureImporter:
       name: stickers_2
       rect:
         serializedVersion: 2
-        x: 1205
-        y: 632
-        width: 260
-        height: 206
+        x: 1093
+        y: 741
+        width: 297
+        height: 249
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -188,10 +188,10 @@ TextureImporter:
       name: stickers_4
       rect:
         serializedVersion: 2
-        x: 766
-        y: 354
-        width: 156
-        height: 141
+        x: 718
+        y: 279
+        width: 189
+        height: 172
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,10 +210,10 @@ TextureImporter:
       name: stickers_5
       rect:
         serializedVersion: 2
-        x: 1021
-        y: 407
+        x: 1103
+        y: 510
         width: 271
-        height: 131
+        height: 171
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -276,10 +276,10 @@ TextureImporter:
       name: stickers_8
       rect:
         serializedVersion: 2
-        x: 1041
-        y: 216
-        width: 217
-        height: 123
+        x: 965
+        y: 278
+        width: 255
+        height: 166
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -298,10 +298,10 @@ TextureImporter:
       name: stickers_9
       rect:
         serializedVersion: 2
-        x: 1296
-        y: 298
-        width: 126
-        height: 147
+        x: 726
+        y: 516
+        width: 197
+        height: 179
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -320,10 +320,10 @@ TextureImporter:
       name: stickers_10
       rect:
         serializedVersion: 2
-        x: 778
-        y: 140
-        width: 145
-        height: 134
+        x: 722
+        y: 46
+        width: 186
+        height: 183
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -342,10 +342,10 @@ TextureImporter:
       name: stickers_11
       rect:
         serializedVersion: 2
-        x: 1067
-        y: 55
-        width: 138
-        height: 139
+        x: 994
+        y: 39
+        width: 196
+        height: 189
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -364,10 +364,10 @@ TextureImporter:
       name: stickers_12
       rect:
         serializedVersion: 2
-        x: 1274
-        y: 76
-        width: 137
-        height: 143
+        x: 1269
+        y: 36
+        width: 176
+        height: 193
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

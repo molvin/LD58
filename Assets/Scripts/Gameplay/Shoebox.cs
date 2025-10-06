@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Shoebox : MonoBehaviour
 {
@@ -178,6 +179,7 @@ public class Shoebox : MonoBehaviour
         while (!done)
         {
             ReadyButton.interactable = Team.Count == 5;
+            ReadyButton.GetComponentInChildren<TextMeshProUGUI>().text = Team.Count == 5 ? "Ready" : $"{Team.Count}/5";
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Plane plane = new Plane(Vector3.up, HoverPlanePoint.position);
