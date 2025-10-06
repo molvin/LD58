@@ -127,14 +127,18 @@ public class Pawn : MonoBehaviour
             prototype = (PawnPrototype)System.Activator.CreateInstance(System.Type.GetType(Prototype));
         }
 
-        if (prototype is Tether)
+        if (prototype is Tether || prototype is CatcherAura)
         {
-            EffectRepository.AuraEffect.SetActive(true);
-            EffectRepository.AuraEffect.transform.localScale = Vector3.one * 10.0f * RarityFactor;
-            EffectRepository.AuraEffect.transform.rotation = Quaternion.identity;
-            Vector3 pos = EffectRepository.AuraEffect.transform.position;
+            GameObject effect = prototype is Tether ? EffectRepository.TetherEffect : EffectRepository.CatcherEffect;
+            float radius = prototype is Tether ? 10.0f : 4.0f;
+
+            effect.SetActive(true);
+            effect.transform.localScale = Vector3.one * radius * RarityFactor;
+            Quaternion rotation = Quaternion.Euler(0, Time.time % 36.0f * 10.0f, 0);
+            effect.transform.rotation = rotation;
+            Vector3 pos = transform.position;
             pos.y = 0.1f;
-            EffectRepository.AuraEffect.transform.position = pos;
+            effect.transform.position = pos;
         }    
 
         if (beingYeeted)
@@ -185,7 +189,7 @@ public class Pawn : MonoBehaviour
 
     private void FixedUpdate()
     {
-        prototype.GlobalAura(this);
+        prototype?.GlobalAura(this);
 
         if (transform.position.y < -2.0f)
         {

@@ -3,5 +3,6 @@ using UnityEngine;
 
 public class EffectRepository : MonoBehaviour
 {
-    public GameObject AuraEffect;
+    public GameObject TetherEffect;
+    public GameObject CatcherEffect;
 }
