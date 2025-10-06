@@ -2646,7 +2646,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7966486108765089833
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2755,6 +2755,28 @@ MonoBehaviour:
   - {fileID: 4301779763232086304}
   - {fileID: 8365877596836378211}
   EntryPrefab: {fileID: -4687842464551929799, guid: a102b7391ae310c42a292fcb0e9072ae, type: 3}
+  DiscoveredEntryPrefabs:
+  - {fileID: 4555436690385987443, guid: c5a4d491abd5bf44ab81fd10707bbed2, type: 3}
+  - {fileID: 1125612518930117500, guid: e0dc5e625553279408653aa4f21fed8f, type: 3}
+  - {fileID: 1125612518930117500, guid: c239a73dc6b0b1b42b2341846b63af6d, type: 3}
+  - {fileID: 1125612518930117500, guid: baf1d04c77ce5354c97a907c465cc3bb, type: 3}
+  - {fileID: 1125612518930117500, guid: acf6f73b047428f479a2d8c5c422b30f, type: 3}
+  - {fileID: 1125612518930117500, guid: 0ceca7b7357ccd243b7bca9ae9882833, type: 3}
+  - {fileID: 1125612518930117500, guid: e5669fbc1382fd24faf1ffc795afd011, type: 3}
+  - {fileID: 1125612518930117500, guid: 7f3fa226184b82f4c952389efa5a5ef3, type: 3}
+  - {fileID: 1125612518930117500, guid: cc6abc37bb74cf44cbb2b2929c4b8b38, type: 3}
+  - {fileID: 1125612518930117500, guid: 4e3ed783f611ca448bd6e8f22164fb0a, type: 3}
+  - {fileID: 1125612518930117500, guid: b180f802322c7a3418a64a9d36d5c285, type: 3}
+  - {fileID: 1125612518930117500, guid: 2825a263bf16c3d41915813b28653fa7, type: 3}
+  - {fileID: 1125612518930117500, guid: 954c898eb7db7134388793ee492079e0, type: 3}
+  - {fileID: 1125612518930117500, guid: df1d090fda3bf2845bee77630562e6dd, type: 3}
+  - {fileID: 1125612518930117500, guid: 6ef1b819d4aa22048884f59947a83cae, type: 3}
+  - {fileID: 1125612518930117500, guid: d443d967e7a811641b07f313eeffd661, type: 3}
+  - {fileID: 1125612518930117500, guid: cf635a2306c0ada4abb20a3e12014da6, type: 3}
+  - {fileID: 1125612518930117500, guid: 095b1a31e0412e94394f09901277ef06, type: 3}
+  - {fileID: 1125612518930117500, guid: 1f0d02e64ab17b2458126f82ad8dfecb, type: 3}
+  - {fileID: 1125612518930117500, guid: 24faaa4e3b21e5e4682dec561fa21251, type: 3}
+  - {fileID: 1125612518930117500, guid: 251c8c96085ca2a4fa3077ab923dbf56, type: 3}
   Notepad: {fileID: 8587081559325204640}
 --- !u!1 &5883961047734159326
 GameObject:

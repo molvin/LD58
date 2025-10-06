@@ -1,16 +1,31 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using System;
 
 public class CollectionEntry : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public Image[] CheckMarks;
+    public TextMeshProUGUI Name;
+    public TextMeshProUGUI Description;
 
-    // Update is called once per frame
-    void Update()
+    public void Init(Pawn pawn, bool[] discovered)
     {
-        
+        if (pawn != null)
+        {
+            Name.text = pawn.Name;
+            Description.text = pawn.Description;
+        }
+        else
+        {
+            Name.text = "";
+            Description.text = "";
+        }
+
+        for (int i = 0; i < discovered.Length; i++)
+        {
+            bool d = discovered[i];
+            CheckMarks[i].enabled = d;
+        }
     }
 }

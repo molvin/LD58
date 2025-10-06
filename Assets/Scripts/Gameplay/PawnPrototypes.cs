@@ -36,6 +36,9 @@ public abstract class PawnPrototype
     }
 
     public virtual void OnDamageTagen(Pawn self) { }
+
+    public virtual void OnDeath(Pawn self) { }
+    public virtual void GlobalAura(Pawn self) { }
 }
 public class Basic : PawnPrototype { }
 
@@ -212,3 +215,64 @@ public class Monarch : PawnPrototype
         }
     }
 }
+
+public class Healer : PawnPrototype
+{
+    public override void OnDeath(Pawn self)
+    {
+        foreach (Pawn pawn in self.Manager.Pawns)
+        {
+            if (pawn != null && pawn != self && pawn.Team == self.Team)
+            {
+                pawn.FullyHeal((1.0f + (int)self.Rarity) / 4.0f);
+            }
+        }
+    }
+}
+public class Resetter : PawnPrototype
+{
+    public override void OnDeath(Pawn self)
+    {
+        foreach (Pawn pawn in self.Manager.Pawns)
+        {
+            if (pawn != null && pawn != self && pawn.Team == self.Team)
+            {
+                float factor = (1.0f + (int)self.Rarity) / 4.0f;
+
+                Vector3 toOriginalPoint = pawn.initialStartPosition - pawn.transform.position;
+                pawn.transform.position += toOriginalPoint * factor + Vector3.up * 2.0f;
+            }
+        }
+    }
+}
+
+public class CatcherAura : PawnPrototype
+{
+    public override void GlobalAura(Pawn self)
+    {
+        if (self.Manager.activeTeam == self.Team)
+            return;
+
+        float reach = 4.0f * self.RarityFactor;
+
+        foreach (Pawn pawn in self.Manager.Pawns)
+        {
+            if (pawn != null && pawn.Team == self.Team && pawn != self)
+            {
+                if (Vector3.Distance(self.transform.position, pawn.transform.position) < reach)
+                {
+                    Vector3 projection = Vector3.Project(pawn.transform.position, self.transform.position.normalized);
+                    if (Vector3.Distance(projection, self.transform.position) < 1.0f)
+                    {
+                        if (Vector3.Dot(pawn.rigidbody.linearVelocity, self.transform.position) > 0.0f)
+                        {
+                            pawn.rigidbody.linearVelocity *= 0.5f;
+                            pawn.rigidbody.angularVelocity *= 0.5f;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

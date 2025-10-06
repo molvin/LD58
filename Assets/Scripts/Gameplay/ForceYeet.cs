@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 
 public class ForceYeet : MonoBehaviour
 {
@@ -26,6 +27,11 @@ public class ForceYeet : MonoBehaviour
     public float DistForMaxForce = 5.0f;
     public float Deadzone = 1.0f;
     public Collider GroundCollider;
+    public PawnInspector Inspector;
+    public Animator GameAnimator;
+    public TextMeshProUGUI TurnText;
+    public float EnemyMinThinkTime = 0.5f;
+    public float EnemyMaxThinkTime = 1.5f;
 
     [HideInInspector] public List<Pawn> Pawns;
     private Dictionary<CollisionPair, (float time, float impact)> forcePairs = new();
@@ -41,6 +47,7 @@ public class ForceYeet : MonoBehaviour
     private LineRenderer forceArrowRend;
     private Coroutine upkeep;
     private Coroutine debugPlaying;
+    private bool canTriggerPlayerTurn = true;
 
     private void Update()
     {
@@ -57,6 +64,22 @@ public class ForceYeet : MonoBehaviour
         await Play(playerTeam, opponentTeam);
     }
 
+    private async Awaitable<bool> DoInspect()
+    {
+        float t = 0.0f;
+        while (t < 0.1f)
+        {
+            if (!Input.GetMouseButton(0))
+            {
+                return true;
+            }
+            t += Time.deltaTime;
+            await Awaitable.NextFrameAsync();
+        }
+        return false;
+    }
+
+    
 
     public async Awaitable<GameState> Play(List<Pawn> playerTeam, List<Pawn> opponentTeam)
     {
@@ -76,8 +99,33 @@ public class ForceYeet : MonoBehaviour
         GameState state = GameState.Playing;
         while (state == GameState.Playing)
         {
+            bool clicked = Input.GetMouseButtonDown(0);
+            if (Inspector != null && clicked)
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                foreach (Pawn pawn in Pawns)
+                {
+                    if (pawn == null)
+                        continue;
+                    if (pawn.PickupCollider.Raycast(ray, out RaycastHit _, 10000.0f))
+                    {
+                        if (await DoInspect())
+                        {
+                            await Inspector.Inspect(pawn, false);
+                            clicked = false;
+                            break;
+                        }
+                        else
+                        {
+                            clicked = true;
+                        }
+                    }
+                }
+            }
+
             ResolveForces();
 
+            ScuffedState prevState = activeState;
             switch (activeState)
             {
                 case ScuffedState.Upkeep:
@@ -87,7 +135,7 @@ public class ForceYeet : MonoBehaviour
                     break;
                 case ScuffedState.Playing:
                     {
-                        HandlePlayerInput();
+                        await HandlePlayerInput(clicked);
                     }
                     break;
                 case ScuffedState.Yeeting:
@@ -96,6 +144,7 @@ public class ForceYeet : MonoBehaviour
                     }
                     break;
             }
+
             state = GetGameState();
             await Awaitable.NextFrameAsync();
         }
@@ -266,7 +315,7 @@ public class ForceYeet : MonoBehaviour
         activeState++;
     }
 
-    private void HandlePlayerInput()
+    private async Awaitable HandlePlayerInput(bool clicked)
     {
         bool canPlay = false;
         bool shouldPlayChargeEffect = false;
@@ -294,12 +343,26 @@ public class ForceYeet : MonoBehaviour
                     return;
                 }
             }
+            canTriggerPlayerTurn = true;
+            TurnText.text = "Enemy Turn";
+            GameAnimator.SetTrigger("TurnChange");
+
+            await Awaitable.WaitForSecondsAsync(Random.Range(EnemyMinThinkTime, EnemyMaxThinkTime));
+
             EnemyAI.Yeet(this);
             activeState++;
             return;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if(canTriggerPlayerTurn)
+        {
+            TurnText.text = "Your Turn!";
+            GameAnimator.SetTrigger("TurnChange");
+            canTriggerPlayerTurn = false;
+        }
+
+
+        if (clicked)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
