@@ -30,6 +30,9 @@ public class PlayerCard : MonoBehaviour
     public Sticker[] StickerSpawners;
     public TextMeshProUGUI CollectionText;
 
+    public AudioEvent PageTurning;
+    public AudioEvent PenScribble;
+
     private Sticker heldSticker;
 
     private int borderIndex;
@@ -212,6 +215,8 @@ public class PlayerCard : MonoBehaviour
 
     private void QuitGame()
     {
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -221,12 +226,16 @@ public class PlayerCard : MonoBehaviour
 
     private void StartGame()
     {
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         Notepad.StartGame();
     }
 
     private void SwitchBorder(int direction)
     {
         borderIndex += direction;
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         if (borderIndex < 0)
         {
             borderIndex = Bordrers.Count - 1;

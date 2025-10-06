@@ -15,7 +15,7 @@ public class Notepad : MonoBehaviour
     public GameObject Cover;
 
     public Animator Anim;
-    //public Animator VersusAnim;
+    public Animator VersusAnim;
     public BoxCollider SelectionCollider;
     public GachaMachine Gacha;
     public Shoebox Shoebox;
@@ -23,6 +23,9 @@ public class Notepad : MonoBehaviour
     public Database Database;
     public CameraManager CameraManager;
     public PlaceableAreas PlaceableAreas;
+
+    public AudioEvent PageTurning;
+    public AudioEvent PenScribble;
 
     public OpponentNotepad OpponentNotepad;
     public PlayerDataDB PlayerData { get; private set; }
@@ -80,6 +83,8 @@ public class Notepad : MonoBehaviour
         PlayerData.PlayerCard = PlayerCard.GetPlayerCard();
         await Database.UpdatePlayer(PlayerData);
 
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         InGame = true;
         PlayerCard.Show(InGame);
         PlayerCard.SetInteractable(!InGame);
@@ -107,6 +112,8 @@ public class Notepad : MonoBehaviour
 
     public void ToMain()
     {
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         PlayerCard.gameObject.SetActive(true);
         Cover.SetActive(true);
         PlayerCard.Show(InGame);
@@ -119,6 +126,8 @@ public class Notepad : MonoBehaviour
 
     public void ToSettings()
     {
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         PlayerCard.gameObject.SetActive(false);
         Cover.SetActive(false);
         PlayerCard.Show(InGame);
@@ -130,6 +139,8 @@ public class Notepad : MonoBehaviour
 
     public void ToCollection()
     {
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         PlayerCard.gameObject.SetActive(false);
         Cover.SetActive(false);
         PlayerCard.Show(InGame);
@@ -141,6 +152,8 @@ public class Notepad : MonoBehaviour
 
     public void BackToMenu()
     {
+        if (PageTurning != null)
+            AudioManager.Play(PageTurning, Vector3.zero);
         SceneManager.LoadScene(0);
     }
 
@@ -195,15 +208,22 @@ public class Notepad : MonoBehaviour
         }
 
         OpponentNotepad.PlayerCard.Init(opponent.PlayerCard);
+
+        await Awaitable.WaitForSecondsAsync(1.0f);
+
         Anim.SetBool("Versus", true);
+        await Awaitable.WaitForSecondsAsync(.5f);
+
         OpponentNotepad.Anim.SetBool("Versus", true);
-        //VersusAnim.SetBool("Versus", true);
+        await Awaitable.WaitForSecondsAsync(.5f);
+
+        VersusAnim.SetBool("Versus", true);
 
         await Awaitable.WaitForSecondsAsync(1.5f);
 
         Anim.SetBool("Versus", false);
         OpponentNotepad.Anim.SetBool("Versus", false);
-        //VersusAnim.SetBool("Versus", false);
+        VersusAnim.SetBool("Versus", false);
 
 
         List<Pawn> opponentTeam = new();

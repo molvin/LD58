@@ -103,7 +103,7 @@ public class ForceYeet : MonoBehaviour
         GameState state = GameState.Playing;
         while (state == GameState.Playing)
         {
-            bool clicked = Input.GetMouseButtonDown(0);
+            bool clicked = Input.GetMouseButtonDown(1);
             if (Inspector != null && clicked)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -377,7 +377,7 @@ public class ForceYeet : MonoBehaviour
         }
 
 
-        if (clicked)
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
