@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04f605dd691cf4545b400a3c299c08eb, type: 3}
-  m_Name: HitDamageEvent
+  m_Name: MainDamageEvent
   m_EditorClassIdentifier: Assembly-CSharp::AudioEvent
   Clips:
-  - {fileID: 8300000, guid: ce51b1b01732ace498e7f7903b9ab3db, type: 3}
-  MinVolume: 0.9
-  MaxVolume: 1.5
+  - {fileID: 8300000, guid: dacd7e7cf56e2fb40a3110b45edb3d91, type: 3}
+  MinVolume: 0.8
+  MaxVolume: 1.3
   MinPitch: 0.8
   MaxPitch: 1.2
   Looping: 0
