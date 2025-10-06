@@ -23,6 +23,10 @@ public class ForceYeet : MonoBehaviour
 
     public bool Debugging = false;
 
+    [Header("Audio")]
+    public AudioEvent BonkHitSound;
+    public AudioEvent ManyBonkHitSound;
+
     public float YeetForce = 20.0f;
     public float DistForMaxForce = 5.0f;
     public float Deadzone = 1.0f;
@@ -493,6 +497,15 @@ public class ForceYeet : MonoBehaviour
 
         if (!forcePairs.ContainsKey(collision))
         {
+            if (forcePairs.Count == 0)
+            {
+                AudioManager.Play(BonkHitSound, Pawns[f].transform.position);
+            }
+            else
+            {
+                AudioManager.Play(ManyBonkHitSound, Pawns[f].transform.position);
+            }
+
             forcePairs.Add(collision, (Time.time, impulse));
         }
         else

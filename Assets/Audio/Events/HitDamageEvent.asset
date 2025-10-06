@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: HitDamageEvent
   m_EditorClassIdentifier: Assembly-CSharp::AudioEvent
   Clips:
-  - {fileID: 8300000, guid: dc55807de1aef584dbe84bc1ff9f7bb5, type: 3}
-  MinVolume: 1
-  MaxVolume: 1
-  MinPitch: 1
-  MaxPitch: 1
+  - {fileID: 8300000, guid: ce51b1b01732ace498e7f7903b9ab3db, type: 3}
+  MinVolume: 0.9
+  MaxVolume: 1.5
+  MinPitch: 0.8
+  MaxPitch: 1.2
   Looping: 0
-  Group: {fileID: 0}
+  Group: {fileID: -2090296592342866554, guid: 9d7bcdfc1cdb1cf43a8d641d17db2791, type: 2}
