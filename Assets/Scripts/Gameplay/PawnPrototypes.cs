@@ -24,7 +24,8 @@ public abstract class PawnPrototype
                 modifiedForce = pawn.prototype.ModidyReceiveForce(pawn, owner, modifiedForce);
             }
         }
-        owner.rigidbody.AddForce(modifiedForce, ForceMode.Impulse);
+        float rarityMod = owner.RarityFactor * 0.4f + 0.6f;
+        owner.rigidbody.AddForce(modifiedForce / rarityMod, ForceMode.Impulse);
     }
 
     public virtual Vector3 ModidyReceiveForce(Pawn self, Pawn target, Vector3 incomingForce)
@@ -183,7 +184,8 @@ public class Tether : PawnPrototype
 
             if (dist < radius)
             {
-                self.rigidbody.AddForce(incomingForce, ForceMode.Impulse);
+                float rarityMod = self.RarityFactor * 0.4f + 0.6f;
+                self.rigidbody.AddForce(incomingForce / rarityMod, ForceMode.Impulse);
                 incomingForce = Vector3.zero;
             }
         }
