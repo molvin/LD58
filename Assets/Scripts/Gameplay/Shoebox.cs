@@ -75,7 +75,7 @@ public class Shoebox : MonoBehaviour
             if (!Bounds.bounds.Contains(pawn.transform.position))
             {
                 if(pawn.TimeOutsideShoebox > 3)
-                {
+                {                    
                     pawn.transform.position = HoverPlanePoint.position;
                     pawn.Drop();
                     pawn.rigidbody.angularVelocity = Vector3.zero;
@@ -112,13 +112,13 @@ public class Shoebox : MonoBehaviour
                         spawned.Remove(pickup);
                         Collection[pickup.CollectionIdRef] = null;
                         delta--;
+                        velocity = Vector3.zero;
                     }
                     else
                     {
-                        pickup.transform.position = HoverPlanePoint.position;
                         pickup.Drop();
-                        pickup.rigidbody.angularVelocity = Vector3.zero;
-                        pickup.rigidbody.linearVelocity = Vector3.zero;
+                        pickup.rigidbody.linearVelocity = velocity;
+
                     }
                     pickup = null;
                 }
