@@ -342,6 +342,23 @@ public class ForceYeet : MonoBehaviour
 
         if (!canPlay)
         {
+            canTriggerPlayerTurn = false;
+            if (GameAnimator)
+            {
+                if (activeTeam == 1)
+                {
+                    TurnText.text = "Your Turn!";
+                }
+                else
+                {
+                    TurnText.text = "Enemy Turn";
+                }
+
+                GameAnimator.SetTrigger("TurnChange");
+            }
+          
+               
+
             activeState++;
             return;
         }
@@ -404,10 +421,10 @@ public class ForceYeet : MonoBehaviour
             whoToYeet.GetComponent<Rigidbody>().isKinematic = true;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+            if (groundPlane.Raycast(ray, out float enter))
             {
-                lastYeetPoint = hit.point;
+                lastYeetPoint = ray.GetPoint(enter);
             }
 
             Vector3 yeetToPawn = originalYeetPos - lastYeetPoint;
