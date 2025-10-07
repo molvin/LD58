@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 using System.Collections.Generic;
 using static Database;
 
@@ -26,6 +27,8 @@ public class Notepad : MonoBehaviour
 
     public AudioEvent PageTurning;
     public AudioEvent PenScribble;
+
+    public TextMeshProUGUI WinText;
 
     public OpponentNotepad OpponentNotepad;
     public PlayerDataDB PlayerData { get; private set; }
@@ -287,7 +290,9 @@ public class Notepad : MonoBehaviour
             if (PlayerData.Lives == 0)
             {
                 Debug.Log("GAME OVER");
-                await Awaitable.WaitForSecondsAsync(1.0f);
+                WinText.enabled = true;
+                WinText.text = $"You made it to level\n{currentLevel + 1}\nCongrats!!!";
+                await Awaitable.WaitForSecondsAsync(3.0f);
                 SceneManager.LoadScene(0);
                 return;
             }
